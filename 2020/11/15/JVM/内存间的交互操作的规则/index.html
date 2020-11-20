@@ -21,20 +21,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="题目描述给定一个字符串 s 和模板串 p ，实现支持通配符 ‘.’  和 ‘*’ 的正则表达式匹配。 ‘.’ : 可以匹配任意单个字符‘*’ : 表示 0 个或任意多个前一个字符">
+  <meta name="description" content="内存间的交互操作的规则不允许read和load、store和write操作之一单独出现，以上两个操作必须按顺序执行，但不保证连续执行，也就是说，read与load之间、store和write之间是可插入其他指令的。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode 10. Regular Expression Matching">
-<meta property="og:url" content="http://example.com/2020/11/15/text/index.html">
-<meta property="og:site_name" content="Shares">
-<meta property="og:description" content="题目描述给定一个字符串 s 和模板串 p ，实现支持通配符 ‘.’  和 ‘*’ 的正则表达式匹配。 ‘.’ : 可以匹配任意单个字符‘*’ : 表示 0 个或任意多个前一个字符">
+<meta property="og:title" content="内存间的交互操作的规则">
+<meta property="og:url" content="http://example.com/2020/11/15/JVM/%E5%86%85%E5%AD%98%E9%97%B4%E7%9A%84%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%E7%9A%84%E8%A7%84%E5%88%99/index.html">
+<meta property="og:site_name" content="Boo-BKing.">
+<meta property="og:description" content="内存间的交互操作的规则不允许read和load、store和write操作之一单独出现，以上两个操作必须按顺序执行，但不保证连续执行，也就是说，read与load之间、store和write之间是可插入其他指令的。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-15T07:42:26.000Z">
-<meta property="article:modified_time" content="2020-11-18T18:36:04.832Z">
+<meta property="article:modified_time" content="2020-11-19T22:48:30.602Z">
 <meta property="article:author" content="BKing">
-<meta property="article:tag" content="leetcode">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2020/11/15/text/">
+<link rel="canonical" href="http://example.com/2020/11/15/JVM/%E5%86%85%E5%AD%98%E9%97%B4%E7%9A%84%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%E7%9A%84%E8%A7%84%E5%88%99/">
 
 
 <script id="page-configurations">
@@ -47,7 +46,7 @@
   };
 </script>
 
-  <title>LeetCode 10. Regular Expression Matching | Shares</title>
+  <title>内存间的交互操作的规则 | Boo-BKing.</title>
   
 
 
@@ -79,7 +78,7 @@
 </noscript>
 
 
-<link rel="alternate" href="/atom.xml" title="Shares" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Boo-BKing." type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -103,10 +102,10 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Shares</h1>
+      <h1 class="site-title">Boo-BKing.</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">let's share together</p>
+      <p class="site-subtitle" itemprop="description">下雨 最爱听的旋律</p>
   </div>
 
   <div class="site-nav-right">
@@ -202,20 +201,20 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/text/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E5%86%85%E5%AD%98%E9%97%B4%E7%9A%84%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%E7%9A%84%E8%A7%84%E5%88%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
       <meta itemprop="name" content="BKing">
-      <meta itemprop="description" content="Docker Kubernetes Elastic InfluxData TiDB Helm Redis Cortex（Open sofeware learner）">
+      <meta itemprop="description" content="记录 Book">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Shares">
+      <meta itemprop="name" content="Boo-BKing.">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          LeetCode 10. Regular Expression Matching
+          内存间的交互操作的规则
         </h1>
 
         <div class="post-meta">
@@ -232,7 +231,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-19 02:36:04" itemprop="dateModified" datetime="2020-11-19T02:36:04+08:00">2020-11-19</time>
+                <time title="修改时间：2020-11-20 06:48:30" itemprop="dateModified" datetime="2020-11-20T06:48:30+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -240,7 +239,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/jvm/" itemprop="url" rel="index"><span itemprop="name">jvm</span></a>
                 </span>
             </span>
 
@@ -257,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>548</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -276,33 +275,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个字符串 s 和模板串 p ，实现支持通配符 ‘.’  和 ‘*’ 的正则表达式匹配。</p>
-<p>‘.’ : 可以匹配任意单个字符<br>‘*’ : 表示 0 个或任意多个前一个字符</p>
+        <h3 id="内存间的交互操作的规则"><a href="#内存间的交互操作的规则" class="headerlink" title="内存间的交互操作的规则"></a>内存间的交互操作的规则</h3><p>不允许read和load、store和write操作之一单独出现，以上两个操作必须按顺序执行，但不保证连续执行，也就是说，read与load之间、store和write之间是可插入其他指令的。</p>
 <a id="more"></a>
 
-<p>模板串需要匹配整个字符串。<br>模板串<code>p</code>一定合法，即 <code>&#39;*&#39;</code> 前面一定有非<code>&#39;*&#39;</code>字符。</p>
-<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><p><code>s </code>可能为空，只包含小写字母<code> a-z</code>。<br><code>p </code>可能为空，只包含小写字母<code> a-z</code>，以及<code>.</code>和<code> *</code>。</p>
-<h3 id="样例1"><a href="#样例1" class="headerlink" title="样例1"></a>样例1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">s &#x3D; &quot;aa&quot;</span><br><span class="line">p &#x3D; &quot;a&quot;</span><br><span class="line">输出：false</span><br><span class="line">解释：&quot;a&quot;不能匹配整个字符串&quot;aa&quot;</span><br></pre></td></tr></table></figure>
+<p>不允许一个线程丢弃它的最近的assign操作，即变量在工作内存中改变后必须把该变化同步回主内存</p>
+<p>不允许一个线程无原因地（没有发生过任何assign操作）把数据从线程的工作内存同步回主内存中</p>
+<p>一个新的变量只能从主内存中“诞生”，不允许在工作内存中直接使用一个未被初始化的变量，也就是对一个变量实施use和store操作之前，必须先执行过了assign和load操作。</p>
+<p>一个变量在同一时刻只允许一条线程对其执行lock操作，但lock 操作可以被同一条线程重复执行多次，多次还行lock后，只有执行相同次数的unlock操作，变量才会被解锁。</p>
+<p>如果对一个变量执行lock操作，将会清空工作内存中次变量的值，在执行引擎使用这个变量前，需要重新执行load或assign操作初始化变量的值。</p>
+<p>如果一个变量没有被lock操作锁定，则不允许对它执行unlock操作，也不能unlock一个被其他线程锁定的变量。</p>
+<p>对一个变量执行unlock操作之前，必须先把此变量同步回主内存（执行store和write操作）</p>
 
-<h3 id="样例2"><a href="#样例2" class="headerlink" title="样例2"></a>样例2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">s &#x3D; &quot;aa&quot;</span><br><span class="line">p &#x3D; &quot;a*&quot;</span><br><span class="line">输出：true</span><br><span class="line">解释：&#39;a*&#39;表示0个或任意多个&#39;a&#39;的时候，可以匹配&quot;aa&quot;</span><br></pre></td></tr></table></figure>
-
-<h3 id="样例3"><a href="#样例3" class="headerlink" title="样例3"></a>样例3</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">s &#x3D; &quot;ab&quot;</span><br><span class="line">p &#x3D; &quot;.*&quot;</span><br><span class="line">输入：true</span><br><span class="line">解释：&quot;.*&quot;表示0个或任意多个&#39;.&#39;，而&#39;.&#39;可以匹配任意字符，所以p和s可以匹配</span><br></pre></td></tr></table></figure>
-
-<h3 id="样例4"><a href="#样例4" class="headerlink" title="样例4"></a>样例4</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">s &#x3D; &quot;aab&quot;</span><br><span class="line">p &#x3D; &quot;c*a*b&quot;</span><br><span class="line">输出：true</span><br><span class="line">解释：这里的p表示0个c、2个a、1个b，可以匹配s</span><br></pre></td></tr></table></figure>
-
-<h3 id="样例5"><a href="#样例5" class="headerlink" title="样例5"></a>样例5</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">s &#x3D; &quot;mississippi&quot;</span><br><span class="line">p &#x3D; &quot;mis*is*p*.&quot;</span><br><span class="line">输出：false</span><br></pre></td></tr></table></figure>
-
-<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>(动态规划) <code>O(nm)</code></p>
-<ol>
-<li>设状态 <code>f(i,j)</code>表示字符串 <code>s </code>的前 <code>i </code>个字符和字符串<code>p</code>的前<code>j</code>个字符能否匹配。这里假设 <code>s </code>和<code>p</code>的下标均从<code>1</code>开始。初始时，<code>f(0,0)=true</code>。</li>
-<li>平凡转移<code> f(i,j)=f(i,j)</code> or<code> f(i−1,j−1)</code>，当<code> i&gt;0</code>且<code> s(i) == p(j) || p(j) == &#39;.&#39;</code>。</li>
-<li>当<code>p(j) == &#39;*&#39;</code>时，若<code> j&gt;=2</code>，<code>f(i,j)</code> 可以从<code> f(i,j−2)</code> 转移，表示丢弃这一次的 <code>&#39;*&#39; </code>和它之前的那个字符；若<code>i&gt;0</code>且<code> s(i) == p(j - 1)</code>，表示这个字符可以利用这个 <code>&#39;*&#39;</code>，则可以从<code> f(i−1,j)</code> 转移，表示利用 <code>&#39;*&#39;</code>。</li>
-<li>初始状态<code> f(0,0)=true</code>；循环枚举<code>i</code>从 0 到<code> n</code>；<code>j </code>从 <code>1</code> 到<code> m</code>。因为 <code>f(0,j)</code> 有可能是有意义的，需要被转移更新。</li>
-<li>最终答案为<code> f(n,m)</code>。</li>
-</ol>
-<h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p>状态数为<code> O(nm)</code>，每次转移仅需常数时间，故总时间复杂度为<code> O(nm)</code>。</p>
-<h3 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h3><p>状态数为<code> O(nm)</code>，则需要<code> O(nm)</code> 的数组存储状态。</p>
-<h4 id="python-code"><a href="#python-code" class="headerlink" title="python code"></a>python code</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isMatch</span>(<span class="params">self, s: <span class="built_in">str</span>, p: <span class="built_in">str</span></span>) -&gt; bool:</span></span><br><span class="line">        s, p = <span class="string">&#x27; &#x27;</span>+s, <span class="string">&#x27; &#x27;</span>+p</span><br><span class="line">        m,n = <span class="built_in">len</span>(s), <span class="built_in">len</span>(p)</span><br><span class="line">        dp = [[<span class="literal">False</span>] * n <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(m)]</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,n):</span><br><span class="line">                <span class="keyword">if</span> p[j] == <span class="string">&#x27;*&#x27;</span>:</span><br><span class="line">                    <span class="keyword">if</span> i == <span class="number">0</span> <span class="keyword">or</span> dp[i][j<span class="number">-2</span>]:</span><br><span class="line">                        dp[i][j] = dp[i][j<span class="number">-2</span>]</span><br><span class="line">                    <span class="keyword">elif</span> i &gt; <span class="number">0</span> <span class="keyword">and</span> (s[i] == p[j<span class="number">-1</span>] <span class="keyword">or</span> p[j<span class="number">-1</span>] == <span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">                        dp[i][j] = dp[i<span class="number">-1</span>][j]</span><br><span class="line">                <span class="keyword">elif</span> i &gt; <span class="number">0</span>  <span class="keyword">and</span> (s[i] == p[j] <span class="keyword">or</span> p[j] == <span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">                    dp[i][j] = dp[i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">return</span> dp[<span class="number">-1</span>][<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -321,9 +304,6 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
       </div>
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/leetcode/" rel="tag"><i class="fa fa-tag"></i> leetcode</a>
-          </div>
 
         
 
@@ -331,12 +311,12 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/11/15/Elastic/ElasticSearch-Parent-and-Child/" rel="prev" title="Parent and Child in ElasticSearch">
-      <i class="fa fa-chevron-left"></i> Parent and Child in ElasticSearch
+    <a href="/2020/11/15/JVM/%E5%88%86%E6%B4%BE/" rel="prev" title="分派">
+      <i class="fa fa-chevron-left"></i> 分派
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/11/16/Leetcode/508/" rel="next" title="LeetCode 508. Most Frequent Subtree Sum">
-      LeetCode 508. Most Frequent Subtree Sum <i class="fa fa-chevron-right"></i>
+    <a href="/2020/11/15/JVM/%E4%BB%8E%E4%B8%89%E7%A7%8D%E8%AE%A4%E7%9F%A5%E8%A7%92%E5%BA%A6%E9%87%8D%E8%AF%86JVM/" rel="next" title="从三种认知角度重识JVM">
+      从三种认知角度重识JVM <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -403,7 +383,7 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B1"><span class="nav-number">3.</span> <span class="nav-text">样例1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B2"><span class="nav-number">4.</span> <span class="nav-text">样例2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B3"><span class="nav-number">5.</span> <span class="nav-text">样例3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B4"><span class="nav-number">6.</span> <span class="nav-text">样例4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B7%E4%BE%8B5"><span class="nav-number">7.</span> <span class="nav-text">样例5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95"><span class="nav-number">8.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">9.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">10.</span> <span class="nav-text">空间复杂度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#python-code"><span class="nav-number">10.1.</span> <span class="nav-text">python code</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%97%B4%E7%9A%84%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%E7%9A%84%E8%A7%84%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">内存间的交互操作的规则</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -412,19 +392,19 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
     <img class="site-author-image" itemprop="image" alt="BKing"
       src="/images/avatat.png">
   <p class="site-author-name" itemprop="name">BKing</p>
-  <div class="site-description" itemprop="description">Docker Kubernetes Elastic InfluxData TiDB Helm Redis Cortex（Open sofeware learner）</div>
+  <div class="site-description" itemprop="description">记录 Book</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">69</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
@@ -477,13 +457,13 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">26k</span>
+    <span title="站点总字数">235k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">23 分钟</span>
+    <span title="站点阅读时长">3:34</span>
 </div>
 
 

@@ -21,22 +21,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Elasticsearch Parent and ChildElasticsearch中的Parent和Child非常有利于我们进行关联查询，父子关系的查询在一定的场合下使用能加快我们的索引速度。由于ElasticSearch不是关系数据库，它只与搜索效率有关，而与存储效率无关。存储的数据已被非规范化并且几乎是平坦的。这意味着联接不能跨索引，ElasticSearch与速度有关，而传统联接的运行速">
+  <meta name="description" content="Elasticsearch 父子关系Elasticsearch的Parent和Child非常有利于我们进行关联查询，父子关系的查询在一定的场合下使用能加快我们的索引速度。由于ElasticSearch不是关系数据库，它只与搜索效率有关，与存储效率无关。存储的数据已被非规范化。这意味着联接不能跨索引，子文档和父文档必须位于相同的索引和相同的分片中。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Parent and Child in ElasticSearch">
+<meta property="og:title" content="Parent and Child used in Elasticsearch">
 <meta property="og:url" content="http://example.com/2020/11/15/Elastic/ElasticSearch-Parent-and-Child/index.html">
-<meta property="og:site_name" content="Shares">
-<meta property="og:description" content="Elasticsearch Parent and ChildElasticsearch中的Parent和Child非常有利于我们进行关联查询，父子关系的查询在一定的场合下使用能加快我们的索引速度。由于ElasticSearch不是关系数据库，它只与搜索效率有关，而与存储效率无关。存储的数据已被非规范化并且几乎是平坦的。这意味着联接不能跨索引，ElasticSearch与速度有关，而传统联接的运行速">
+<meta property="og:site_name" content="Boo-BKing.">
+<meta property="og:description" content="Elasticsearch 父子关系Elasticsearch的Parent和Child非常有利于我们进行关联查询，父子关系的查询在一定的场合下使用能加快我们的索引速度。由于ElasticSearch不是关系数据库，它只与搜索效率有关，与存储效率无关。存储的数据已被非规范化。这意味着联接不能跨索引，子文档和父文档必须位于相同的索引和相同的分片中。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://miro.medium.com/max/3413/1*fB1mQademBBgkXjLWQe1ug.png">
-<meta property="og:image" content="https://miro.medium.com/max/3418/1*s_Vyu441VyBSgKZqr4x2AQ.png">
-<meta property="og:image" content="https://miro.medium.com/max/3453/1*KEj7G2kXddc4Ajt77XniVQ.png">
+<meta property="og:image" content="http://example.com/img/image-20201120053941268.png">
+<meta property="og:image" content="http://example.com/img/image-20201120053648484.png">
+<meta property="og:image" content="http://example.com/img/image-20201120050645736.png">
+<meta property="og:image" content="http://example.com/img/image-20201120055015513.png">
 <meta property="article:published_time" content="2020-11-15T07:42:26.000Z">
-<meta property="article:modified_time" content="2020-11-18T12:58:38.021Z">
+<meta property="article:modified_time" content="2020-11-19T22:39:49.957Z">
 <meta property="article:author" content="BKing">
 <meta property="article:tag" content="Elasticsearch">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://miro.medium.com/max/3413/1*fB1mQademBBgkXjLWQe1ug.png">
+<meta name="twitter:image" content="http://example.com/img/image-20201120053941268.png">
 
 <link rel="canonical" href="http://example.com/2020/11/15/Elastic/ElasticSearch-Parent-and-Child/">
 
@@ -51,7 +52,7 @@
   };
 </script>
 
-  <title>Parent and Child in ElasticSearch | Shares</title>
+  <title>Parent and Child used in Elasticsearch | Boo-BKing.</title>
   
 
 
@@ -83,7 +84,7 @@
 </noscript>
 
 
-<link rel="alternate" href="/atom.xml" title="Shares" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="Boo-BKing." type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -107,10 +108,10 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Shares</h1>
+      <h1 class="site-title">Boo-BKing.</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">let's share together</p>
+      <p class="site-subtitle" itemprop="description">下雨 最爱听的旋律</p>
   </div>
 
   <div class="site-nav-right">
@@ -211,15 +212,15 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
       <meta itemprop="name" content="BKing">
-      <meta itemprop="description" content="Docker Kubernetes Elastic InfluxData TiDB Helm Redis Cortex（Open sofeware learner）">
+      <meta itemprop="description" content="记录 Book">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Shares">
+      <meta itemprop="name" content="Boo-BKing.">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Parent and Child in ElasticSearch
+          Parent and Child used in Elasticsearch
         </h1>
 
         <div class="post-meta">
@@ -236,7 +237,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-18 20:58:38" itemprop="dateModified" datetime="2020-11-18T20:58:38+08:00">2020-11-18</time>
+                <time title="修改时间：2020-11-20 06:39:49" itemprop="dateModified" datetime="2020-11-20T06:39:49+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,7 +262,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.3k</span>
+              <span>4.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -280,66 +281,83 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Elasticsearch-Parent-and-Child"><a href="#Elasticsearch-Parent-and-Child" class="headerlink" title="Elasticsearch Parent and Child"></a>Elasticsearch Parent and Child</h1><p>Elasticsearch中的Parent和Child非常有利于我们进行关联查询，父子关系的查询在一定的场合下使用能加快我们的索引速度。由于ElasticSearch不是关系数据库，它只与搜索效率有关，而与存储效率无关。存储的数据已被非规范化并且几乎是平坦的。这意味着联接不能跨索引，ElasticSearch与速度有关，而传统联接的运行速度太慢。因此，子文档和父文档必须位于相同的索引和相同的分片中。</p>
+        <h3 id="Elasticsearch-父子关系"><a href="#Elasticsearch-父子关系" class="headerlink" title="Elasticsearch 父子关系"></a>Elasticsearch 父子关系</h3><p>Elasticsearch的Parent和Child非常有利于我们进行关联查询，父子关系的查询在一定的场合下使用能加快我们的索引速度。由于ElasticSearch不是关系数据库，它只与搜索效率有关，与存储效率无关。存储的数据已被非规范化。这意味着联接不能跨索引，子文档和父文档必须位于相同的索引和相同的分片中。</p>
 <a id="more"></a>
 
-<h1 id="父子关系例子图"><a href="#父子关系例子图" class="headerlink" title="父子关系例子图"></a>父子关系例子图</h1><p>让我们考虑下图1所示的家谱。该树有3个父母和9个孩子。每个角色都有“性别”和“ isAlive”状态。</p>
-<p><img src="https://miro.medium.com/max/3413/1*fB1mQademBBgkXjLWQe1ug.png" alt="Image for post"></p>
-<ul>
-<li>Parent Child relationships</li>
-<li>Having Multiple Children per Parent</li>
-<li>Multiple Levels of Parent Child relationships</li>
+<h3 id="父子关系图"><a href="#父子关系图" class="headerlink" title="父子关系图"></a>父子关系图</h3><p>对于Elasticsearch的 Parent and Child：</p>
+<ol>
+<li><p>家庭关系：</p>
+<p><img src="/img/image-20201120053941268.png"></p>
+</li>
+<li><p>学校关系：</p>
+<p><img src="/img/image-20201120053648484.png"></p>
+</li>
+<li><p>等等关系我们都可以用 Parent and Child 来表示，非常有利于我们进行父子关系的查询。</p>
+</li>
+</ol>
+<h5 id="Parent-and-Child-有如下特点："><a href="#Parent-and-Child-有如下特点：" class="headerlink" title="Parent and Child 有如下特点："></a>Parent and Child 有如下特点：</h5><ul>
+<li><p>父子关系</p>
+</li>
+<li><p>每个父母有多个孩子</p>
+</li>
+<li><p>多个层次的亲子关系</p>
+</li>
 </ul>
-<h2 id="创建-“Family-Tree”-索引"><a href="#创建-“Family-Tree”-索引" class="headerlink" title="创建 “Family_Tree” 索引"></a>创建 “Family_Tree” 索引</h2><h3 id="创建相关索引"><a href="#创建相关索引" class="headerlink" title="创建相关索引"></a>创建相关索引</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">PUT family_tree</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;index&quot;</span>:&#123;</span><br><span class="line">      <span class="string">&quot;number_of_shards&quot;</span>:1,</span><br><span class="line">      <span class="string">&quot;number_of_replicas&quot;</span>:0</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  <span class="string">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;name&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;price&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;isSale&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;boolean&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;join&quot;</span>,</span><br><span class="line">        <span class="string">&quot;eager_global_ordinals&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;relations&quot;</span>:&#123;</span><br><span class="line">          <span class="string">&quot;parent&quot;</span>:<span class="string">&quot;child&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="创建-“Family-Tree”-索引"><a href="#创建-“Family-Tree”-索引" class="headerlink" title="创建 “Family_Tree” 索引"></a>创建 “Family_Tree” 索引</h3><p>这里我们使用汽车关系来进行相关展示：</p>
+<p><img src="/img/image-20201120050645736.png"></p>
+<p><img src="/img/image-20201120055015513.png"></p>
+<h4 id="创建相关索引"><a href="#创建相关索引" class="headerlink" title="创建相关索引"></a>创建相关索引</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">PUT family_tree</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;settings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;index&quot;</span>:&#123;</span><br><span class="line">      <span class="string">&quot;number_of_shards&quot;</span>:1,</span><br><span class="line">      <span class="string">&quot;number_of_replicas&quot;</span>:0</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  <span class="string">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;name&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;price&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;isSale&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;boolean&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;join&quot;</span>,</span><br><span class="line">        <span class="string">&quot;eager_global_ordinals&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;relations&quot;</span>:&#123;</span><br><span class="line">          <span class="string">&quot;parent&quot;</span>:<span class="string">&quot;child&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Parent-child uses the <code>&quot;eager_global_ordinals&quot;</code> to speed up joins.</p>
-<p><code>shard = hash(routing_value) % number_of_primary_shards</code></p>
-<h2 id="父节点插入数据"><a href="#父节点插入数据" class="headerlink" title="父节点插入数据"></a>父节点插入数据</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PUT family_tree/_doc/1?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;Car&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;2000000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;parent&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：Parent-child uses the <code>&quot;eager_global_ordinals&quot;</code> to speed up joins.</p>
+<p>父子关系需要在统一分片中：我们在插入数据的时候，一般通过固定值来路由（routing）到同一个分片中。</p>
+<p><strong>分片规则：</strong><code>shard = hash(routing_value) % number_of_primary_shards</code></p>
+<h3 id="开始相关操作"><a href="#开始相关操作" class="headerlink" title="开始相关操作"></a>开始相关操作</h3><h4 id="父节点插入数据"><a href="#父节点插入数据" class="headerlink" title="父节点插入数据"></a>父节点插入数据</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">PUT family_tree/_doc/1?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;Car&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;2000000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;parent&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h4 id="子节点插入数据"><a href="#子节点插入数据" class="headerlink" title="子节点插入数据"></a>子节点插入数据</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">PUT family_tree/_doc/2?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;Van&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;10000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">    <span class="string">&quot;parent&quot;</span>:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT family_tree/_doc/3?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;Sedan&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;10000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">    <span class="string">&quot;parent&quot;</span>:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT family_tree/_doc/4?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;SUV&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;8000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">    <span class="string">&quot;parent&quot;</span>:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-
-<h2 id="子节点插入数据"><a href="#子节点插入数据" class="headerlink" title="子节点插入数据"></a>子节点插入数据</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">PUT family_tree/_doc/2?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;Van&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;10000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">    <span class="string">&quot;parent&quot;</span>:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT family_tree/_doc/3?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;Sedan&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;10000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">    <span class="string">&quot;parent&quot;</span>:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PUT family_tree/_doc/4?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;SUV&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;8000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">    <span class="string">&quot;parent&quot;</span>:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意：子文档和父文档必须位于同一分片上的限制。</p>
-<h2 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h2><h3 id="搜索和过滤指定的父节点"><a href="#搜索和过滤指定的父节点" class="headerlink" title="搜索和过滤指定的父节点"></a>搜索和过滤指定的父节点</h3><p>获取Car的所有子级：parent_id查询可用于查找属于特定父级的子级文档。</p>
+<p><strong>注意：</strong>子文档和父文档必须位于同一分片上的限制。</p>
+<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><h4 id="搜索和过滤指定的父节点"><a href="#搜索和过滤指定的父节点" class="headerlink" title="搜索和过滤指定的父节点"></a>搜索和过滤指定的父节点</h4><p>获取Car的所有子级：parent_id查询可用于查找属于特定父级的子级文档。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /family_tree/_search?pretty=<span class="literal">true</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;parent_id&quot;</span>:&#123;</span><br><span class="line">      <span class="string">&quot;type&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">      <span class="string">&quot;id&quot;</span>:<span class="string">&quot;1&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>可以查找出属于<code>parent_id</code>为 1 的所有子级文档。</p>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p>在这之前我们先为Car添加新的孩子：</p>
+<p><strong>结果：</strong>以查找出属于<code>parent_id</code>为 1 的所有子级文档。</p>
+<p>在这之前我们先为 Car 添加一个不再销售的汽车类型：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PUT family_tree/_doc/5?routing=Car</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;Sports car&quot;</span>,</span><br><span class="line">  <span class="string">&quot;price&quot;</span>:<span class="string">&quot;30000000&quot;</span>,</span><br><span class="line">  <span class="string">&quot;isSale&quot;</span>:<span class="literal">false</span>,</span><br><span class="line">  <span class="string">&quot;relation_type&quot;</span>:&#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">    <span class="string">&quot;parent&quot;</span>:1</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-<p>获取所有未销售销售的Car的孩子：bool和must关键字可以用来获取记录。</p>
+<ol>
+<li>通过bool与must结合获取所有未售的 Car 的孩子：</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">GET /family_tree/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;bool&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;filter&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;term&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;isSale&quot;</span>: <span class="string">&quot;false&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;must&quot;</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">&quot;parent_id&quot;</span>:&#123;</span><br><span class="line">            <span class="string">&quot;type&quot;</span>:<span class="string">&quot;child&quot;</span>,</span><br><span class="line">            <span class="string">&quot;id&quot;</span>:<span class="string">&quot;1&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>从查询到的结果中可以看到：只有跑车符合我们查询的条件。</p>
-<p>我们也可以通过<code>has_child</code>查询拥有子节点未销售状态的父节点信息：</p>
+<p><strong>结果：</strong>从查询到的结果中可以看到：只有”Sports car”符合我们查询的条件。</p>
+<ol start="2">
+<li>我们也可以通过<code>has_child</code>查询拥有子节点未销售状态的父节点信息：</li>
+</ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">GET /family_tree/_search?pretty</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;has_child&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;type&quot;</span>: <span class="string">&quot;child&quot;</span>,</span><br><span class="line">      <span class="string">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;bool&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;must&quot;</span>: [</span><br><span class="line">            &#123;<span class="string">&quot;match&quot;</span>: &#123;<span class="string">&quot;isSale&quot;</span>: <span class="string">&quot;false&quot;</span>&#125;&#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<p>我们也可以通过<code>has_parent</code>来查询父节点在销售的所有子节点信息：：has_parent关键字可帮助我们获取所有有父母过滤条件的孩子记录。</p>
+<p><strong>提示：</strong>has_parent关键字可帮助我们获取所有有父母且符合过滤条件的孩子信息。</p>
+<p>通过has_parent来查询父节点状态为在售的所有子节点信息：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">GET /family_tree/_search?pretty</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;query&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;has_parent&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;parent_type&quot;</span>: <span class="string">&quot;parent&quot;</span>,</span><br><span class="line">      <span class="string">&quot;query&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;match&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;isSale&quot;</span>: <span class="string">&quot;true&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<p>每个父母有多个孩子</p>
-<p><img src="https://miro.medium.com/max/3418/1*s_Vyu441VyBSgKZqr4x2AQ.png" alt="Image for post"></p>
-<p>多层次的关系（大孩子）</p>
-<p><img src="https://miro.medium.com/max/3453/1*KEj7G2kXddc4Ajt77XniVQ.png" alt="Image for post"></p>
-<p>不建议使用多个级别的关系来复制关系模型。每个关系级别都会在查询时增加内存和计算方面的开销。</p>
-<p>ElasticSearch中的联接限制</p>
+<p><strong>小建议：</strong></p>
+<p>每个关系级别都会在查询时增加内存和计算方面的开销，不是很建议使用多个级别的关系模型。</p>
+<p><strong>小收获：</strong></p>
 <ul>
-<li>Parent and child documents must be indexed on the same shard.</li>
-<li>Only one <code>join</code> field mapping is allowed per index.</li>
-<li>An element can have multiple children but only one parent.</li>
-<li>It is possible to add a new relation to an existing <code>join</code> field.</li>
-<li>It is also possible to add a child to an existing element but <strong>only</strong> if the element is already a parent.</li>
+<li><p>父子文档必须索引到同一个分片中。</p>
+</li>
+<li><p>每个索引仅允许一个连接字段映射。</p>
+</li>
+<li><p>一个元素可以有多个子级，但只能有一个父级。</p>
+</li>
+<li><p>可以向已存在的联接字段添加新关系。</p>
+</li>
+<li><p>也可以将子元素添加到现有元素中，但前提是该元素已经是父元素。</p>
+</li>
 </ul>
-<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>当索引时间性能比搜索时间性能更重要时，父子联接可能是管理关系的有用技术，但代价是很高的。必须意识到这种权衡，例如父子文档的物理存储约束和增加的复杂性。另一个预防措施是避免多层父子关系，因为这将消耗更多的内存和计算量。</p>
+<h3 id="本次总结"><a href="#本次总结" class="headerlink" title="本次总结"></a>本次总结</h3><p>当索引时间性能比搜索时间性能更重要时，父子联接可能是管理关系的有用技术，但代价是很高的。必须意识到这种权衡，例如父子文档的物理存储约束和增加的复杂性。另一个预防措施是避免多层父子关系，因为这将消耗更多的内存和计算量。这些都是我们在使用父子关系的时候必须要考虑到的相关内容，避免造成不必要的损失。</p>
 
     </div>
 
@@ -373,8 +391,8 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
       <i class="fa fa-chevron-left"></i> 模糊查询处理Elasticsearch输入的错词
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/11/15/text/" rel="next" title="LeetCode 10. Regular Expression Matching">
-      LeetCode 10. Regular Expression Matching <i class="fa fa-chevron-right"></i>
+    <a href="/2020/11/16/Leetcode/508/" rel="next" title="LeetCode 508. Most Frequent Subtree Sum">
+      LeetCode 508. Most Frequent Subtree Sum <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -441,7 +459,7 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elasticsearch-Parent-and-Child"><span class="nav-number">1.</span> <span class="nav-text">Elasticsearch Parent and Child</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E4%BE%8B%E5%AD%90%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">父子关系例子图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-%E2%80%9CFamily-Tree%E2%80%9D-%E7%B4%A2%E5%BC%95"><span class="nav-number">2.1.</span> <span class="nav-text">创建 “Family_Tree” 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%9B%B8%E5%85%B3%E7%B4%A2%E5%BC%95"><span class="nav-number">2.1.1.</span> <span class="nav-text">创建相关索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%88%B6%E8%8A%82%E7%82%B9%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">2.2.</span> <span class="nav-text">父节点插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%90%E8%8A%82%E7%82%B9%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">2.3.</span> <span class="nav-text">子节点插入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="nav-number">2.4.</span> <span class="nav-text">查询数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%92%8C%E8%BF%87%E6%BB%A4%E6%8C%87%E5%AE%9A%E7%9A%84%E7%88%B6%E8%8A%82%E7%82%B9"><span class="nav-number">2.4.1.</span> <span class="nav-text">搜索和过滤指定的父节点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">2.4.1.1.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.</span> <span class="nav-text">Conclusion</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch-%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB"><span class="nav-number">1.</span> <span class="nav-text">Elasticsearch 父子关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">父子关系图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Parent-and-Child-%E6%9C%89%E5%A6%82%E4%B8%8B%E7%89%B9%E7%82%B9%EF%BC%9A"><span class="nav-number">2.0.1.</span> <span class="nav-text">Parent and Child 有如下特点：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-%E2%80%9CFamily-Tree%E2%80%9D-%E7%B4%A2%E5%BC%95"><span class="nav-number">3.</span> <span class="nav-text">创建 “Family_Tree” 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%9B%B8%E5%85%B3%E7%B4%A2%E5%BC%95"><span class="nav-number">3.1.</span> <span class="nav-text">创建相关索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">开始相关操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%88%B6%E8%8A%82%E7%82%B9%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">4.1.</span> <span class="nav-text">父节点插入数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%90%E8%8A%82%E7%82%B9%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="nav-number">4.2.</span> <span class="nav-text">子节点插入数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="nav-number">5.</span> <span class="nav-text">查询数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%92%8C%E8%BF%87%E6%BB%A4%E6%8C%87%E5%AE%9A%E7%9A%84%E7%88%B6%E8%8A%82%E7%82%B9"><span class="nav-number">5.1.</span> <span class="nav-text">搜索和过滤指定的父节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E6%AC%A1%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">本次总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -450,19 +468,19 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
     <img class="site-author-image" itemprop="image" alt="BKing"
       src="/images/avatat.png">
   <p class="site-author-name" itemprop="name">BKing</p>
-  <div class="site-description" itemprop="description">Docker Kubernetes Elastic InfluxData TiDB Helm Redis Cortex（Open sofeware learner）</div>
+  <div class="site-description" itemprop="description">记录 Book</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">69</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span>
       </div>
       <div class="site-state-item site-state-tags">
@@ -515,13 +533,13 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">26k</span>
+    <span title="站点总字数">235k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">23 分钟</span>
+    <span title="站点阅读时长">3:34</span>
 </div>
 
 
