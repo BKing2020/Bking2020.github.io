@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bking.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bking.ico">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在 Windows 和 Mac 中使用 Docker对于开发来说，Windows 和 macOS 是更为常见和常用的系统，所以也很有必要了解在 Windows 和 macOS 中使用 Docker 的方法。很幸运的是，Docker 的官方对这两个系统提供了强有力的支持，我们可以很轻松的在这两个系统中运行 Docker。在这一小节中，我们就来了解一下 Docker 在 Windows 和 macOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Windows 和 Mac 中使用 Docker">
+<meta property="og:url" content="http://example.com/2020/11/18/Docker/%E5%9C%A8%20Windows%20%E5%92%8C%20Mac%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20Docker/index.html">
+<meta property="og:site_name" content="Boo-BKing.">
+<meta property="og:description" content="在 Windows 和 Mac 中使用 Docker对于开发来说，Windows 和 macOS 是更为常见和常用的系统，所以也很有必要了解在 Windows 和 macOS 中使用 Docker 的方法。很幸运的是，Docker 的官方对这两个系统提供了强有力的支持，我们可以很轻松的在这两个系统中运行 Docker。在这一小节中，我们就来了解一下 Docker 在 Windows 和 macOS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/image-20201121233048697.png">
+<meta property="og:image" content="http://example.com/img/image-20201121233103865.png">
+<meta property="og:image" content="http://example.com/img/image-20201121233117332.png">
+<meta property="og:image" content="http://example.com/img/image-20201121233133023.png">
+<meta property="article:published_time" content="2020-11-17T18:59:08.000Z">
+<meta property="article:modified_time" content="2020-11-21T15:46:27.452Z">
+<meta property="article:author" content="BKing">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/image-20201121233048697.png">
+
+<link rel="canonical" href="http://example.com/2020/11/18/Docker/%E5%9C%A8%20Windows%20%E5%92%8C%20Mac%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20Docker/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>在 Windows 和 Mac 中使用 Docker | Boo-BKing.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<link rel="alternate" href="/atom.xml" title="Boo-BKing." type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband" >
+      <a target="_blank" rel="noopener" href="https://github.com/BKing2020" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    
+    </div>
+    
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Boo-BKing.</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">下雨 最爱听的旋律</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E5%9C%A8%20Windows%20%E5%92%8C%20Mac%20%E4%B8%AD%E4%BD%BF%E7%94%A8%20Docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 Windows 和 Mac 中使用 Docker
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-18 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-18T02:59:08+08:00">2020-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-21 23:46:27" itemprop="dateModified" datetime="2020-11-21T23:46:27+08:00">2020-11-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="在-Windows-和-Mac-中使用-Docker"><a href="#在-Windows-和-Mac-中使用-Docker" class="headerlink" title="在 Windows 和 Mac 中使用 Docker"></a>在 Windows 和 Mac 中使用 Docker</h2><p>对于开发来说，Windows 和 macOS 是更为常见和常用的系统，所以也很有必要了解在 Windows 和 macOS 中使用 Docker 的方法。很幸运的是，Docker 的官方对这两个系统提供了强有力的支持，我们可以很轻松的在这两个系统中运行 Docker。在这一小节中，我们就来了解一下 Docker 在 Windows 和 macOS 中安装的方式以及运行的原理。</p>
+<a id="more"></a>
+
+<h3 id="Docker-Desktop"><a href="#Docker-Desktop" class="headerlink" title="Docker Desktop"></a>Docker Desktop</h3><p>在大多数情况下，我们的开发工作是在 Windows 或 macOS 这两个操作系统中进行的，既然 Docker 是我们用来解决开发、测试到运维整条产品线的工具，自然支持这两个系统是不可或缺的功能。</p>
+<p>如同封装 Docker 为我们提供了轻松的虚拟化运行环境一样，Docker 在 Windows 和 macOS 中的安装也是极易完成的。Docker 官方为 Windows 和 macOS 系统单独开辟了一条产品线，名为 Docker Desktop，其定位是快速为开发者提供在 Windows 和 macOS 中运行 Docker 环境的工具。</p>
+<p>Docker Desktop 实现容器化与 Docker Engine 是一致的，这就保证了我们在 Windows 和 macOS 中开发所使用的环境可以很轻松的转移到其他的 Docker 实例中，不论这个 Docker 实例是运行在 Windows、macOS 亦或是 Linux。</p>
+<p>Docker Desktop 产品线包含两个软件，也就是针对 Windows 系统的 Docker for Windows 和针对 macOS 的 Docker for Mac。</p>
+<h4 id="安装-Docker-Desktop"><a href="#安装-Docker-Desktop" class="headerlink" title="安装 Docker Desktop"></a>安装 Docker Desktop</h4><p>在安装 Docker for Windows 和 Docker for Mac 之前，我们依然要了解一下两款软件对操作系统及软硬件的要求，只有达到了这些要求，我们才能顺利的安装上 Docker for Windows 和 Docker for Mac。</p>
+<p>对于 Windows 系统来说，安装 Docker for Windows 需要符合以下条件：</p>
+<ul>
+<li>  必须使用 Windows 10 Pro ( 专业版 )</li>
+<li>  必须使用 64 bit 版本的 Windows</li>
+</ul>
+<p>对于 macOS 系统来说，安装 Docker for Mac 需要符合以下条件：</p>
+<ul>
+<li>  Mac 硬件必须为 2010 年以后的型号</li>
+<li>  必须使用 macOS El Capitan 10.11 及以后的版本</li>
+</ul>
+<p>另外，虚拟机软件 VirtualBox 与 Docker Desktop 兼容性不佳，建议在安装 Docker for Windows 和 Docker for Mac 之前先卸载 VirtualBox。</p>
+<p>在确认系统能够支持 Docker Desktop 之后，我们就从 Docker 官方网站下载这两个软件的安装程序，这里直接附上 Docker Store 的下载链接，供大家直接下载：</p>
+<ul>
+<li>  <a target="_blank" rel="noopener" href="https://store.docker.com/editions/community/docker-ce-desktop-windows">Docker for Windows</a> ( <a target="_blank" rel="noopener" href="https://store.docker.com/editions/community/docker-ce-desktop-windows">https://store.docker.com/editions/community/docker-ce-desktop-windows</a> )</li>
+<li>  <a target="_blank" rel="noopener" href="https://store.docker.com/editions/community/docker-ce-desktop-mac">Docker for Mac</a> ( <a target="_blank" rel="noopener" href="https://store.docker.com/editions/community/docker-ce-desktop-mac">https://store.docker.com/editions/community/docker-ce-desktop-mac</a> )</li>
+</ul>
+<p>安装 Docker for Windows 和 Docker for Mac 的方法十分简单，按 Windows 或 macOS 常见的软件安装方式安装即可。</p>
+<h4 id="启动-Docker"><a href="#启动-Docker" class="headerlink" title="启动 Docker"></a>启动 Docker</h4><p>像 Linux 中一样，我们要在 Windows 和 macOS 中使用 Docker 前，我们需要先将 Docker 服务启动起来。在这两个系统中，我们需要启动的就是刚才我们安装的 Docker for Windows 和 Docker for Mac 了。</p>
+<p>启动两个软件的方式很简单，我们只需要通过操作系统的快捷访问功能查找到 Docker for Windows 或 Docker for Mac 并启动即可。</p>
+<p>打开软件之后，我们会在 Windows 的任务栏或者 macOS 的状态栏中看到 Docker 的大鲸鱼图标。</p>
+<p><img src="/img/image-20201121233048697.png"></p>
+<p>Docker for Windows 或 Docker for Mac 在启动时，这只大鲸鱼上的集装箱会一直闪动，这说明 Docker 程序正在部署 docker daemon 所需要的一些环境并执行 docker daemon 的启动。当集装箱不再闪动，就说明 Docker 服务已经准备就绪，我们就可以在 Windows 和 macOS 中使用 Docker 了。</p>
+<p>Docker Desktop 为我们在 Windows 和 macOS 中使用 Docker 提供了与 Linux 中几乎一致的方法，我们只需要打开 Windows 中的 PowerShell 获得 macOS 中的 Terminal，亦或者 Git Bash、Cmder、iTerm 等控制台类软件，输入 <code>docker</code> 命令即可。</p>
+<p>使用 <code>docker version</code> 能够看到 Docker 客户端的信息，我们可以在这里发现程序运行的平台：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">λ docker version</span><br><span class="line">Client:</span><br><span class="line">## ......</span><br><span class="line"> OS&#x2F;Arch:  windows&#x2F;amd64</span><br><span class="line">## ......</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-Desktop-的实现原理"><a href="#Docker-Desktop-的实现原理" class="headerlink" title="Docker Desktop 的实现原理"></a>Docker Desktop 的实现原理</h3><p>通过之前小节的介绍，我们知道 Docker 的核心功能，也就是容器实现，是基于 Linux 内核中 Namespaces、CGroups 等功能的。那么大体上可以说，Docker 是依赖于 Linux 而存在的。那么问题来了，Docker Desktop 是如何实现让我们在 Windows 和 macOS 中如此顺畅的使用 Docker 的呢？</p>
+<p>其实 Docker Desktop 的实现逻辑很简单：既然 Windows 和 macOS 中没有 Docker 能够利用的 Linux 环境，那么我们生造一个 Linux 环境就行啦！Docker for Windows 和 Docker for Mac 正是这么实现的。</p>
+<p>由于虚拟化在云计算时代的广泛使用，Windows 和 MacOS 也将虚拟化引入到了系统本身的实现中，这其中就包含了之前我们所提到的通过 Hypervisor 实现虚拟化的功能。在 Windows 中，我们可以通过 Hyper-V 实现虚拟化，而在 macOS 中，我们可以通过 HyperKit 实现虚拟化。</p>
+<p>Docker for Windows 和 Docker for Mac 这里利用了这两个操作系统提供的功能来搭建一个虚拟 Linux 系统，并在其之上安装和运行 docker daemon。</p>
+<p><img src="/img/image-20201121233103865.png"></p>
+<p>除了搭建 Linux 系统并运行 docker daemon 之外，Docker Desktop 系列最突出的一项功能就是我们能够直接通过 PowerShell、Terminal 这类的控制台软件在 Windows 和 macOS 中直接操作虚拟 Linux 系统中运行的 docker daemon。</p>
+<p>实现这个功能得益于 docker daemon 对外提供的操作过程并不是复杂且领域性强的 IPC 等方式，而是通用的 RESTful Api 的形式。也就是说，Docker Desktop 只要实现 Windows 和 macOS 中的客户端，就能够直接利用 Hypervisor 的网络支持与虚拟 Linux 系统中的 docker daemon 进行通讯，并对它进行控制。</p>
+<p>这其实就是我们之前所提到 docker daemon 使用 RESTful Api 作为控制方式的优势体现了。</p>
+<h4 id="主机文件挂载"><a href="#主机文件挂载" class="headerlink" title="主机文件挂载"></a>主机文件挂载</h4><p>控制能够直接在主机操作系统中进行，给我们使用 Docker Desktop 系列软件提供了极大的方便。除此之外，文件的挂载也是 Docker Desktop 所提供的大幅简化我们工作效率且简化使用的功能之一。</p>
+<p>之前我们谈到了，Docker 容器中能够通过数据卷的方式挂载宿主操作系统中的文件或目录，宿主操作系统在 Windows 和 macOS 环境下的 Docker Desktop 中，指的是虚拟的 Linux 系统。</p>
+<p>当然，如果只能从虚拟的 Linux 系统中进行挂载，显然不足以达到我们的期望，因为最方便的方式必然是直接从 Windows 和 macOS 里挂载文件了。</p>
+<p>要实现我们所期望的效果，也就是 Docker 容器直接挂载主机系统的目录，我们可以先将目录挂载到虚拟 Linux 系统上，再利用 Docker 挂载到容器之中。这个过程被集成在了 Docker Desktop 系列软件中，我们不需要人工进行任何操作，整个过程已经实现了自动化。</p>
+<p><img src="/img/image-20201121233117332.png"></p>
+<p>Docker Desktop 对 Windows 和 macOS 到虚拟 Linux 系统，再到 Docker 容器中的挂载进行了实现，我们只需要直接选择能够被挂载的主机目录 ( 这个过程更多也是为了安全所考虑 )，剩下的过程全部由 Docker Desktop 代替我们完成。这相比于普通虚拟机软件进行挂载的过程来说，完全不能用百倍效率来比较了。</p>
+<h3 id="配置-Docker-Desktop"><a href="#配置-Docker-Desktop" class="headerlink" title="配置 Docker Desktop"></a>配置 Docker Desktop</h3><p>在我们使用 Docker Desktop 系列之前，我们还会简单修改其的一些配置，以便更好的合理搭配操作系统与 Docker Desktop 系列软件。</p>
+<p>我们可以通过 Docker for Windows 或 Docker for Mac 的大鲸鱼图标打开配置页面：在大鲸鱼弹出的菜单中选择 Settings ( Windows ) 或 Preferences ( macOS )。</p>
+<p>打开 Docker for Windows 和 Docker for Mac 的配置页面后，我们可以发现几个配置页面。这里我不逐一把每个页面进行截图了，大家可以自己动手查看页面每个页面的内容。</p>
+<p><img src="/img/image-20201121233133023.png"></p>
+<p>Docker for Windows 和 Docker for Mac 的配置项目较 Docker Engine 来说要多上许多，这主要是因为 Docker Desktop 是 Docker Engine 的超集，所以其不仅包含了 Docker Engine 的配置内容，还要包含诸如虚拟机实现等其他配置。</p>
+<p>我这里抽出几个与 Docker 相关的关键配置，分别简单说明它们的作用：</p>
+<h4 id="文件系统挂载配置"><a href="#文件系统挂载配置" class="headerlink" title="文件系统挂载配置"></a>文件系统挂载配置</h4><p>在 Docker for Windows 的 Shared Drivers 面板，以及在 Docker for Mac 中的 File Sharing 面板中，包含了我们之前提到的将本机目录挂载到 Hypervisor 里 Linux 系统中的配置。</p>
+<h4 id="资源控制配置"><a href="#资源控制配置" class="headerlink" title="资源控制配置"></a>资源控制配置</h4><p>在 Advanced 面板中，我们可以调整 Docker 最大占用的本机资源。当然，更准确的说我们是在调整虚拟 Linux 环境所能占用的资源，是通过这个方式影响 Docker 所能占用的最大资源。</p>
+<h4 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h4><p>在 Docker for Windows 的 Network 面板，以及在 Docker for Mac 中的 Advanced 面板中，我们可以配置 Docker 内部默认网络的子网等内容。这个网络的作用以及更详细的内容，我们会在之第 9 节中进行讲解。</p>
+<h4 id="docker-daemon-配置"><a href="#docker-daemon-配置" class="headerlink" title="docker daemon 配置"></a>docker daemon 配置</h4><p>在 Daemon 面板里，我们可以直接配置对 docker daemon 的运行配置进行调整。默认情况下，在 Daemon 面板里只有 Insecure registries 和 Registry mirrors 两个配置，分别用来定义未认证镜像仓库地址和镜像源地址。</p>
+<p>我们可以点击切换按钮切换到 Advanced 模式，在这个模式下，我们可以直接编辑 docker daemon 的 daemon.json 配置文件，实现更具体、完整的配置 docker daemon 的目的。</p>
+<h3 id="低系统版本解决方案"><a href="#低系统版本解决方案" class="headerlink" title="低系统版本解决方案"></a>低系统版本解决方案</h3><p>Docker Desktop 系列为我们在 Windows 和 macOS 中使用 Docker 提供了巨大的便利，几乎让我们可以在数分钟内搭建 Windows 和 macOS 中 Docker 的运行环境，并得到像 Linux 中使用 Docker 一样的体验。但 Docker Desktop 依然存在一定的局限性，其中最大的莫过于其对 Windows 和 macOS 的苛刻要求。虽然我们提倡保持操作系统的更新换代，以得到最新的功能以及更好的安全保障，但依然有很多情况下我们不得不使用低版本的 Windows 和 macOS。对于这种情况，Docker 官方也提供了相应的解决方案。</p>
+<p>首先，让我们来聊聊为什么 Docker for Windows 和 Docker for Mac 会对操作系统有如此严苛的要求。其实原因很简单，刚才我们谈到了，Docker for Windows 和 Docker for Mac 的实现分别依靠了 Windows 中的 Hyper-V 和 macOS 中的 HyperKit，而这两个虚拟化工具只在高版本的 Windows 和 macOS 系统中才提供出来。</p>
+<p>既然知道了原因，解决方案自然也就有了，既然我们不能利用 Hyper-V 或 HyperKit 来创建虚拟的 Linux 系统，那就找一个能够替代它们的工具，用其创建虚拟 Linux 系统即可。</p>
+<h3 id="Docker-Toolbox"><a href="#Docker-Toolbox" class="headerlink" title="Docker Toolbox"></a>Docker Toolbox</h3><p>Docker 官方为我们找到了用于搭建虚拟 Linux 系统的软件，即 Oracle 的 VirtualBox，并以此封装了另一个集成的 Docker 运行环境软件：Docker Toolbox。</p>
+<p>安装 Docker Toolbox 的过程也十分简单，下载安装包并按常规软件一样安装即可。这里直接我直接提供给大家 Docker Toolbox 安装包的连接，方便大家下载。</p>
+<ul>
+<li>  <a target="_blank" rel="noopener" href="https://download.docker.com/win/stable/DockerToolbox.exe">Docker Toolbox for Windows</a> ( <a target="_blank" rel="noopener" href="https://download.docker.com/win/stable/DockerToolbox.exe">https://download.docker.com/win/stable/DockerToolbox.exe</a> )</li>
+<li>  <a target="_blank" rel="noopener" href="https://download.docker.com/mac/stable/DockerToolbox.pkg">Docker Toolbox for Mac</a> ( <a target="_blank" rel="noopener" href="https://download.docker.com/mac/stable/DockerToolbox.pkg">https://download.docker.com/mac/stable/DockerToolbox.pkg</a> )</li>
+</ul>
+<p>安装完 Docker Toolbox 后，我们有几项与 Docker for Windows 和 Docker for Mac 不同的使用方法需要注意。</p>
+<p>由于不能很好的与系统以及 VirtualBox 互通结合，我们启动、关闭、重启 Docker 服务不能完全实现自动化，所以这里 Docker 为我们提供了 Docker QuickStart Terminal 这个工具来处理这些过程。换个方式说，我们必须通过它来启动和操作 Docker，而不能再直接使用 PowerShell、Terminal 这类软件了。</p>
+<p>另外一个不便之处就是文件系统的挂载，由于 Docker Toolbox 无法直接操作 VirtualBox 实现挂载，所以这个过程需要我们人工来进行。整个挂载的方式与我们之前谈到的一样，区别只是需要我们手动操作。将本机目录挂载到虚拟 Linux 系统中的配置在 VirtualBox 的 Settings 中，我们将本机需要挂载的目录配置进去并保存即可。</p>
+
+    </div>
+
+    
+    
+    
+
+      <div>   
+             
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:20px;">-------------
+The end of this article, thanks for reading  <i class="fas fa-coffee"></i>-------------</div>
+    
+</div>   
+         
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Docker/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A%E4%BA%86%E8%A7%A3%20Docker%20%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E6%88%90/" rel="prev" title="了解 Docker 的核心组成">
+      <i class="fa fa-chevron-left"></i> 了解 Docker 的核心组成
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Docker/%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%EF%BC%9A%E9%95%9C%E5%83%8F%E4%B8%8E%E5%AE%B9%E5%99%A8/" rel="next" title="镜像与容器">
+      镜像与容器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+      <div>
+        
+          
+        
+      </div>
+
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-Windows-%E5%92%8C-Mac-%E4%B8%AD%E4%BD%BF%E7%94%A8-Docker"><span class="nav-number">1.</span> <span class="nav-text">在 Windows 和 Mac 中使用 Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Desktop"><span class="nav-number">1.1.</span> <span class="nav-text">Docker Desktop</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Docker-Desktop"><span class="nav-number">1.1.1.</span> <span class="nav-text">安装 Docker Desktop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-Docker"><span class="nav-number">1.1.2.</span> <span class="nav-text">启动 Docker</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Desktop-%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">Docker Desktop 的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E6%96%87%E4%BB%B6%E6%8C%82%E8%BD%BD"><span class="nav-number">1.2.1.</span> <span class="nav-text">主机文件挂载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Docker-Desktop"><span class="nav-number">1.3.</span> <span class="nav-text">配置 Docker Desktop</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%8C%82%E8%BD%BD%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.1.</span> <span class="nav-text">文件系统挂载配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E6%8E%A7%E5%88%B6%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.2.</span> <span class="nav-text">资源控制配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.3.</span> <span class="nav-text">网络配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-daemon-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.4.</span> <span class="nav-text">docker daemon 配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8E%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.</span> <span class="nav-text">低系统版本解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Toolbox"><span class="nav-number">1.5.</span> <span class="nav-text">Docker Toolbox</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BKing"
+      src="/images/avatat.png">
+  <p class="site-author-name" itemprop="name">BKing</p>
+  <div class="site-description" itemprop="description">记录 Book</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+        
+          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BKing2020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BKing2020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Bking60447128" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Bking60447128" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020-11</span>
+  <span class="with-love">
+    <i class="fa fa-star"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BKing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">794k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:01</span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("11/17/2020 15:54:40");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"left","hOffset":40,"width":150,"height":300},"mobile":{"show":false}});</script></body>
+
+</html>
+
+

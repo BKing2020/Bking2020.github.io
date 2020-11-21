@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bking.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bking.ico">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="常见 Dockerfile 使用技巧在掌握 Dockerfile 的基本使用方法后，我们再来了解一些在开发中使用 Dockerfile 的技巧。这一小节的展现方式与之前的略有不同，其主要来自阅读收集和我自身在使用中的最佳实践。也许这里面介绍的不是最为标准或是合乎规范的方式，但一定是能够直接帮助大家在开发中使用 Docker 提升生产力的方式。下面就让我们来看看这些关于 Dockerfile 的使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见 Dockerfile 使用技巧">
+<meta property="og:url" content="http://example.com/2020/11/18/Docker/%E6%93%8D%E4%BD%9C%E9%95%9C%E5%83%8F%EF%BC%9A%E5%B8%B8%E8%A7%81%E7%9A%84%20Dockerfile%20%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="Boo-BKing.">
+<meta property="og:description" content="常见 Dockerfile 使用技巧在掌握 Dockerfile 的基本使用方法后，我们再来了解一些在开发中使用 Dockerfile 的技巧。这一小节的展现方式与之前的略有不同，其主要来自阅读收集和我自身在使用中的最佳实践。也许这里面介绍的不是最为标准或是合乎规范的方式，但一定是能够直接帮助大家在开发中使用 Docker 提升生产力的方式。下面就让我们来看看这些关于 Dockerfile 的使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/image-20201121231629439.png">
+<meta property="og:image" content="http://example.com/img/image-20201121231700621.png">
+<meta property="og:image" content="http://example.com/img/image-20201121233816429.png">
+<meta property="article:published_time" content="2020-11-17T18:59:08.000Z">
+<meta property="article:modified_time" content="2020-11-21T15:38:34.148Z">
+<meta property="article:author" content="BKing">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/image-20201121231629439.png">
+
+<link rel="canonical" href="http://example.com/2020/11/18/Docker/%E6%93%8D%E4%BD%9C%E9%95%9C%E5%83%8F%EF%BC%9A%E5%B8%B8%E8%A7%81%E7%9A%84%20Dockerfile%20%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>常见 Dockerfile 使用技巧 | Boo-BKing.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<link rel="alternate" href="/atom.xml" title="Boo-BKing." type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband" >
+      <a target="_blank" rel="noopener" href="https://github.com/BKing2020" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    
+    </div>
+    
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Boo-BKing.</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">下雨 最爱听的旋律</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E6%93%8D%E4%BD%9C%E9%95%9C%E5%83%8F%EF%BC%9A%E5%B8%B8%E8%A7%81%E7%9A%84%20Dockerfile%20%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          常见 Dockerfile 使用技巧
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-18 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-18T02:59:08+08:00">2020-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-21 23:38:34" itemprop="dateModified" datetime="2020-11-21T23:38:34+08:00">2020-11-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="常见-Dockerfile-使用技巧"><a href="#常见-Dockerfile-使用技巧" class="headerlink" title="常见 Dockerfile 使用技巧"></a>常见 Dockerfile 使用技巧</h2><p>在掌握 Dockerfile 的基本使用方法后，我们再来了解一些在开发中使用 Dockerfile 的技巧。这一小节的展现方式与之前的略有不同，其主要来自阅读收集和我自身在使用中的最佳实践。也许这里面介绍的不是最为标准或是合乎规范的方式，但一定是能够直接帮助大家在开发中使用 Docker 提升生产力的方式。下面就让我们来看看这些关于 Dockerfile 的使用技巧吧。</p>
+<a id="more"></a>
+
+<h3 id="构建中使用变量"><a href="#构建中使用变量" class="headerlink" title="构建中使用变量"></a>构建中使用变量</h3><p>在实际编写 Dockerfile 时，与搭建环境相关的指令会是其中占有大部分比例的指令。在搭建程序所需运行环境时，难免涉及到一些可变量，例如依赖软件的版本，编译的参数等等。我们可以直接将这些数据写入到 Dockerfile 中完全没有问题，有问题的是这些可变量我们会经常调整，在调整时就需要我们到 Dockerfile 中找到它们并进行更改，如果只是简单的 Dockerfile 文件尚且好说，但如果是相对复杂或是存在多处变量的 Dockerfile 文件，这个工作就变得繁琐而让人烦躁了。</p>
+<p>在 Dockerfile 里，我们可以用 ARG 指令来建立一个参数变量，我们可以在构建时通过构建指令传入这个参数变量，并且在 Dockerfile 里使用它。</p>
+<p>例如，我们希望通过参数变量控制 Dockerfile 中某个程序的版本，在构建时安装我们指定版本的软件，我们可以通过 ARG 定义的参数作为占位符，替换版本定义的部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM debian:stretch-slim</span><br><span class="line"></span><br><span class="line">## ......</span><br><span class="line"></span><br><span class="line">ARG TOMCAT_MAJOR</span><br><span class="line">ARG TOMCAT_VERSION</span><br><span class="line"></span><br><span class="line">## ......</span><br><span class="line"></span><br><span class="line">RUN wget -O tomcat.tar.gz &quot;https:&#x2F;&#x2F;www.apache.org&#x2F;dyn&#x2F;closer.cgi?action&#x3D;download&amp;filename&#x3D;tomcat&#x2F;tomcat-$TOMCAT_MAJOR&#x2F;v$TOMCAT_VERSION&#x2F;bin&#x2F;apache-tomcat-$TOMCAT_VERSION.tar.gz&quot;</span><br><span class="line"></span><br><span class="line">## ......</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在这个例子里，我们将 Tomcat 的版本号通过 ARG 指令定义为参数变量，在调用下载 Tomcat 包时，使用变量替换掉下载地址中的版本号。通过这样的定义，就可以让我们在不对 Dockerfile 进行大幅修改的前提下，轻松实现对 Tomcat 版本的切换并重新构建镜像了。</p>
+<p>如果我们需要通过这个 Dockerfile 文件构建 Tomcat 镜像，我们可以在构建时通过 <code>docker build</code> 的 <code>--build-arg</code> 选项来设置参数变量。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo docker build --build-arg TOMCAT_MAJOR=8 --build-arg TOMCAT_VERSION=8.0.53 -t tomcat:8.0 ./tomcat</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><p>环境变量也是用来定义参数的东西，与 ARG 指令相类似，环境变量的定义是通过 ENV 这个指令来完成的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FROM debian:stretch-slim</span><br><span class="line"></span><br><span class="line">## ......</span><br><span class="line"></span><br><span class="line">ENV TOMCAT_MAJOR 8</span><br><span class="line">ENV TOMCAT_VERSION 8.0.53</span><br><span class="line"></span><br><span class="line">## ......</span><br><span class="line"></span><br><span class="line">RUN wget -O tomcat.tar.gz &quot;https:&#x2F;&#x2F;www.apache.org&#x2F;dyn&#x2F;closer.cgi?action&#x3D;download&amp;filename&#x3D;tomcat&#x2F;tomcat-$TOMCAT_MAJOR&#x2F;v$TOMCAT_VERSION&#x2F;bin&#x2F;apache-tomcat-$TOMCAT_VERSION.tar.gz&quot;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>环境变量的使用方法与参数变量一样，也都是能够直接替换指令参数中的内容。</p>
+<p>与参数变量只能影响构建过程不同，环境变量不仅能够影响构建，还能够影响基于此镜像创建的容器。环境变量设置的实质，其实就是定义操作系统环境变量，所以在运行的容器里，一样拥有这些变量，而容器中运行的程序也能够得到这些变量的值。</p>
+<p>另一个不同点是，环境变量的值不是在构建指令中传入的，而是在 Dockerfile 中编写的，所以如果我们要修改环境变量的值，我们需要到 Dockerfile 修改。不过即使这样，只要我们将 ENV 定义放在 Dockerfile 前部容易查找的地方，其依然可以很快的帮助我们切换镜像环境中的一些内容。</p>
+<p>由于环境变量在容器运行时依然有效，所以运行容器时我们还可以对其进行覆盖，在创建容器时使用 <code>-e</code> 或是 <code>--env</code> 选项，可以对环境变量的值进行修改或定义新的环境变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run -e MYSQL_ROOT_PASSWORD&#x3D;my-secret-pw -d mysql:5.7</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>事实上，这种用法在我们开发中是非常常见的。也正是因为这种允许运行时配置的方法存在，环境变量和定义它的 ENV 指令，是我们更常使用的指令，我们会优先选择它们来实现对变量的操作。</p>
+<p>关于环境变量是如何能够帮助我们更轻松的处理 Docker 镜像和容器使用等问题，我们会在下一节中进行实际展示，通过例子大家能够更容易理解它的原理。</p>
+<p>另外需要说明一点，通过 ENV 指令和 ARG 指令所定义的参数，在使用时都是采用 $ + NAME 这种形式来占位的，所以它们之间的定义就存在冲突的可能性。对于这种场景，大家只需要记住，ENV 指令所定义的变量，永远会覆盖 ARG 所定义的变量，即使它们定时的顺序是相反的。</p>
+<h3 id="合并命令"><a href="#合并命令" class="headerlink" title="合并命令"></a>合并命令</h3><p>在上一节我们展示的完整的官方 Redis 镜像的 Dockerfile 中，我们会发现 RUN 等指令里会聚合下大量的代码。</p>
+<p>事实上，下面两种写法对于搭建的环境来说是没有太大区别的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update; \</span><br><span class="line">    apt-get install -y --no-install-recommends $fetchDeps; \</span><br><span class="line">    rm -rf &#x2F;var&#x2F;lib&#x2F;apt&#x2F;lists&#x2F;*;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update</span><br><span class="line">RUN apt-get install -y --no-install-recommends $fetchDeps</span><br><span class="line">RUN rm -rf &#x2F;var&#x2F;lib&#x2F;apt&#x2F;lists&#x2F;*</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>那为什么我们更多见的是第一种形式而非第二种呢？这就要从镜像构建的过程说起了。</p>
+<p>看似连续的镜像构建过程，其实是由多个小段组成。每当一条能够形成对文件系统改动的指令在被执行前，Docker 先会基于上条命令的结果启动一个容器，在容器中运行这条指令的内容，之后将结果打包成一个镜像层，如此反复，最终形成镜像。</p>
+<p><img src="/img/image-20201121231629439.png"></p>
+<p>所以说，我们之前谈到镜像是由多个镜像层叠加而得，而这些镜像层其实就是在我们 Dockerfile 中每条指令所生成的。</p>
+<p>了解了这个原理，大家就很容易理解为什么绝大多数镜像会将命令合并到一条指令中，因为这种做法不但减少了镜像层的数量，也减少了镜像构建过程中反复创建容器的次数，提高了镜像构建的速度。</p>
+<h4 id="构建缓存"><a href="#构建缓存" class="headerlink" title="构建缓存"></a>构建缓存</h4><p>Docker 在镜像构建的过程中，还支持一种缓存策略来提高镜像的构建速度。</p>
+<p>由于镜像是多个指令所创建的镜像层组合而得，那么如果我们判断新编译的镜像层与已经存在的镜像层未发生变化，那么我们完全可以直接利用之前构建的结果，而不需要再执行这条构建指令，这就是镜像构建缓存的原理。</p>
+<p>那么 Docker 是如何判断镜像层与之前的镜像间不存在变化的呢？这主要参考两个维度，第一是所基于的镜像层是否一样，第二是用于生成镜像层的指令的内容是否一样。</p>
+<p>基于这个原则，我们在条件允许的前提下，更建议将不容易发生变化的搭建过程放到 Dockerfile 的前部，充分利用构建缓存提高镜像构建的速度。另外，指令的合并也不宜过度，而是将易变和不易变的过程拆分，分别放到不同的指令里。</p>
+<p>在另外一些时候，我们可能不希望 Docker 在构建镜像时使用构建缓存，这时我们可以通过 <code>--no-cache</code> 选项来禁用它。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker build --no-cache .&#x2F;webapp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="搭配-ENTRYPOINT-和-CMD"><a href="#搭配-ENTRYPOINT-和-CMD" class="headerlink" title="搭配 ENTRYPOINT 和 CMD"></a>搭配 ENTRYPOINT 和 CMD</h3><p>上一节我们谈到了 ENTRYPOINT 和 CMD 这两个命令，也解释了这两个命令的目的，即都是用来指定基于此镜像所创建容器里主进程的启动命令的。</p>
+<p>两个指令的区别在于，ENTRYPOINT 指令的优先级高于 CMD 指令。当 ENTRYPOINT 和 CMD 同时在镜像中被指定时，CMD 里的内容会作为 ENTRYPOINT 的参数，两者拼接之后，才是最终执行的命令。</p>
+<p>为了更好的让大家理解，这里索性列出所有的 ENTRYPOINT 与 CMD 的组合，供大家参考。</p>
+<p>ENTRYPOINT</p>
+<p>CMD</p>
+<p>实际执行</p>
+<p>ENTRYPOINT [“/bin/ep”, “arge”]</p>
+<p>/bin/ep arge</p>
+<p>ENTRYPOINT /bin/ep arge</p>
+<p>/bin/sh -c /bin/ep arge</p>
+<p>CMD [“/bin/exec”, “args”]</p>
+<p>/bin/exec args</p>
+<p>CMD /bin/exec args</p>
+<p>/bin/sh -c /bin/exec args</p>
+<p>ENTRYPOINT [“/bin/ep”, “arge”]</p>
+<p>CMD [“/bin/exec”, “argc”]</p>
+<p>/bin/ep arge /bin/exec argc</p>
+<p>ENTRYPOINT [“/bin/ep”, “arge”]</p>
+<p>CMD /bin/exec args</p>
+<p>/bin/ep arge /bin/sh -c /bin/exec args</p>
+<p>ENTRYPOINT /bin/ep arge</p>
+<p>CMD [“/bin/exec”, “argc”]</p>
+<p>/bin/sh -c /bin/ep arge /bin/exec argc</p>
+<p>ENTRYPOINT /bin/ep arge</p>
+<p>CMD /bin/exec args</p>
+<p>/bin/sh -c /bin/ep arge /bin/sh -c /bin/exec args</p>
+<p>有的读者会存在疑问，既然两者都是用来定义容器启动命令的，为什么还要分成两个，合并为一个指令岂不是更方便吗？</p>
+<p>这其实在于 ENTRYPOINT 和 CMD 设计的目的是不同的。ENTRYPOINT 指令主要用于对容器进行一些初始化，而 CMD 指令则用于真正定义容器中主程序的启动命令。</p>
+<p>另外，我们之前谈到创建容器时可以改写容器主程序的启动命令，而这个覆盖只会覆盖 CMD 中定义的内容，而不会影响 ENTRYPOINT 中的内容。</p>
+<p>我们依然以之前的 Redis 镜像为例，这是 Redis 镜像中对 ENTRYPOINT 和 CMD 的定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">## ......</span><br><span class="line"></span><br><span class="line">COPY docker-entrypoint.sh &#x2F;usr&#x2F;local&#x2F;bin&#x2F;</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [&quot;docker-entrypoint.sh&quot;]</span><br><span class="line"></span><br><span class="line">## ......</span><br><span class="line"></span><br><span class="line">CMD [&quot;redis-server&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以很清晰的看到，CMD 指令定义的正是启动 Redis 的服务程序，而 ENTRYPOINT 使用的是一个外部引入的脚本文件。</p>
+<p>事实上，使用脚本文件来作为 ENTRYPOINT 的内容是常见的做法，因为对容器运行初始化的命令相对较多，全部直接放置在 ENTRYPOINT 后会特别复杂。</p>
+<p>我们来看看 Redis 中的 ENTRYPOINT 脚本，可以看到其中会根据脚本参数进行一些处理，而脚本的参数，其实就是 CMD 中定义的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line">set -e</span><br><span class="line"></span><br><span class="line"># first arg is &#96;-f&#96; or &#96;--some-option&#96;</span><br><span class="line"># or first arg is &#96;something.conf&#96;</span><br><span class="line">if [ &quot;$&#123;1#-&#125;&quot; !&#x3D; &quot;$1&quot; ] || [ &quot;$&#123;1%.conf&#125;&quot; !&#x3D; &quot;$1&quot; ]; then</span><br><span class="line">	set -- redis-server &quot;$@&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"># allow the container to be started with &#96;--user&#96;</span><br><span class="line">if [ &quot;$1&quot; &#x3D; &#39;redis-server&#39; -a &quot;$(id -u)&quot; &#x3D; &#39;0&#39; ]; then</span><br><span class="line">	find . \! -user redis -exec chown redis &#39;&#123;&#125;&#39; +</span><br><span class="line">	exec gosu redis &quot;$0&quot; &quot;$@&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec &quot;$@&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里我们要关注脚本最后的一条命令，也就是 <code>exec &quot;$@&quot;</code>。在很多镜像的 ENTRYPOINT 脚本里，我们都会看到这条命令，其作用其实很简单，就是运行一个程序，而运行命令就是 ENTRYPOINT 脚本的参数。反过来，由于 ENTRYPOINT 脚本的参数就是 CMD 指令中的内容，所以实际执行的就是 CMD 里的命令。</p>
+<p>所以说，虽然 Docker 对容器启动命令的结合机制为 CMD 作为 ENTRYPOINT 的参数，合并后执行 ENTRYPOINT 中的定义，但实际在我们使用中，我们还会在 ENTRYPOINT 的脚本里代理到 CMD 命令上。</p>
+<p>相对来说，Redis 的 ENTRYPOINT 内容还是简单的，在掌握了 ENTRYPOINT 的相关作用后，大家可以尝试阅读和编写一些复杂的 ENTRYPOINT 脚本。</p>
+<h3 id="临摹案例"><a href="#临摹案例" class="headerlink" title="临摹案例"></a>临摹案例</h3><p>上面提及的几项只是几个比较常见的 Dockerfile 最佳实践，其实在编写 Dockerfile 时，还有很多不成文的小技巧。</p>
+<p>想要学好 Dockerfile 的编写，阅读和思考前人的作品是必不可少的。</p>
+<p>前面我们介绍了，Docker 官方提供的 Docker Hub 是 Docker 镜像的中央仓库，它除了镜像丰富之外，给我们带来的另一项好处就是其大部分镜像都是能够直接提供 Dockerfile 文件给我们参考的。</p>
+<p>要得到镜像的 Dockerfile 文件，我们可以进入到镜像的详情页面，在介绍中，镜像作者们通常会直接把 Dockerfile 的连接放在那里。</p>
+<p><img src="/img/image-20201121231700621.png"></p>
+<p>除此之外，进入到 Dockerfile 这个栏目下，我们也能够直接看到镜像 Dockerfile 的内容。在页面的右侧，还有进入 Dockerfile 源文件的连接，如果在 Dockerfile 中有引入其他的文件，我们可以通过这个连接访问到。</p>
+<p><img src="/img/image-20201121233816429.png"></p>
+<p>另外，我自己也制作了一些软件的镜像，大家可以访问 GitHub 上的项目地址，查阅其中的 Dockerfile 内容：<a target="_blank" rel="noopener" href="https://github.com/cogset">https://github.com/cogset</a> 。</p>
+
+    </div>
+
+    
+    
+    
+
+      <div>   
+             
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:20px;">-------------
+The end of this article, thanks for reading  <i class="fas fa-coffee"></i>-------------</div>
+    
+</div>   
+         
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Docker/%E6%93%8D%E4%BD%9C%E9%95%9C%E5%83%8F%EF%BC%9A%E9%80%9A%E8%BF%87%20Dockerfile%20%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F/" rel="prev" title="通过 Dockerfile 创建镜像">
+      <i class="fa fa-chevron-left"></i> 通过 Dockerfile 创建镜像
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Docker/%E6%93%8D%E4%BD%9C%E9%95%9C%E5%83%8F%EF%BC%9A%E4%BF%9D%E5%AD%98%E5%92%8C%E5%85%B1%E4%BA%AB%E9%95%9C%E5%83%8F/" rel="next" title="操作镜像：保存和共享镜像">
+      操作镜像：保存和共享镜像 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+      <div>
+        
+          
+        
+      </div>
+
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81-Dockerfile-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-number">1.</span> <span class="nav-text">常见 Dockerfile 使用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.</span> <span class="nav-text">构建中使用变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.1.</span> <span class="nav-text">环境变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E5%B9%B6%E5%91%BD%E4%BB%A4"><span class="nav-number">1.2.</span> <span class="nav-text">合并命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E7%BC%93%E5%AD%98"><span class="nav-number">1.2.1.</span> <span class="nav-text">构建缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E9%85%8D-ENTRYPOINT-%E5%92%8C-CMD"><span class="nav-number">1.3.</span> <span class="nav-text">搭配 ENTRYPOINT 和 CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%B4%E6%91%B9%E6%A1%88%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text">临摹案例</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BKing"
+      src="/images/avatat.png">
+  <p class="site-author-name" itemprop="name">BKing</p>
+  <div class="site-description" itemprop="description">记录 Book</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+        
+          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BKing2020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BKing2020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Bking60447128" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Bking60447128" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020-11</span>
+  <span class="with-love">
+    <i class="fa fa-star"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BKing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">794k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:01</span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("11/17/2020 15:54:40");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"left","hOffset":40,"width":150,"height":300},"mobile":{"show":false}});</script></body>
+
+</html>
+
+

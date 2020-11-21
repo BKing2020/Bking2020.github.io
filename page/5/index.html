@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="记录 Book">
@@ -223,7 +223,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:13:14" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:53:27" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -260,7 +260,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day003：升级-参数-连接-权限）"><a href="#MySQL学习笔记（Day003：升级-参数-连接-权限）" class="headerlink" title="MySQL学习笔记（Day003：升级/参数/连接/权限）"></a>MySQL学习笔记（Day003：升级/参数/连接/权限）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day003：升级-参数-连接-权限）"><a href="#MySQL学习笔记（Day003：升级-参数-连接-权限）" class="headerlink" title="MySQL学习笔记（Day003：升级/参数/连接/权限）"></a>MySQL学习笔记（Day003：升级/参数/连接/权限）</h2><h3 id="一-数据库升级"><a href="#一-数据库升级" class="headerlink" title="一. 数据库升级"></a>一. 数据库升级</h3><p>####1. <strong>环境说明：</strong></p>
+<p>一般说来，MySQL数据库的二进制数据文件，也就是<code>my.cnf</code>中的配置项<code>datadir</code>所在的位置，和我们MySQL应用程序安装的位置，是分开的，仅仅通过配置项告诉MySQL，数据库的数据存在<code>datadir</code>这个目录下。当程序和数据分离以后，方便我们对数据库应用程序做版本的升级或者回退。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day003)/#more" rel="contents">
@@ -312,7 +313,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:20:24" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:53:55" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -349,7 +350,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day004：权限拾遗-Role模拟-Workbench-体系结构）"><a href="#MySQL学习笔记（Day004：权限拾遗-Role模拟-Workbench-体系结构）" class="headerlink" title="MySQL学习笔记（Day004：权限拾遗/Role模拟/Workbench/体系结构）"></a>MySQL学习笔记（Day004：权限拾遗/Role模拟/Workbench/体系结构）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day004：权限拾遗-Role模拟-Workbench-体系结构）"><a href="#MySQL学习笔记（Day004：权限拾遗-Role模拟-Workbench-体系结构）" class="headerlink" title="MySQL学习笔记（Day004：权限拾遗/Role模拟/Workbench/体系结构）"></a>MySQL学习笔记（Day004：权限拾遗/Role模拟/Workbench/体系结构）</h2><p>###一. 权限拾遗</p>
+<h4 id="1-GRANT与创建用户"><a href="#1-GRANT与创建用户" class="headerlink" title="1. GRANT与创建用户"></a>1. GRANT与创建用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; grant select on sys.* to &#x27;perf&#x27;@&#x27;127.0.0.1&#x27; identified by &#x27;123&#x27;;</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.01 sec) <span class="comment">-- 这里有一个warning</span></span><br><span class="line"></span><br><span class="line">mysql&gt; show warnings;</span><br><span class="line"><span class="comment">-- 输入warning的Message如下：</span></span><br><span class="line"><span class="comment">-- Using GRANT for creating new user is deprecated and will be removed in future release. Create new user with CREATE USER statement.</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day004)/#more" rel="contents">
@@ -401,7 +403,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:32:44" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：23:01:32" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -438,7 +440,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day018：磁盘）"><a href="#MySQL学习笔记（Day018：磁盘）" class="headerlink" title="MySQL学习笔记（Day018：磁盘）"></a>MySQL学习笔记（Day018：磁盘）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day018：磁盘）"><a href="#MySQL学习笔记（Day018：磁盘）" class="headerlink" title="MySQL学习笔记（Day018：磁盘）"></a>MySQL学习笔记（Day018：磁盘）</h2><h3 id="一-iostat"><a href="#一-iostat" class="headerlink" title="一. iostat"></a>一. iostat</h3>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day018)/#more" rel="contents">
@@ -490,7 +492,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:13:27" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:54:46" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -527,7 +529,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day005：slow-log-generic-log-audit-存储引擎一）"><a href="#MySQL学习笔记（Day005：slow-log-generic-log-audit-存储引擎一）" class="headerlink" title="MySQL学习笔记（Day005：slow_log/generic_log/audit/存储引擎一）"></a>MySQL学习笔记（Day005：slow_log/generic_log/audit/存储引擎一）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day005：slow-log-generic-log-audit-存储引擎一）"><a href="#MySQL学习笔记（Day005：slow-log-generic-log-audit-存储引擎一）" class="headerlink" title="MySQL学习笔记（Day005：slow_log/generic_log/audit/存储引擎一）"></a>MySQL学习笔记（Day005：slow_log/generic_log/audit/存储引擎一）</h2><h3 id="一-慢查询日志进阶"><a href="#一-慢查询日志进阶" class="headerlink" title="一. 慢查询日志进阶"></a>一. 慢查询日志进阶</h3><h4 id="1-相关参数："><a href="#1-相关参数：" class="headerlink" title="1. 相关参数："></a>1. 相关参数：</h4><ul>
+<li><strong><code>slow_query_log</code></strong><ul>
+<li>是否开启慢查询日志                </li>
+</ul>
+</li>
+<li><strong><code>slow_query_log_file</code></strong><ul>
+<li>慢查询日志文件名, 在<code>my.cnf</code>我们已经定义为slow.log，默认是 <em>机器名-slow.log</em>          </li>
+</ul>
+</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day005)/#more" rel="contents">
@@ -579,7 +590,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:13:32" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:55:20" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -616,7 +627,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day006：存储引擎二-多实例安装）"><a href="#MySQL学习笔记（Day006：存储引擎二-多实例安装）" class="headerlink" title="MySQL学习笔记（Day006：存储引擎二/多实例安装）"></a>MySQL学习笔记（Day006：存储引擎二/多实例安装）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day006：存储引擎二-多实例安装）"><a href="#MySQL学习笔记（Day006：存储引擎二-多实例安装）" class="headerlink" title="MySQL学习笔记（Day006：存储引擎二/多实例安装）"></a>MySQL学习笔记（Day006：存储引擎二/多实例安装）</h2><h3 id="一-MyISAM存储引擎-下"><a href="#一-MyISAM存储引擎-下" class="headerlink" title="一. MyISAM存储引擎(下)"></a>一. MyISAM存储引擎(下)</h3><h4 id="1-MyISAM还在使用的原因"><a href="#1-MyISAM还在使用的原因" class="headerlink" title="1. MyISAM还在使用的原因"></a>1. MyISAM还在使用的原因</h4><ul>
+<li>历史原因，需要逐步替换</li>
+<li>部分如User，DB等系统表(MyISAM引擎)，可以直接拷贝，比较方便</li>
+<li>性能好，或者存储小<code>不是</code>MyISAM的优点，也不是存在的原因</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day006)/#more" rel="contents">
@@ -668,7 +683,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:21:10" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:55:45" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -705,7 +720,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day007：多实例下-SSL）"><a href="#MySQL学习笔记（Day007：多实例下-SSL）" class="headerlink" title="MySQL学习笔记（Day007：多实例下/SSL）"></a>MySQL学习笔记（Day007：多实例下/SSL）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day007：多实例下-SSL）"><a href="#MySQL学习笔记（Day007：多实例下-SSL）" class="headerlink" title="MySQL学习笔记（Day007：多实例下/SSL）"></a>MySQL学习笔记（Day007：多实例下/SSL）</h2><h3 id="一-多实例安装-–-多版本"><a href="#一-多实例安装-–-多版本" class="headerlink" title="一. 多实例安装 – 多版本"></a>一. 多实例安装 – 多版本</h3><h4 id="1-mysqld-multi-标签"><a href="#1-mysqld-multi-标签" class="headerlink" title="1. [mysqld_multi]标签"></a>1. [mysqld_multi]标签</h4><ul>
+<li><strong><code>[mysqld_multi]</code> 是否需要配置</strong><br>从操作演示来看，在<code>my.cnf</code>(<em>老师给的模板配置</em>)上直接配置<code>[mysqld1]</code>、<code>[mysqld2]</code>等实例标签，而<code>不配置[mysqld_multi]</code>,使用<code>mysqld_multi start 1</code>也是<code>可以启动</code>数据库实例的，但是没有<code>mysqld_safe</code>的守护进程。所以该标签<code>需要配置</code></li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day007)/#more" rel="contents">
@@ -757,7 +774,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:13:48" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:56:34" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -794,7 +811,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day008：数据类型）"><a href="#MySQL学习笔记（Day008：数据类型）" class="headerlink" title="MySQL学习笔记（Day008：数据类型）"></a>MySQL学习笔记（Day008：数据类型）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day008：数据类型）"><a href="#MySQL学习笔记（Day008：数据类型）" class="headerlink" title="MySQL学习笔记（Day008：数据类型）"></a>MySQL学习笔记（Day008：数据类型）</h2><h3 id="一-INT类型"><a href="#一-INT类型" class="headerlink" title="一. INT类型"></a>一. INT类型</h3><h4 id="1-INT类型的分类"><a href="#1-INT类型的分类" class="headerlink" title="1. INT类型的分类"></a>1. INT类型的分类</h4><ul>
+<li><strong>TINYINT</strong><ul>
+<li>存储空间 ： 1 字节</li>
+<li>取值范围 <ul>
+<li>有符号(signed) ：  [-128, 127]</li>
+<li>无符号(unsigned) ：[0, 255]</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day008)/#more" rel="contents">
@@ -846,7 +873,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:13:54" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:57:00" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -883,8 +910,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day009：JSON）"><a href="#MySQL学习笔记（Day009：JSON）" class="headerlink" title="MySQL学习笔记（Day009：JSON）"></a>MySQL学习笔记（Day009：JSON）</h2><p>@(MySQL学习)</p>
-<p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day009：JSON）"><a href="#MySQL学习笔记（Day009：JSON）" class="headerlink" title="MySQL学习笔记（Day009：JSON）"></a>MySQL学习笔记（Day009：JSON）</h2><h3 id="一-MySQL-JSON类型"><a href="#一-MySQL-JSON类型" class="headerlink" title="一. MySQL JSON类型"></a>一. MySQL JSON类型</h3><h4 id="1-JSON介绍"><a href="#1-JSON介绍" class="headerlink" title="1. JSON介绍"></a>1. JSON介绍</h4><ul>
+<li><strong>JSON</strong>（<code>J</code>ava<code>S</code>cript <code>O</code>bject <code>N</code>otation）是一种轻量级的数据交换语言，并且是独立于语言的文本格式。</li>
+<li>一些<code>NoSQL数据库</code>选择<code>JSON</code>作为其数据存储格式，比如：MongoDB、CouchDB等。</li>
+<li>MySQL<code>5.7.x</code>开始支持<strong>JSON</strong>数据类型。</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day009)/#more" rel="contents">
@@ -936,7 +966,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:13:58" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:57:20" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -973,7 +1003,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day010：Employees-临时表的创建-外键约束）"><a href="#MySQL学习笔记（Day010：Employees-临时表的创建-外键约束）" class="headerlink" title="MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）"></a>MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day010：Employees-临时表的创建-外键约束）"><a href="#MySQL学习笔记（Day010：Employees-临时表的创建-外键约束）" class="headerlink" title="MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）"></a>MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）</h2><h3 id="一-Employees数据库安装"><a href="#一-Employees数据库安装" class="headerlink" title="一. Employees数据库安装"></a>一. Employees数据库安装</h3><h4 id="1-Employees数据库介绍"><a href="#1-Employees数据库介绍" class="headerlink" title="1. Employees数据库介绍"></a>1. Employees数据库介绍</h4><p><code>Employees</code>数据库是一个用于学习和测试的数据库，大约<code>160MB</code>，<code>4百万条记录</code></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day010)/#more" rel="contents">
@@ -1025,7 +1055,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:23:19" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:57:50" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1062,7 +1092,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day011：SELECT）"><a href="#MySQL学习笔记（Day011：SELECT）" class="headerlink" title="MySQL学习笔记（Day011：SELECT）"></a>MySQL学习笔记（Day011：SELECT）</h2><p>[TOC]</p>
+          <h2 id="MySQL学习笔记（Day011：SELECT）"><a href="#MySQL学习笔记（Day011：SELECT）" class="headerlink" title="MySQL学习笔记（Day011：SELECT）"></a>MySQL学习笔记（Day011：SELECT）</h2><h3 id="一-SELECT语法介绍"><a href="#一-SELECT语法介绍" class="headerlink" title="一. SELECT语法介绍"></a>一. SELECT语法介绍</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="http://dev.mysql.com/doc/refman/5.7/en/select.html">SELECT语法官方文档</a></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day011)/#more" rel="contents">
@@ -1088,7 +1119,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1156,20 +1187,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1219,13 +1250,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">690k</span>
+    <span title="站点总字数">794k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">10:27</span>
+    <span title="站点阅读时长">12:01</span>
 </div>
 
 <!-- 网站运行时间的设置 -->
@@ -1249,7 +1280,7 @@ setInterval("createtime()",250);
 </script>
         
 <div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="user"></i>
@@ -1284,6 +1315,7 @@ setInterval("createtime()",250);
   
   <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
@@ -1298,6 +1330,65 @@ setInterval("createtime()",250);
 
 
 <script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
 
 
 
@@ -1322,12 +1413,16 @@ setInterval("createtime()",250);
 
 
 
+    <div id="pjax">
   
 
   
 
+  
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+    </div>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"left","hOffset":40,"width":150,"height":300},"mobile":{"show":false}});</script></body>
 
 </html>
 

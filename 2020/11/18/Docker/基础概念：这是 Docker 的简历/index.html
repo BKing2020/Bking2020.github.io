@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bking.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bking.ico">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="这是 Docker 的简历在了解虚拟化和容器技术后，我们就更容易理解 Docker 的相关知识了。在这一小节中，我将介绍关于 Docker 的出现和发展，Docker 背后的技术。同时，我们将阐述 Docker 在虚拟化领域中的定位以及其带来的变革。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="这是 Docker 的简历">
+<meta property="og:url" content="http://example.com/2020/11/18/Docker/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A%E8%BF%99%E6%98%AF%20Docker%20%E7%9A%84%E7%AE%80%E5%8E%86/index.html">
+<meta property="og:site_name" content="Boo-BKing.">
+<meta property="og:description" content="这是 Docker 的简历在了解虚拟化和容器技术后，我们就更容易理解 Docker 的相关知识了。在这一小节中，我将介绍关于 Docker 的出现和发展，Docker 背后的技术。同时，我们将阐述 Docker 在虚拟化领域中的定位以及其带来的变革。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/image-20201121232553746.png">
+<meta property="og:image" content="http://example.com/img/image-20201121232537273.png">
+<meta property="og:image" content="http://example.com/img/image-20201121232521201.png">
+<meta property="og:image" content="http://example.com/img/image-20201121232506082.png">
+<meta property="og:image" content="http://example.com/img/image-20201121232450888.png">
+<meta property="og:image" content="http://example.com/img/image-20201121232435498.png">
+<meta property="og:image" content="http://example.com/img/image-20201121232418390.png">
+<meta property="article:published_time" content="2020-11-17T18:59:08.000Z">
+<meta property="article:modified_time" content="2020-11-21T15:42:25.938Z">
+<meta property="article:author" content="BKing">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/image-20201121232553746.png">
+
+<link rel="canonical" href="http://example.com/2020/11/18/Docker/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A%E8%BF%99%E6%98%AF%20Docker%20%E7%9A%84%E7%AE%80%E5%8E%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>这是 Docker 的简历 | Boo-BKing.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<link rel="alternate" href="/atom.xml" title="Boo-BKing." type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband" >
+      <a target="_blank" rel="noopener" href="https://github.com/BKing2020" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    
+    </div>
+    
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Boo-BKing.</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">下雨 最爱听的旋律</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A%E8%BF%99%E6%98%AF%20Docker%20%E7%9A%84%E7%AE%80%E5%8E%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          这是 Docker 的简历
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-18 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-18T02:59:08+08:00">2020-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-21 23:42:25" itemprop="dateModified" datetime="2020-11-21T23:42:25+08:00">2020-11-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="这是-Docker-的简历"><a href="#这是-Docker-的简历" class="headerlink" title="这是 Docker 的简历"></a>这是 Docker 的简历</h2><p>在了解虚拟化和容器技术后，我们就更容易理解 Docker 的相关知识了。在这一小节中，我将介绍关于 Docker 的出现和发展，Docker 背后的技术。同时，我们将阐述 Docker 在虚拟化领域中的定位以及其带来的变革。</p>
+<a id="more"></a>
+
+<h3 id="Docker-开源项目"><a href="#Docker-开源项目" class="headerlink" title="Docker 开源项目"></a>Docker 开源项目</h3><p>如果说 Docker 的诞生，就必须从 Docker 这个开源项目提起 ( 虽然它现在已经不叫 Docker 了 )。Docker 项目是一个由 Go 语言实现的容器引擎，它最初由 dotCloud 这家做云服务的公司在 2013 年开源。</p>
+<p>由于 Docker 带来的巨大的便利，让很多开发、测试和运维等软件开发环节上的工作被简化甚至省去，所以在短短的几年间便成为虚拟化乃至整个技术领域的热词。同时，许多开发者乃至大型科技企业都参与到了 Docker 相关领域的贡献中来，为 Docker 及其生态圈贡献了许多优秀的软件项目，这大大提高了 Docker 生态的完整性，也让 Docker 日益健壮。</p>
+<p>也许 dotCloud 自己也没有想到，云服务没卖出几个钱，反倒是 Docker 越来越火。拥有商业头脑的他们，干脆不再做云服务了，也把公司名字改成 Docker Inc. 专门从事 Docker 周边的生意。</p>
+<p>当然，Docker 的商业化也带来了一定的变化。为了更好的进行商业运作，Docker Inc. 将 Docker 开源项目的名称修改为了 Moby，所以大家要是在 GitHub 上没有搜索到 Docker 不要觉得惊讶，因为它现在的名字是 Moby ( <a target="_blank" rel="noopener" href="https://github.com/moby/moby">https://github.com/moby/moby</a> )。</p>
+<p>关于 Moby 和 Docker 更多的内容，这里给大家提供一下参考资料，有兴趣的朋友们可以前往阅读：</p>
+<ul>
+<li>  <a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/74437">Docker改名啦？什么是 Moby Project</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/58805021">对于 Docker 改名 Moby ，大家怎么看？</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://blog.docker.com/2017/04/introducing-the-moby-project/">Introducing Moby Project</a></li>
+</ul>
+<h3 id="Docker-所带来的改变"><a href="#Docker-所带来的改变" class="headerlink" title="Docker 所带来的改变"></a>Docker 所带来的改变</h3><p>简单说了一些 Docker 的故事，接来下我们就必须重点说一下 Docker 所带来的改变。正是这些对我们工作方式的改变，让我们越来越难以离开 Docker，又源于我们对 Docker 如此的喜爱，让 Docker 能够在短时间内就从雏鸟成长为大鹏，成为万众瞩目的新星。</p>
+<h4 id="云计算时代的挑战"><a href="#云计算时代的挑战" class="headerlink" title="云计算时代的挑战"></a>云计算时代的挑战</h4><p>在计算机技术发展的早期，几乎所有的程序都是在开发后部署到一台或是少数几台服务器上的。那时的程序也几乎都是集所有模块和运行时环境为一身的“全栈应用”，虽然这些程序可以基于一套良好、完善的协议栈 ( 譬如一套完整的 MVC 架构 ) 进行开发，但再好的架构也无法让应用服务在这种体系下快速发展。</p>
+<p>随着互联网的极速发展，应用程序的功能越来越丰富，而需要迭代的速度要求也越来越高，为了实现这些目标，应用的开发逐渐趋向服务化甚至微服务化。每个应用程序都有其对应依赖的操作系统或者其他程序，而在将应用程序细分为不同的微服务或者是其他形式的微小应用模块后，解决这种依赖问题会愈发显得棘手。有的应用运行环境特别复杂，搭建过程也极易出错，这都是让开发、测试、运维人员焦头烂额的地方。更多时候，开发者们肯定更愿意将他们宝贵的时间用在实际的开发中，而不是纠缠着应用运行环境的问题上。</p>
+<p><img src="/img/image-20201121232553746.png"></p>
+<p>同时，由于物理硬件的更新迭代速度已经难以追赶互联网的脚步，应用的部署逐渐转向集群化。应用模块的数量乘上每个应用所部署的机器的数量，会是一个非常庞大的数字。相信所有的开发或者运维都不会愿意把时间浪费在逐一搭建服务器环境这种重复的劳动上。</p>
+<p>这些变化都对应用的开发、部署带来了不小的挑战。</p>
+<p>我想很多读者已经想到了应对这些挑战的办法了，没错，那就是虚拟化技术。通过虚拟化技术可以让环境的搭建变得更加的容易，对我们快速部署分布式应用服务体系提供了极大的便利。</p>
+<p>进而言之，如果我们把管理环境的复杂度，更轻量级的虚拟化实现等更加实际的问题考虑进去，容器技术自然成了虚拟化技术中最佳的选择项。</p>
+<h4 id="皆为效率"><a href="#皆为效率" class="headerlink" title="皆为效率"></a>皆为效率</h4><p>如果说在分布式部署中应用容器技术是一个方向，那么 Docker 就是在这个方向上跑得最快也最完美的运动员了。Docker 不论从实现容器技术的完整性上来说，还是从上手易用性来说，都是可圈可点的。</p>
+<p>好了，这里我要穿插一下推荐 Docker 的原因了。我们使用 Docker 的目的其实很简单，就是<strong>利用它的全面性和易用性带来的提升我们的工作效率</strong>。了解了这个目的，我想大家会更容易理解很多场合 Docker 能派上用场的原因。当然，通过这个道理，你也就明白了为什么我会说 Docker 是一门新时代开发者必须掌握的技术了。毕竟所有的老板都希望找到会得多、干活快的优秀开发者 ( 亦或者说，会的多、干活快是优秀开发者所必备的品质 )。</p>
+<p>再怎么从理论上说快也是很难服众的，是骡子是马拉出来“跑个分”就知道了。Docker 官方对 Docker 在工作上带来的提升做了调查研究，分别从工作效率的提升和技术设计投入的减少等方面数据化了 Docker 所做出的突出贡献。</p>
+<p><img src="/img/image-20201121232537273.png"></p>
+<p>相信看到这些数据，你已经明白为何 Docker 备受关注的原因了。</p>
+<h3 id="Docker-的技术实现"><a href="#Docker-的技术实现" class="headerlink" title="Docker 的技术实现"></a>Docker 的技术实现</h3><p>这里我们再简单了解一下 Docker 的技术实现，以便有探索欲望的读者查找相关资料进行深入阅读。</p>
+<p>Docker 的实现，主要归结于三大技术：命名空间 ( Namespaces ) 、控制组 ( Control Groups ) 和联合文件系统 ( Union File System ) 。</p>
+<p><img src="/img/image-20201121232521201.png"></p>
+<h4 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h4><p>命名空间是 Linux 核心在 2.4 版本后逐渐引入的一项用于运行隔离的模块。</p>
+<p>相信很多开发者在不同的编程语言中都见过命名空间的概念，在这些编程语言中，命名空间的主要目的就是为了集合相同模块的类，区分不同模块间的同名类。</p>
+<p>同样的道理，Linux 内核的命名空间，就是能够将计算机资源进行切割划分，形成各自独立的空间。</p>
+<p>就实现而言，Linux Namespaces 可以分为很多具体的子系统，如 User Namespace、Net Namespace、PID Namespace、Mount Namespace 等等。</p>
+<p>这里我们以进程为例，通过 PID Namespace，我们可以造就一个独立的进程运行空间，在其中进程的编号又会从 1 开始。在这个空间中运行的进程，完全感知不到外界系统中的其他进程或是其他进程命名空间中运行的进程。</p>
+<p><img src="/img/image-20201121232506082.png"></p>
+<p>利用 PID Namespace，Docker 就实现了容器中隔离程序运行中进程隔离这一目标。</p>
+<h4 id="Control-Groups"><a href="#Control-Groups" class="headerlink" title="Control Groups"></a>Control Groups</h4><p>资源控制组 ( 常缩写为 CGroups ) 是 Linux 内核在 2.6 版本后逐渐引入的一项对计算机资源控制的模块。</p>
+<p>顾名思义，资源控制组的作用就是控制计算机资源的。与以隔离进程、网络、文件系统等虚拟资源为目的 Namespace 不同，CGroups 主要做的是硬件资源的隔离。</p>
+<p>之前我们提到了，虚拟化除了制造出虚拟的环境隔离同一物理平台运行的不同程序之外，另一大作用就是控制硬件资源的分配，CGroups 的使用正是为了这样的目的。</p>
+<p><img src="/img/image-20201121232450888.png"></p>
+<p>需要再强调一次的是，CGroups 除了资源的隔离，还有资源<strong>分配</strong>这个关键性的作用。通过 CGroups，我们可以指定任意一个隔离环境对任意资源的占用值或占用率，这对于很多分布式使用场景来说是非常有用的功能。</p>
+<p>例如，我们在服务器上部署一个业务服务和一个健康监控服务。通常情况下，监控服务只会占用很少的计算机资源，但我们无法保证其不会因为一些逻辑问题产生 Bug 进而过分消耗计算机资源。而它申请的计算机资源越多，意味着业务服务所能使用的计算机资源也就越少，最后甚至可能造成物理服务器的崩溃。</p>
+<p>上述的问题在没有隔离实现的普通运行环境下是比较难解决的，因为所有不从系统层面出发的限制程序资源使用的方式都并不完全有效。由于 CGroups 实现于操作系统，而操作系统垄断着系统资源的分配，所以其完全能够限制隔离环境下应用的资源占有量。</p>
+<h4 id="Union-File-System"><a href="#Union-File-System" class="headerlink" title="Union File System"></a>Union File System</h4><p>联合文件系统 ( Union File System ) 是一种能够同时挂载不同实际文件或文件夹到同一目录，形成一种<strong>联合文件结构</strong>的文件系统。联合文件系统本身与虚拟化并无太大的关系，但 Docker 却创新的将其引入到容器实现中，用它解决虚拟环境对文件系统占用过量，实现虚拟环境快速启停等问题。</p>
+<p>在 Docker 中，提供了一种对 UnionFS 的改进实现，也就是 AUFS ( Advanced Union File System )。</p>
+<p><img src="/img/image-20201121232435498.png"></p>
+<p>AUFS 将文件的更新挂载到老的文件之上，而不去修改那些不更新的内容，这就意味着即使虚拟的文件系统被反复修改，也能保证对真实文件系统的空间占用保持一个较低水平。</p>
+<p>也许这个表述还不够形象，那么我们来用 Git 进行比较，会让大家会更容易理解。大家知道，我们在 Git 中每进行一次提交，Git 并不是将我们所有的内容打包成一个版本，而只是将修改的部分进行记录，这样即使我们提交很多次后，代码库的空间占用也不会倍数增加。</p>
+<p>同样的，通过 AUFS，Docker 大幅减少了虚拟文件系统对物理存储空间的占用。由此，Docker 也开创出了虚拟化领域很多新的轻量级解决方案，这在之后的小节里我们会提到。</p>
+<h3 id="Docker-的理念"><a href="#Docker-的理念" class="headerlink" title="Docker 的理念"></a>Docker 的理念</h3><p>在对 Docker 及其背后的一些技术有了一个初步了解之后，我们还要着重说一下 Docker 本身的一些设计理念。如果说熟悉 Docker 背后的技术能够更好的帮助你正确使用 Docker，那么理解 Docker 的理念将更好的指导你如何搭配 Docker 容器间的关系。</p>
+<p>让我们先来从一张 Docker 官方提供的架构图来看看 Docker 对容器结构的设计。</p>
+<p><img src="/img/image-20201121232418390.png"></p>
+<p>与其他虚拟化实现甚至其他容器引擎不同的是，Docker 推崇一种轻量级容器的结构，即一个应用一个容器。</p>
+<p>举个具体的例子，在常见的虚拟机实现中，我们要搭建一套 LAMP 结构的服务，我们通常会建立一个虚拟机，在虚拟机中安装上 Linux 系统，之后分别安装 Apache、MySQL 和 PHP。而在 Docker 里，最佳的实践是分别基于 Apache、MySQL 和 PHP 的镜像建立三个容器，分别运行 Apache、MySQL 和 PHP ，而它们所在的虚拟操作系统也直接共享于宿主机的操作系统。</p>
+<p>如果我们将 Docker 的轻量级容器实现和虚拟机的一些参数进行对比，更容易得到结果。</p>
+<p>属性</p>
+<p>Docker</p>
+<p>虚拟机</p>
+<p>启动速度</p>
+<p>秒级</p>
+<p>分钟级</p>
+<p>硬盘使用</p>
+<p>MB 级</p>
+<p>GB 级</p>
+<p>性能</p>
+<p>接近原生</p>
+<p>较低</p>
+<p>普通机器支撑量</p>
+<p>数百个</p>
+<p>几个</p>
+<p>虽然这里只列出了一些 Docker 的优势项，但这些优势都是对我们开发中环境搭建和使用极其有帮助的内容。就拿启动速度来说，我们在开发中显然不愿意调整环境或更新代码后要等待几分钟来让其生效，Docker 秒级的启动速度几乎让我们感知不到我们对环境做了什么改动。而像虚拟机占用大量操作系统资源，导致我们本地开发使用电脑过慢 ( 有时候不得不将环境搭建在另外的机器上，但这显然在代码编写到运行自测的过程中增加很多工作量 ) 等问题，也容易得到解决。</p>
+<p>当然，在 Docker 中能实现这样的设计理念，还要归功于几项基础设施的支持。</p>
+<p>首先，只有在容器技术的支撑下，应用即容器的方案才能有效的实施。因为容器技术既剔除了 Hypervisor 层，又干掉了虚拟操作系统的概念，让容器中应用运行的消耗与真实操作系统中运行的消耗几乎完全一致。只有这样，我们才能像在真实操作系统中开启应用一样开启新的容器，而不用过分担心虚拟化带来的性能消耗。</p>
+<p>其次，基于联合文件系统的底层文件系统支持，让容器能够很容易在真实操作系统中共享存储资源，并由此带来了对存储空间的低消耗。与动辄就要独立开辟十几 GB 甚至几十 GB 的虚拟化实现相比，要存在巨大的优势。</p>
+<p>当然，Docker 也支持你在容器中同时运行很多种程序，但其容器设计本身并不针对这种方案，所以如果你以这种方案在 Docker 中搭建环境，你会花费不少时间做出一些本来并不需要做的事情。虽然这看上去动手性很强，但我并不推荐在工作中这么去做，因为我们使用 Docker 本身就是为了效率，浪费时间在这些不必要的事情上，已经违背了我们使用 Docker 的初衷。</p>
+<h3 id="我们能用-Docker-做些什么"><a href="#我们能用-Docker-做些什么" class="headerlink" title="我们能用 Docker 做些什么"></a>我们能用 Docker 做些什么</h3><p>从理论上我们已经知道 Docker 能够为我们的工作带来巨大的便利，那么将其放于实践中，我们应该如何正确的使用它呢？这里我摘录整理了一段来自 Docker 官方文档的指导意见，希望能够对大家的实践提供参考。</p>
+<h4 id="更快、更一致的交付你的应用程序"><a href="#更快、更一致的交付你的应用程序" class="headerlink" title="更快、更一致的交付你的应用程序"></a>更快、更一致的交付你的应用程序</h4><p>使用 Docker 后，开发者能够在本地容器中得到一套标准的应用或服务的运行环境，由此可以简化开发的生命周期 ( 减少在不同环境间进行适配、调整所造成的额外消耗 )。对于整个应用迭代来说，加入 Docker 的工作流程将更加适合持续集成 ( Continuous Integration ) 和持续交付 ( Continuous Delivery )。</p>
+<p>举个具体的例子：</p>
+<ul>
+<li>  开发者能够使用 Docker 在本地编写代码并通过容器与其他同事共享他们的工作。</li>
+<li>  他们能够使用 Docker 将编写好的程序推送至测试环境进行自动化测试或是人工测试。</li>
+<li>  当出现 Bugs 时，开发者可以在开发环境中修复它们，并很快的重新部署到测试环境中。</li>
+<li>  在测试完成后，部署装有应用程序的镜像就能完成生产环境的发布。</li>
+</ul>
+<h4 id="跨平台部署和动态伸缩"><a href="#跨平台部署和动态伸缩" class="headerlink" title="跨平台部署和动态伸缩"></a>跨平台部署和动态伸缩</h4><p>基于容器技术的 Docker 拥有很高的跨平台性，Docker 的容器能够很轻松的运行在开发者本地的电脑，数据中心的物理机或虚拟机，云服务商提供的云服务器，甚至是混合环境中。</p>
+<p>同时，Docker 的轻量性和高可移植性能够很好的帮助我们完成应用的动态伸缩，我们可以通过一些手段近实时的对基于 Docker 运行的应用进行弹性伸缩，这能够大幅提高应用的健壮性。</p>
+<h4 id="让同样的硬件提供更多的产出能力"><a href="#让同样的硬件提供更多的产出能力" class="headerlink" title="让同样的硬件提供更多的产出能力"></a>让同样的硬件提供更多的产出能力</h4><p>Docker 的高效和轻量等特征，为替代基于 Hypervisor 的虚拟机提供了一个经济、高效、可行的方案。在 Docker 下，你能节约出更多的资源投入到业务中去，让应用程序产生更高的效益。同时，如此低的资源消耗也说明了 Docker 非常适合在高密度的中小型部署场景中使用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <div>   
+             
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:20px;">-------------
+The end of this article, thanks for reading  <i class="fas fa-coffee"></i>-------------</div>
+    
+</div>   
+         
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Docker/%E5%AE%89%E8%A3%85%E8%BF%90%E8%A1%8C%EF%BC%9A%E6%90%AD%E5%BB%BA%20Docker%20%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/" rel="prev" title="搭建 Docker 运行环境">
+      <i class="fa fa-chevron-left"></i> 搭建 Docker 运行环境
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/18/Docker/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A%E6%B5%85%E8%B0%88%E8%99%9A%E6%8B%9F%E5%8C%96%E5%92%8C%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF/" rel="next" title="浅谈虚拟化和容器技术">
+      浅谈虚拟化和容器技术 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+      <div>
+        
+          
+        
+      </div>
+
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%99%E6%98%AF-Docker-%E7%9A%84%E7%AE%80%E5%8E%86"><span class="nav-number">1.</span> <span class="nav-text">这是 Docker 的简历</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.1.</span> <span class="nav-text">Docker 开源项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-%E6%89%80%E5%B8%A6%E6%9D%A5%E7%9A%84%E6%94%B9%E5%8F%98"><span class="nav-number">1.2.</span> <span class="nav-text">Docker 所带来的改变</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%91%E8%AE%A1%E7%AE%97%E6%97%B6%E4%BB%A3%E7%9A%84%E6%8C%91%E6%88%98"><span class="nav-number">1.2.1.</span> <span class="nav-text">云计算时代的挑战</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9A%86%E4%B8%BA%E6%95%88%E7%8E%87"><span class="nav-number">1.2.2.</span> <span class="nav-text">皆为效率</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-%E7%9A%84%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">Docker 的技术实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Namespace"><span class="nav-number">1.3.1.</span> <span class="nav-text">Namespace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Control-Groups"><span class="nav-number">1.3.2.</span> <span class="nav-text">Control Groups</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Union-File-System"><span class="nav-number">1.3.3.</span> <span class="nav-text">Union File System</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-%E7%9A%84%E7%90%86%E5%BF%B5"><span class="nav-number">1.4.</span> <span class="nav-text">Docker 的理念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%91%E4%BB%AC%E8%83%BD%E7%94%A8-Docker-%E5%81%9A%E4%BA%9B%E4%BB%80%E4%B9%88"><span class="nav-number">1.5.</span> <span class="nav-text">我们能用 Docker 做些什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E5%BF%AB%E3%80%81%E6%9B%B4%E4%B8%80%E8%87%B4%E7%9A%84%E4%BA%A4%E4%BB%98%E4%BD%A0%E7%9A%84%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.5.1.</span> <span class="nav-text">更快、更一致的交付你的应用程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%83%A8%E7%BD%B2%E5%92%8C%E5%8A%A8%E6%80%81%E4%BC%B8%E7%BC%A9"><span class="nav-number">1.5.2.</span> <span class="nav-text">跨平台部署和动态伸缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A9%E5%90%8C%E6%A0%B7%E7%9A%84%E7%A1%AC%E4%BB%B6%E6%8F%90%E4%BE%9B%E6%9B%B4%E5%A4%9A%E7%9A%84%E4%BA%A7%E5%87%BA%E8%83%BD%E5%8A%9B"><span class="nav-number">1.5.3.</span> <span class="nav-text">让同样的硬件提供更多的产出能力</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BKing"
+      src="/images/avatat.png">
+  <p class="site-author-name" itemprop="name">BKing</p>
+  <div class="site-description" itemprop="description">记录 Book</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+        
+          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BKing2020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BKing2020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Bking60447128" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Bking60447128" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020-11</span>
+  <span class="with-love">
+    <i class="fa fa-star"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BKing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">794k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:01</span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("11/17/2020 15:54:40");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"left","hOffset":40,"width":150,"height":300},"mobile":{"show":false}});</script></body>
+
+</html>
+
+

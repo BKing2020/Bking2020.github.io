@@ -18,19 +18,19 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="MySQL学习笔记（Day011：SELECT）[TOC]">
+  <meta name="description" content="MySQL学习笔记（Day011：SELECT）一. SELECT语法介绍 SELECT语法官方文档">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记（Day011：SELECT）">
 <meta property="og:url" content="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day011)/index.html">
 <meta property="og:site_name" content="Boo-BKing.">
-<meta property="og:description" content="MySQL学习笔记（Day011：SELECT）[TOC]">
+<meta property="og:description" content="MySQL学习笔记（Day011：SELECT）一. SELECT语法介绍 SELECT语法官方文档">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/123.png">
 <meta property="article:published_time" content="2020-11-20T18:59:08.000Z">
-<meta property="article:modified_time" content="2020-11-21T08:23:19.039Z">
+<meta property="article:modified_time" content="2020-11-21T14:57:50.014Z">
 <meta property="article:author" content="BKing">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -228,7 +228,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:23:19" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:57:50" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,11 +272,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="MySQL学习笔记（Day011：SELECT）"><a href="#MySQL学习笔记（Day011：SELECT）" class="headerlink" title="MySQL学习笔记（Day011：SELECT）"></a>MySQL学习笔记（Day011：SELECT）</h2><p>[TOC]</p>
-<a id="more"></a>
-
-<h3 id="一-SELECT语法介绍"><a href="#一-SELECT语法介绍" class="headerlink" title="一. SELECT语法介绍"></a>一. SELECT语法介绍</h3><blockquote>
+        <h2 id="MySQL学习笔记（Day011：SELECT）"><a href="#MySQL学习笔记（Day011：SELECT）" class="headerlink" title="MySQL学习笔记（Day011：SELECT）"></a>MySQL学习笔记（Day011：SELECT）</h2><h3 id="一-SELECT语法介绍"><a href="#一-SELECT语法介绍" class="headerlink" title="一. SELECT语法介绍"></a>一. SELECT语法介绍</h3><blockquote>
 <p><a target="_blank" rel="noopener" href="http://dev.mysql.com/doc/refman/5.7/en/select.html">SELECT语法官方文档</a></p>
+<a id="more"></a>
 </blockquote>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line"><span class="comment">-- -------------------------不推荐使用--------------------------</span></span><br><span class="line">    [<span class="keyword">ALL</span> | <span class="keyword">DISTINCT</span> | <span class="keyword">DISTINCTROW</span> ]</span><br><span class="line">      [<span class="keyword">HIGH_PRIORITY</span>]</span><br><span class="line">      [MAX_STATEMENT_TIME = N]</span><br><span class="line">      [<span class="keyword">STRAIGHT_JOIN</span>]</span><br><span class="line">      [<span class="keyword">SQL_SMALL_RESULT</span>] [<span class="keyword">SQL_BIG_RESULT</span>] [<span class="keyword">SQL_BUFFER_RESULT</span>]</span><br><span class="line">      [<span class="keyword">SQL_CACHE</span> | SQL_NO_CACHE] [<span class="keyword">SQL_CALC_FOUND_ROWS</span>]</span><br><span class="line"><span class="comment">-- -------------------------------------------------------------</span></span><br><span class="line">    select_expr [, select_expr ...]</span><br><span class="line">    [<span class="keyword">FROM</span> table_references  </span><br><span class="line">      [<span class="keyword">PARTITION</span> partition_list]</span><br><span class="line">    [<span class="keyword">WHERE</span> where_condition] </span><br><span class="line">    [<span class="keyword">GROUP</span> <span class="keyword">BY</span> &#123;col_name | expr | <span class="keyword">position</span>&#125;  </span><br><span class="line">      [<span class="keyword">ASC</span> | <span class="keyword">DESC</span>], ... [<span class="keyword">WITH</span> <span class="keyword">ROLLUP</span>]] </span><br><span class="line">    [<span class="keyword">HAVING</span> where_condition] </span><br><span class="line">    [<span class="keyword">ORDER</span> <span class="keyword">BY</span> &#123;col_name | expr | <span class="keyword">position</span>&#125; </span><br><span class="line">      [<span class="keyword">ASC</span> | <span class="keyword">DESC</span>], ...]</span><br><span class="line">    [<span class="keyword">LIMIT</span> &#123;[<span class="keyword">offset</span>,] <span class="keyword">row_count</span> | <span class="keyword">row_count</span> <span class="keyword">OFFSET</span> <span class="keyword">offset</span>&#125;]  </span><br><span class="line">    [<span class="keyword">PROCEDURE</span> procedure_name(argument_list)]</span><br><span class="line">    [<span class="keyword">INTO</span> <span class="keyword">OUTFILE</span> <span class="string">&#x27;file_name&#x27;</span></span><br><span class="line">        [<span class="built_in">CHARACTER</span> <span class="keyword">SET</span> charset_name]</span><br><span class="line">        export_options</span><br><span class="line">      | <span class="keyword">INTO</span> <span class="keyword">DUMPFILE</span> <span class="string">&#x27;file_name&#x27;</span></span><br><span class="line">      | <span class="keyword">INTO</span> var_name [, var_name]]</span><br><span class="line">    [<span class="keyword">FOR</span> <span class="keyword">UPDATE</span> | <span class="keyword">LOCK</span> <span class="keyword">IN</span> <span class="keyword">SHARE</span> <span class="keyword">MODE</span>]]</span><br></pre></td></tr></table></figure>
 
@@ -416,20 +414,20 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -479,13 +477,13 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">690k</span>
+    <span title="站点总字数">794k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">10:27</span>
+    <span title="站点阅读时长">12:01</span>
 </div>
 
 <!-- 网站运行时间的设置 -->
@@ -509,7 +507,7 @@ setInterval("createtime()",250);
 </script>
         
 <div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="user"></i>
@@ -544,6 +542,7 @@ setInterval("createtime()",250);
   
   <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
@@ -558,6 +557,65 @@ setInterval("createtime()",250);
 
 
 <script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
 
 
 
@@ -582,12 +640,16 @@ setInterval("createtime()",250);
 
 
 
+    <div id="pjax">
   
 
   
 
+  
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+    </div>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"left","hOffset":40,"width":150,"height":300},"mobile":{"show":false}});</script></body>
 
 </html>
 

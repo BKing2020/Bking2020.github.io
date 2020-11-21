@@ -18,21 +18,21 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="MySQL学习笔记（Day017：Explain_2）[TOC]">
+  <meta name="description" content="MySQL学习笔记（Day017：Explain_2）一. 作业解析 哪张原数据表中记录了Cardinality信息">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL学习笔记（Day017：Explain_2）">
 <meta property="og:url" content="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day017)/index.html">
 <meta property="og:site_name" content="Boo-BKing.">
-<meta property="og:description" content="MySQL学习笔记（Day017：Explain_2）[TOC]">
+<meta property="og:description" content="MySQL学习笔记（Day017：Explain_2）一. 作业解析 哪张原数据表中记录了Cardinality信息">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/Selection_001.png">
 <meta property="og:image" content="http://example.com/img/Selection_002.png">
-<meta property="og:image" content="c:/Users/888/Desktop/Kno-Lucifer/知识点整理/笔记本/MySQL/MySQL全能King">
+<meta property="og:image" content="http://example.com/img/Selection_003.png">
 <meta property="article:published_time" content="2020-11-20T18:59:08.000Z">
-<meta property="article:modified_time" content="2020-11-21T08:30:30.661Z">
+<meta property="article:modified_time" content="2020-11-21T15:00:27.138Z">
 <meta property="article:author" content="BKing">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary">
@@ -230,7 +230,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:30:30" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：23:00:27" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,12 +274,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="MySQL学习笔记（Day017：Explain-2）"><a href="#MySQL学习笔记（Day017：Explain-2）" class="headerlink" title="MySQL学习笔记（Day017：Explain_2）"></a>MySQL学习笔记（Day017：Explain_2）</h2><p>[TOC]</p>
-<a id="more"></a>
-
-<h3 id="一-作业解析"><a href="#一-作业解析" class="headerlink" title="一. 作业解析"></a>一. 作业解析</h3><ul>
+        <h2 id="MySQL学习笔记（Day017：Explain-2）"><a href="#MySQL学习笔记（Day017：Explain-2）" class="headerlink" title="MySQL学习笔记（Day017：Explain_2）"></a>MySQL学习笔记（Day017：Explain_2）</h2><h3 id="一-作业解析"><a href="#一-作业解析" class="headerlink" title="一. 作业解析"></a>一. 作业解析</h3><ul>
 <li><strong>哪张原数据表中记录了Cardinality信息</strong></li>
 </ul>
+<a id="more"></a>
+
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- 在information_schema.STATISTICS中记录了相关的信息</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line">mysql&gt; use information_schema;</span><br><span class="line">Database changed</span><br><span class="line"></span><br><span class="line">mysql&gt; show create table STATISTICS\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">       Table: STATISTICS</span><br><span class="line"><span class="keyword">Create</span> <span class="keyword">Table</span>: <span class="keyword">CREATE</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> <span class="string">`STATISTICS`</span> (</span><br><span class="line">  <span class="string">`TABLE_CATALOG`</span> <span class="built_in">varchar</span>(<span class="number">512</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="string">`TABLE_SCHEMA`</span> <span class="built_in">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>,  <span class="comment">-- 表所在的库</span></span><br><span class="line">  <span class="string">`TABLE_NAME`</span> <span class="built_in">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>,  <span class="comment">-- 表名</span></span><br><span class="line">  <span class="string">`NON_UNIQUE`</span> <span class="built_in">bigint</span>(<span class="number">1</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">  <span class="string">`INDEX_SCHEMA`</span> <span class="built_in">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>, </span><br><span class="line">  <span class="string">`INDEX_NAME`</span> <span class="built_in">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>,  <span class="comment">-- 索引名</span></span><br><span class="line">  <span class="string">`SEQ_IN_INDEX`</span> <span class="built_in">bigint</span>(<span class="number">2</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;0&#x27;</span>, <span class="comment">-- 索引的序号</span></span><br><span class="line">  <span class="string">`COLUMN_NAME`</span> <span class="built_in">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="string">`COLLATION`</span> <span class="built_in">varchar</span>(<span class="number">1</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`CARDINALITY`</span> <span class="built_in">bigint</span>(<span class="number">21</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,   <span class="comment">-- 这里我们找到了Cardinality</span></span><br><span class="line">  <span class="string">`SUB_PART`</span> <span class="built_in">bigint</span>(<span class="number">3</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`PACKED`</span> <span class="built_in">varchar</span>(<span class="number">10</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`NULLABLE`</span> <span class="built_in">varchar</span>(<span class="number">3</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="string">`INDEX_TYPE`</span> <span class="built_in">varchar</span>(<span class="number">16</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="string">`COMMENT`</span> <span class="built_in">varchar</span>(<span class="number">16</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`INDEX_COMMENT`</span> <span class="built_in">varchar</span>(<span class="number">1024</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">MEMORY</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br><span class="line"><span class="number">1</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- 之前我们可以通过 show index from table_name的方式查看索引</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line">mysql&gt;  <span class="keyword">show</span> <span class="keyword">index</span> <span class="keyword">from</span> employees.salaries\G</span><br><span class="line">*************************** <span class="number">1.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">        <span class="keyword">Table</span>: salaries</span><br><span class="line">   Non_unique: <span class="number">0</span></span><br><span class="line">     Key_name: PRIMARY</span><br><span class="line"> Seq_in_index: <span class="number">1</span>       <span class="comment">-- 索引序号为1</span></span><br><span class="line">  Column_name: emp_no</span><br><span class="line">    <span class="keyword">Collation</span>: A</span><br><span class="line">  Cardinality: <span class="number">286271</span>  <span class="comment">-- Cardinality值</span></span><br><span class="line">     Sub_part: <span class="literal">NULL</span></span><br><span class="line">       Packed: <span class="literal">NULL</span></span><br><span class="line">         <span class="literal">Null</span>: </span><br><span class="line">   Index_type: BTREE</span><br><span class="line">      <span class="keyword">Comment</span>: </span><br><span class="line">Index_comment: </span><br><span class="line">*************************** <span class="number">2.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">        <span class="keyword">Table</span>: salaries</span><br><span class="line">   Non_unique: <span class="number">0</span></span><br><span class="line">     Key_name: PRIMARY</span><br><span class="line"> Seq_in_index: <span class="number">2</span>         <span class="comment">-- 索引序号为2</span></span><br><span class="line">  Column_name: from_date</span><br><span class="line">    <span class="keyword">Collation</span>: A</span><br><span class="line">  Cardinality: <span class="number">2760952</span>   <span class="comment">-- Cardinality值</span></span><br><span class="line">     Sub_part: <span class="literal">NULL</span></span><br><span class="line">       Packed: <span class="literal">NULL</span></span><br><span class="line">         <span class="literal">Null</span>: </span><br><span class="line">   Index_type: BTREE</span><br><span class="line">      <span class="keyword">Comment</span>: </span><br><span class="line">Index_comment: </span><br><span class="line"><span class="number">2</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- 现在可以通过STATISTICS表查看某张表的信息</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line">mysql&gt; <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">STATISTICS</span> <span class="keyword">where</span> table_name=<span class="string">&#x27;salaries&#x27;</span>\G</span><br><span class="line">*************************** <span class="number">1.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">TABLE_CATALOG: <span class="keyword">def</span></span><br><span class="line"> TABLE_SCHEMA: employees</span><br><span class="line">   TABLE_NAME: salaries</span><br><span class="line">   NON_UNIQUE: <span class="number">0</span></span><br><span class="line"> INDEX_SCHEMA: employees</span><br><span class="line">   INDEX_NAME: PRIMARY</span><br><span class="line"> SEQ_IN_INDEX: <span class="number">1</span>        <span class="comment">-- 索引序号为1</span></span><br><span class="line">  COLUMN_NAME: emp_no</span><br><span class="line">    <span class="keyword">COLLATION</span>: A</span><br><span class="line">  CARDINALITY: <span class="number">286271</span>   <span class="comment">-- Cardinality值</span></span><br><span class="line">     SUB_PART: <span class="literal">NULL</span></span><br><span class="line">       PACKED: <span class="literal">NULL</span></span><br><span class="line">     NULLABLE: </span><br><span class="line">   INDEX_TYPE: BTREE</span><br><span class="line">      <span class="keyword">COMMENT</span>: </span><br><span class="line">INDEX_COMMENT: </span><br><span class="line">*************************** <span class="number">2.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">TABLE_CATALOG: <span class="keyword">def</span></span><br><span class="line"> TABLE_SCHEMA: employees</span><br><span class="line">   TABLE_NAME: salaries</span><br><span class="line">   NON_UNIQUE: <span class="number">0</span></span><br><span class="line"> INDEX_SCHEMA: employees</span><br><span class="line">   INDEX_NAME: PRIMARY</span><br><span class="line"> SEQ_IN_INDEX: <span class="number">2</span>          <span class="comment">-- 索引序号为2</span></span><br><span class="line">  COLUMN_NAME: from_date</span><br><span class="line">    <span class="keyword">COLLATION</span>: A</span><br><span class="line">  CARDINALITY: <span class="number">2760952</span>    <span class="comment">-- Cardinality值</span></span><br><span class="line">     SUB_PART: <span class="literal">NULL</span></span><br><span class="line">       PACKED: <span class="literal">NULL</span></span><br><span class="line">     NULLABLE: </span><br><span class="line">   INDEX_TYPE: BTREE</span><br><span class="line">      <span class="keyword">COMMENT</span>: </span><br><span class="line">INDEX_COMMENT: </span><br><span class="line"><span class="number">2</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">---</span></span><br><span class="line"><span class="comment">---  可以看出，上面两个方法得到的Cardinality的值是相等</span></span><br><span class="line"><span class="comment">---  结论就是information_schema.STATISTICS这张表记录了Cardinality信息</span></span><br><span class="line"><span class="comment">---</span></span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -433,7 +432,7 @@
 </blockquote>
 <p><img src="/img/Selection_002.png"></p>
 <p>#####（5）. extra</p>
-<p><img src="C:/Users/888/Desktop/Kno-Lucifer/知识点整理/笔记本/MySQL/MySQL全能King'/Selection_003.png" alt="Extra"></p>
+<p><img src="/img/Selection_003.png"></p>
 <ul>
 <li>Using filesort：可以使用复合索引将filesort进行优化。提高性能</li>
 <li>Using index：比如使用覆盖索引</li>
@@ -559,20 +558,20 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -622,13 +621,13 @@ The end of this article, thanks for reading  <i class="fas fa-coffee"></i>------
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">690k</span>
+    <span title="站点总字数">794k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">10:27</span>
+    <span title="站点阅读时长">12:01</span>
 </div>
 
 <!-- 网站运行时间的设置 -->
@@ -652,7 +651,7 @@ setInterval("createtime()",250);
 </script>
         
 <div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="user"></i>
@@ -687,6 +686,7 @@ setInterval("createtime()",250);
   
   <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
@@ -701,6 +701,65 @@ setInterval("createtime()",250);
 
 
 <script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
 
 
 
@@ -725,12 +784,16 @@ setInterval("createtime()",250);
 
 
 
+    <div id="pjax">
   
 
   
 
+  
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+    </div>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"left","hOffset":40,"width":150,"height":300},"mobile":{"show":false}});</script></body>
 
 </html>
 

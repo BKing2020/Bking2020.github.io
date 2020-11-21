@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="记录 Book">
@@ -198,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/507/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/volatile%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -212,7 +212,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/507/" class="post-title-link" itemprop="url">LeetCode 507. Perfect Number</a>
+            <a href="/2020/11/15/JVM/volatile%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">volatile特性</a>
         </h2>
 
         <div class="post-meta">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:45:12" itemprop="dateModified" datetime="2020-11-20T08:45:12+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:47:57" itemprop="dateModified" datetime="2020-11-20T08:47:57+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,7 +237,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -247,7 +247,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>486</span>
+              <span>277</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -266,10 +266,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>对于一个 正整数，如果它和除了它自身以外的所有正因子之和相等，我们称它为 “完美数”。给定一个 正整数 n， 如果他是完美数，返回 True，否则返回 False。</p>
+          <h3 id="volatile特性"><a href="#volatile特性" class="headerlink" title="volatile特性"></a>volatile特性</h3><p>多线程中可见性</p>
+<p>可见性：就是一个线程修改了变量，其他线程可以知道。</p>
+<p>保证可见性的常见方 法：volatile、synchronized、final（一旦初始化完成，其他线程就可见）</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/507/#more" rel="contents">
+              <a class="btn" href="/2020/11/15/JVM/volatile%E7%89%B9%E6%80%A7/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -293,7 +295,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/509/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E4%B8%B2%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -307,7 +309,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/509/" class="post-title-link" itemprop="url">LeetCode 509. 斐波那契数</a>
+            <a href="/2020/11/15/JVM/%E4%B8%B2%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8/" class="post-title-link" itemprop="url">串行收集器</a>
         </h2>
 
         <div class="post-meta">
@@ -324,7 +326,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:45:32" itemprop="dateModified" datetime="2020-11-20T08:45:32+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:46:38" itemprop="dateModified" datetime="2020-11-20T08:46:38+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -332,7 +334,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -342,7 +344,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>301</span>
+              <span>212</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -361,10 +363,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>斐波那契数，通常用 F(n) 表示，形成的序列称为斐波那契数列。该数列由 0 和 1 开始，后面的每一项数字都是前面两项数字的和。</p>
+          <h3 id="串行收集器"><a href="#串行收集器" class="headerlink" title="串行收集器"></a>串行收集器</h3><ol>
+<li><p>HotSpot中的收集器</p>
+<p><img src="/img/38-96e186807908.png"></p>
+</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/509/#more" rel="contents">
+              <a class="btn" href="/2020/11/15/JVM/%E4%B8%B2%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -388,7 +394,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/513/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E4%BB%8E%E4%B8%89%E7%A7%8D%E8%AE%A4%E7%9F%A5%E8%A7%92%E5%BA%A6%E9%87%8D%E8%AF%86JVM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -402,7 +408,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/513/" class="post-title-link" itemprop="url">LeetCode 513. Find Bottom Left Tree Value</a>
+            <a href="/2020/11/15/JVM/%E4%BB%8E%E4%B8%89%E7%A7%8D%E8%AE%A4%E7%9F%A5%E8%A7%92%E5%BA%A6%E9%87%8D%E8%AF%86JVM/" class="post-title-link" itemprop="url">从三种认知角度重识JVM</a>
         </h2>
 
         <div class="post-meta">
@@ -419,7 +425,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:45:37" itemprop="dateModified" datetime="2020-11-20T08:45:37+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:46:41" itemprop="dateModified" datetime="2020-11-20T08:46:41+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -427,7 +433,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -437,7 +443,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>629</span>
+              <span>251</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -456,10 +462,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个二叉树，在树的最后一行找到最左边的值。</p>
+          <h3 id="从三种认知角度重识JVM"><a href="#从三种认知角度重识JVM" class="headerlink" title="从三种认知角度重识JVM"></a>从三种认知角度重识JVM</h3><p>认识JVM：是什么、有什么、能干什么</p>
+<p>Java实现平台无关</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/513/#more" rel="contents">
+              <a class="btn" href="/2020/11/15/JVM/%E4%BB%8E%E4%B8%89%E7%A7%8D%E8%AE%A4%E7%9F%A5%E8%A7%92%E5%BA%A6%E9%87%8D%E8%AF%86JVM/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -483,7 +490,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/514/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E5%86%85%E5%AD%98%E9%97%B4%E7%9A%84%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%E7%9A%84%E8%A7%84%E5%88%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -497,7 +504,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/514/" class="post-title-link" itemprop="url">LeetCode 514. Freedom Trail</a>
+            <a href="/2020/11/15/JVM/%E5%86%85%E5%AD%98%E9%97%B4%E7%9A%84%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%E7%9A%84%E8%A7%84%E5%88%99/" class="post-title-link" itemprop="url">内存间的交互操作的规则</a>
         </h2>
 
         <div class="post-meta">
@@ -514,7 +521,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:45:53" itemprop="dateModified" datetime="2020-11-20T08:45:53+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:47:02" itemprop="dateModified" datetime="2020-11-20T08:47:02+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -522,7 +529,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -532,7 +539,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>749</span>
+              <span>548</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -551,10 +558,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>电子游戏 “辐射4” 中，任务“通向自由”要求玩家到达名为 “Freedom Trail Ring” 的金属表盘，并使用表盘拼写特定关键词才能开门。给定一个字符串 ring，表示刻在外环上的编码；给定另一个字符串 key，表示需要拼写的关键词。您需要算出能够拼写关键词中所有字符的最少步数。</p>
+          <h3 id="内存间的交互操作的规则"><a href="#内存间的交互操作的规则" class="headerlink" title="内存间的交互操作的规则"></a>内存间的交互操作的规则</h3><p>不允许read和load、store和write操作之一单独出现，以上两个操作必须按顺序执行，但不保证连续执行，也就是说，read与load之间、store和write之间是可插入其他指令的。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/514/#more" rel="contents">
+              <a class="btn" href="/2020/11/15/JVM/%E5%86%85%E5%AD%98%E9%97%B4%E7%9A%84%E4%BA%A4%E4%BA%92%E6%93%8D%E4%BD%9C%E7%9A%84%E8%A7%84%E5%88%99/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -578,7 +585,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/515/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E5%88%86%E6%B4%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -592,7 +599,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/515/" class="post-title-link" itemprop="url">LeetCode 515. Find Largest Value in Each Tree Row</a>
+            <a href="/2020/11/15/JVM/%E5%88%86%E6%B4%BE/" class="post-title-link" itemprop="url">分派</a>
         </h2>
 
         <div class="post-meta">
@@ -609,7 +616,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:45:57" itemprop="dateModified" datetime="2020-11-20T08:45:57+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:46:43" itemprop="dateModified" datetime="2020-11-20T08:46:43+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -617,7 +624,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -627,7 +634,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>656</span>
+              <span>225</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -646,10 +653,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>您需要在二叉树的每一行中找到最大的值。</p>
+          <h3 id="分派"><a href="#分派" class="headerlink" title="分派"></a>分派</h3><p>分派：又分为静态分派和动态分派</p>
+<ol>
+<li>静态分派：所有依赖静态类型来定位方法执行版本的分派方式，比如：重载方法</li>
+<li>动态分派（后期分派）：根据运行期的实际类型来定位方法执行版本的分派方式，比如：覆盖方法</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/515/#more" rel="contents">
+              <a class="btn" href="/2020/11/15/JVM/%E5%88%86%E6%B4%BE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -673,7 +684,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/516/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -687,7 +698,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/516/" class="post-title-link" itemprop="url">LeetCode 516. Longest Palindromic Subsequence</a>
+            <a href="/2020/11/15/JVM/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/" class="post-title-link" itemprop="url">双亲委派模型</a>
         </h2>
 
         <div class="post-meta">
@@ -704,7 +715,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:46:03" itemprop="dateModified" datetime="2020-11-20T08:46:03+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:47:05" itemprop="dateModified" datetime="2020-11-20T08:47:05+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -712,7 +723,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -722,7 +733,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>725</span>
+              <span>833</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -741,10 +752,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个字符串 s，找到其中最长的回文子序列。可以假设 s 的最大长度为 1000。</p>
+          <h3 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a>双亲委派模型</h3><p>JVM中的ClassLoader通常采用双亲委派模型，要求除了启动类加载器外，其余的类加载器都应该有自己的父级加载器。这里的父子关系是组合而不是继承，工作过程如下：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/516/#more" rel="contents">
+              <a class="btn" href="/2020/11/15/JVM/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -768,7 +779,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/525/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -782,7 +793,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/525/" class="post-title-link" itemprop="url">LeetCode 525. Contiguous Array</a>
+            <a href="/2020/11/15/JVM/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">垃圾收集算法</a>
         </h2>
 
         <div class="post-meta">
@@ -799,7 +810,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:46:09" itemprop="dateModified" datetime="2020-11-20T08:46:09+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:46:51" itemprop="dateModified" datetime="2020-11-20T08:46:51+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -807,7 +818,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -817,7 +828,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>587</span>
+              <span>810</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -836,10 +847,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个二进制数组, 找到含有相同数量的 0 和 1 的最长连续子数组。</p>
+          <h3 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h3><p>标记清除法</p>
+<p>复制算法</p>
+<p>标记整理法</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/525/#more" rel="contents">
+              <a class="btn" href="/2020/11/15/JVM/%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -863,7 +876,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/530/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -877,7 +890,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/530/" class="post-title-link" itemprop="url">LeetCode 530 Minimum Absolute Difference in BST</a>
+            <a href="/2020/11/15/JVM/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">垃圾回收基础</a>
         </h2>
 
         <div class="post-meta">
@@ -894,7 +907,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:46:13" itemprop="dateModified" datetime="2020-11-20T08:46:13+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:46:49" itemprop="dateModified" datetime="2020-11-20T08:46:49+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -902,7 +915,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
                 </span>
             </span>
 
@@ -912,7 +925,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>775</span>
+              <span>658</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -931,10 +944,206 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个所有节点为非负值的二叉搜索树，求树中任意两节点的差的绝对值的最小值。</p>
+          <h3 id="垃圾回收基础"><a href="#垃圾回收基础" class="headerlink" title="垃圾回收基础"></a>垃圾回收基础</h3><ol>
+<li>垃圾回收基础：什么是垃圾、如何判定是垃圾、如何回收</li>
+<li>根搜索算法、应用分类、GC类型、垃圾收集类型</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/530/#more" rel="contents">
+              <a class="btn" href="/2020/11/15/JVM/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%9F%BA%E7%A1%80/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/15/JVM/%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8/" class="post-title-link" itemprop="url">并行收集器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-20 08:46:31" itemprop="dateModified" datetime="2020-11-20T08:46:31+08:00">2020-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>561</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="并行收集器"><a href="#并行收集器" class="headerlink" title="并行收集器"></a>并行收集器</h3><p>（新生代）</p>
+<p>ParNew（并行）收集器：使用多线程进行垃圾回收，在垃圾收集时，会Stop-the-World .</p>
+<p><img src="/img/6cc749ce7961.png"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/15/JVM/%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E5%BC%95%E7%94%A8%E5%88%86%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/15/JVM/%E5%BC%95%E7%94%A8%E5%88%86%E7%B1%BB/" class="post-title-link" itemprop="url">引用分类</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-20 08:47:10" itemprop="dateModified" datetime="2020-11-20T08:47:10+08:00">2020-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>282</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="引用分类"><a href="#引用分类" class="headerlink" title="引用分类"></a>引用分类</h3><p>有人引用这块空间那么不是垃圾，没人引用那么就属于垃圾。</p>
+<p>强引用：类似于Object a = new A() 这样的，不会被回收。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/15/JVM/%E5%BC%95%E7%94%A8%E5%88%86%E7%B1%BB/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -957,7 +1166,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1025,20 +1234,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-count">148</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1088,13 +1297,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">690k</span>
+    <span title="站点总字数">794k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">10:27</span>
+    <span title="站点阅读时长">12:01</span>
 </div>
 
 <!-- 网站运行时间的设置 -->
@@ -1118,7 +1327,7 @@ setInterval("createtime()",250);
 </script>
         
 <div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
       <span class="post-meta-item-icon">
         <i class="user"></i>
@@ -1153,6 +1362,7 @@ setInterval("createtime()",250);
   
   <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
@@ -1167,6 +1377,65 @@ setInterval("createtime()",250);
 
 
 <script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
 
 
 
@@ -1191,12 +1460,16 @@ setInterval("createtime()",250);
 
 
 
+    <div id="pjax">
   
 
   
 
+  
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+    </div>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"left","hOffset":40,"width":150,"height":300},"mobile":{"show":false}});</script></body>
 
 </html>
 
