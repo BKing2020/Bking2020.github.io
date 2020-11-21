@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bking.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bking.ico">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="什么是Elasticsearch？Elasticsearch是基于Lucene的一款搜索引擎（search engine），它是使用 Java来开发的，并根据Apache协议作为开源项目在github上发布。（拥有分布式，多租户的功能）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch面试题收集（来源于互联网）">
+<meta property="og:url" content="http://example.com/2020/11/19/Elastic/Elastic%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/index.html">
+<meta property="og:site_name" content="Boo-BKing.">
+<meta property="og:description" content="什么是Elasticsearch？Elasticsearch是基于Lucene的一款搜索引擎（search engine），它是使用 Java来开发的，并根据Apache协议作为开源项目在github上发布。（拥有分布式，多租户的功能）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/v2-1f5084b94e47d417b3cebd615ef04647_1440w.jpg">
+<meta property="og:image" content="http://example.com/img/v2-d5426155b3c3c0a7e49123954f96e347_1440w.jpg">
+<meta property="og:image" content="http://example.com/img/v2-aac5b983cb1aa9ec2c81e6624292e469_1440w.jpg">
+<meta property="og:image" content="http://example.com/img/v2-6ea22f379bab8d83f9e4697f19e75191_1440w.jpg">
+<meta property="og:image" content="http://example.com/img/v2-df4c8cd2e2b1dad444a50bab3f6d9bb2_1440w.jpg">
+<meta property="og:image" content="http://example.com/img/10878070-4bb4584e1dca03a2.png">
+<meta property="article:published_time" content="2020-11-18T18:59:08.000Z">
+<meta property="article:modified_time" content="2020-11-20T18:26:59.611Z">
+<meta property="article:author" content="BKing">
+<meta property="article:tag" content="Elasticsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/v2-1f5084b94e47d417b3cebd615ef04647_1440w.jpg">
+
+<link rel="canonical" href="http://example.com/2020/11/19/Elastic/Elastic%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Elasticsearch面试题收集（来源于互联网） | Boo-BKing.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<link rel="alternate" href="/atom.xml" title="Boo-BKing." type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband" >
+      <a target="_blank" rel="noopener" href="https://github.com/BKing2020" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    
+    </div>
+    
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Boo-BKing.</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">下雨 最爱听的旋律</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/19/Elastic/Elastic%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Elasticsearch面试题收集（来源于互联网）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-19 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-19T02:59:08+08:00">2020-11-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-21 02:26:59" itemprop="dateModified" datetime="2020-11-21T02:26:59+08:00">2020-11-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Elastic/" itemprop="url" rel="index"><span itemprop="name">Elastic</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="什么是Elasticsearch？"><a href="#什么是Elasticsearch？" class="headerlink" title="什么是Elasticsearch？"></a>什么是Elasticsearch？</h3><p>Elasticsearch是基于Lucene的一款搜索引擎（search engine），它是使用 Java来开发的，并根据Apache协议作为开源项目在github上发布。（拥有分布式，多租户的功能）</p>
+<a id="more"></a>
+
+<h3 id="为什么要使用Elasticsearch"><a href="#为什么要使用Elasticsearch" class="headerlink" title="为什么要使用Elasticsearch?"></a>为什么要使用Elasticsearch?</h3><p>因为随着时间的推移，项目中的数据会变得越来越多，如果这时候我们通过传统数据库中的模糊搜索方法来搜索数据，模糊查询会前置配置，会放弃使用索引来进行优化查询，转而进行全表扫描，对于数据量非常大的表来说，要找到想要的结果，一般是非常慢的，效率也非常低，同时给用户造成非常不友好的体验。如果这个时候我们使用Elasticsearch来作为我们中间过渡操作，将某些经常访问到的数据导入es中，然后我们在通过es来查询，速度会变的比以前快上很多。</p>
+<h3 id="Elasticsearch是如何实现master选举的？"><a href="#Elasticsearch是如何实现master选举的？" class="headerlink" title="Elasticsearch是如何实现master选举的？"></a>Elasticsearch是如何实现master选举的？</h3><p>前置前提：</p>
+<p>1）只有候选主节点（master：true）的节点才能成为主节点。</p>
+<p>2）最小主节点数（min_master_nodes）的目的是防止脑裂。</p>
+<p>这个我看了各种网上分析的版本和源码分析的书籍，云里雾里。</p>
+<p>核心入口为 findMaster，选择主节点成功返回对应Master，否则返回null。</p>
+<p>选举流程大致描述如下：</p>
+<p><strong>第一步：</strong>确认候选主节点数达标，elasticsearch.yml设置的值discovery.zen.minimum_master_nodes；</p>
+<p><strong>第二步：</strong>比较：先判定是否具备master资格，具备候选主节点资格的优先返回；若两节点都为候选主节点，则id小的值会主节点。注意这里的id为string类型。</p>
+<p>题外话：获取节点id的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、GET &#x2F;_cat&#x2F;nodes?v&amp;h&#x3D;ip,port,heapPercent,heapMax,id,name</span><br><span class="line"></span><br><span class="line">2、ip port heapPercent heapMax id name</span><br><span class="line"></span><br><span class="line">3、127.0.0.1 9300 39 1.9gb Hk9w Hk9wFwU</span><br></pre></td></tr></table></figure>
+
+<p><strong>补充：</strong></p>
+<p>1、Elasticsearch 的选主是 ZenDiscovery 模块负责的，主要包含 Ping（节点之间通过这个 RPC 来发现彼此）和 Unicast（单播模块包含一个主机列表以控制哪些节点需要 ping 通）这两部分；</p>
+<p>2、对所有可以成为 master 的节点（<strong>node.master: true</strong>）根据 nodeId 字典排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第一个（第 0 位）节点，暂且认为它是 master 节点。</p>
+<p>3、如果对某个节点的投票数达到一定的值（可以成为 master 节点数 n/2+1）并且该节点自己也选举自己，那这个节点就是 master。否则重新选举一直到满足上述条件。</p>
+<p>4、master 节点的职责主要包括集群、节点和索引的管理，不负责文档级别的管理；data 节点可以关闭 http 功能。</p>
+<h3 id="什么是ElasticSearch中的编译器？"><a href="#什么是ElasticSearch中的编译器？" class="headerlink" title="什么是ElasticSearch中的编译器？"></a>什么是ElasticSearch中的编译器？</h3><p>编译器用于将字符串分解为术语或标记流。一个简单的编译器可能会将字符串拆分为任何遇到空格或标点的地方。Elasticsearch有许多内置标记器，可用于构建自定义分析器。</p>
+<h3 id="客户端在和集群连接时，如何选择特定的节点执行请求的？"><a href="#客户端在和集群连接时，如何选择特定的节点执行请求的？" class="headerlink" title="客户端在和集群连接时，如何选择特定的节点执行请求的？"></a>客户端在和集群连接时，如何选择特定的节点执行请求的？</h3><p>TransportClient 利用 transport 模块远程连接一个 elasticsearch 集群。它并不加入到集群中，只是简单的获得一个或者多个初始化的 transport 地址，并以 <strong>轮询</strong> 的方式与这些地址进行通信。</p>
+<h3 id="Elasticsearch中的副本是什么？"><a href="#Elasticsearch中的副本是什么？" class="headerlink" title="Elasticsearch中的副本是什么？"></a>Elasticsearch中的副本是什么？</h3><p>一个索引被分解成 shard 以便于分发和扩展。副本是分片的副本。一个节点是一个属于一个集群的ElasticSearch的运行实例。一个集群由一个或多个共享相同集群名称的节点组成。</p>
+<h3 id="Elasticsearch中的集群、节点、索引、文档、类型是什么？"><a href="#Elasticsearch中的集群、节点、索引、文档、类型是什么？" class="headerlink" title="Elasticsearch中的集群、节点、索引、文档、类型是什么？"></a>Elasticsearch中的集群、节点、索引、文档、类型是什么？</h3><ul>
+<li>集群是一个或多个节点（服务器）的集合，它们共同保存您的整个数据，并提供跨所有节点的联合索引和搜索功能。群集由唯一名称标识，默认情况下为“elasticsearch”。此名称很重要，因为如果节点设置为按名称加入集群，则该节点只能是集群的一部分。</li>
+<li>节点是属于集群一部分的单个实例。它存储数据并参与群集索引和搜索功能。</li>
+<li>索引就像关系数据库中的 “数据库”。它有一个定义多种类型的映射。索引是逻辑名称空间，映射到一个或多个主分片，并且可以有零个或多个副本分片。 （MySQL =&gt;数据库  ElasticSearch =&gt;索引）</li>
+<li>文档类似于关系数据库中的一行。不同之处在于索引中的每个文档可以具有不同的结构（字段），但是对于通用字段应该具有相同的数据类型。 （MySQL =&gt; Databases =&gt; Tables =&gt; Columns / Rows ElasticSearch =&gt; Indices =&gt; Types =&gt;具有属性的文档）</li>
+<li>类型是索引的逻辑类别/分区，其语义完全取决于用户。</li>
+</ul>
+<h3 id="如何监控-Elasticsearch-集群状态？"><a href="#如何监控-Elasticsearch-集群状态？" class="headerlink" title="如何监控 Elasticsearch 集群状态？"></a>如何监控 Elasticsearch 集群状态？</h3><p>Marvel 让你可以很简单的通过 Kibana 监控 Elasticsearch。你可以实时查看你的集群健康状态和性能，也可以分析过去的集群、索引和节点指标。</p>
+<h3 id="拼写纠错是如何实现的？"><a href="#拼写纠错是如何实现的？" class="headerlink" title="拼写纠错是如何实现的？"></a>拼写纠错是如何实现的？</h3><p>1、拼写纠错是基于编辑距离来实现；编辑距离是一种标准的方法，它用来表示经过插入、删除和替换操作从一个字符串转换到另外一个字符串的最小操作步数；</p>
+<p>2、编辑距离的计算过程：比如要计算 batyu 和 beauty 的编辑距离，先创建一个7×8 的表（batyu 长度为 5，coffee 长度为 6，各加 2），接着，在如下位置填入黑色数字。其他格的计算过程是取以下三个值的最小值：</p>
+<p>如果最上方的字符等于最左方的字符，则为左上方的数字。否则为左上方的数字+1。（对于 3,3 来说为 0）</p>
+<p>左方数字+1（对于 3,3 格来说为 2）</p>
+<p>上方数字+1（对于 3,3 格来说为 2）</p>
+<p>最终取右下角的值即为编辑距离的值 3。</p>
+<p><img src="/img/v2-1f5084b94e47d417b3cebd615ef04647_1440w.jpg"></p>
+<p>对于拼写纠错，我们考虑构造一个度量空间（Metric Space），该空间内任何关</p>
+<p>系满足以下三条基本条件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">d(x,y) &#x3D; 0 -- 假如 x 与 y 的距离为 0，则 x&#x3D;y</span><br><span class="line"></span><br><span class="line">d(x,y) &#x3D; d(y,x) -- x 到 y 的距离等同于 y 到 x 的距离</span><br><span class="line"></span><br><span class="line">d(x,y) + d(y,z) &gt;&#x3D; d(x,z) -- 三角不等式</span><br></pre></td></tr></table></figure>
+
+
+
+<p>1、根据三角不等式，则满足与 query 距离在 n 范围内的另一个字符转 B，其与 A</p>
+<p>的距离最大为 d+n，最小为 d-n。</p>
+<p>2、BK 树的构造就过程如下：每个节点有任意个子节点，每条边有个值表示编辑距离。所有子节点到父节点的边上标注 n 表示编辑距离恰好为 n。比如，我们有棵树父节点是”book”和两个子节点”cake”和”books”，”book”到”books”的边标号 1，”book”到”cake”的边上标号 4。从字典里构造好树后，无论何</p>
+<p>时你想插入新单词时，计算该单词与根节点的编辑距离，并且查找数值为d(neweord, root)的边。递归得与各子节点进行比较，直到没有子节点，你就可以创建新的子节点并将新单词保存在那。比如，插入”boo”到刚才上述例子的树中，我们先检查根节点，查找 d(“book”, “boo”) = 1 的边，然后检查标号为1 的边的子节点，得到单词”books”。我们再计算距离 d(“books”, “boo”)=2，则将新单词插在”books”之后，边标号为 2。</p>
+<p>3、查询相似词如下：计算单词与根节点的编辑距离 d，然后递归查找每个子节点标号为 d-n 到 d+n（包含）的边。假如被检查的节点与搜索单词的距离 d 小于 n，则返回该节点并继续查询。比如输入 cape 且最大容忍距离为 1，则先计算和根的编辑距离 d(“book”, “cape”)=4，然后接着找和根节点之间编辑距离为 3 到5 的，这</p>
+<p>个就找到了 cake 这个节点，计算 d(“cake”, “cape”)=1，满足条件所以返回 <strong>cake</strong>，然后再找和 cake 节点编辑距离是 0 到 2 的，分别找到 cape 和cart 节点，这样就得到 <strong>cape</strong> 这个满足条件的结果。</p>
+<p><img src="/img/v2-d5426155b3c3c0a7e49123954f96e347_1440w.jpg"></p>
+<h3 id="Elasticsearch在部署时，对Linux的设置有哪些优化方法？"><a href="#Elasticsearch在部署时，对Linux的设置有哪些优化方法？" class="headerlink" title="Elasticsearch在部署时，对Linux的设置有哪些优化方法？"></a>Elasticsearch在部署时，对Linux的设置有哪些优化方法？</h3><p>1）关闭缓存swap;</p>
+<p>2）堆内存设置为：Min（节点内存/2, 32GB）;</p>
+<ol start="3">
+<li> 设置最大文件句柄数；</li>
+</ol>
+<p>4）线程池+队列大小根据业务需要做调整；</p>
+<p>5）磁盘存储raid方式——存储有条件使用RAID10，增加单节点性能以及避免单节点存储故障。</p>
+<h3 id="Elasticsearch中的分析器是什么？"><a href="#Elasticsearch中的分析器是什么？" class="headerlink" title="Elasticsearch中的分析器是什么？"></a>Elasticsearch中的分析器是什么？</h3><p>在ElasticSearch中索引数据时，数据由为索引定义的Analyzer在内部进行转换。 分析器由一个Tokenizer和零个或多个TokenFilter组成。编译器可以在一个或多个CharFilter之前。分析模块允许您在逻辑名称下注册分析器，然后可以在映射定义或某些API中引用它们。Elasticsearch附带了许多可以随时使用的预建分析器。或者，您可以组合内置的字符过滤器，编译器和过滤器器来创建自定义分析器。</p>
+<h3 id="启用属性，索引和存储的用途是什么？"><a href="#启用属性，索引和存储的用途是什么？" class="headerlink" title="启用属性，索引和存储的用途是什么？"></a>启用属性，索引和存储的用途是什么？</h3><p>enabled属性适用于各类ElasticSearch特定/创建领域，如index和size。用户提供的字段没有“已启用”属性。 存储意味着数据由Lucene存储，如果询问，将返回这些数据。</p>
+<p>存储字段不一定是可搜索的。默认情况下，字段不存储，但源文件是完整的。因为您希望使用默认值(这是有意义的)，所以不要设置store属性，该指数属性用于搜索。</p>
+<p>索引属性只能用于搜索。只有索引域可以进行搜索。差异的原因是在分析期间对索引字段进行了转换，因此如果需要的话，您不能检索原始数据。</p>
+<h3 id="Elasticsearch中的分片是什么？"><a href="#Elasticsearch中的分片是什么？" class="headerlink" title="Elasticsearch中的分片是什么？"></a>Elasticsearch中的分片是什么？</h3><p>在大多数环境中，每个节点都在单独的盒子或虚拟机上运行。</p>
+<ul>
+<li>索引 - 在Elasticsearch中，索引是文档的集合。</li>
+<li>分片 -因为Elasticsearch是一个分布式搜索引擎，索引是被分割成分布在多个节点上的被称为分片的元素。</li>
+</ul>
+<h3 id="Elasticsearch-在部署时，对-Linux-的设置有哪些优化方法？"><a href="#Elasticsearch-在部署时，对-Linux-的设置有哪些优化方法？" class="headerlink" title="Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？"></a>Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？</h3><p>1、64 GB 内存的机器是非常理想的， 但是 32 GB 和 16 GB 机器也是很常见的。少于 8 GB 会适得其反。</p>
+<p>2、如果你要在更快的 CPUs 和更多的核心之间选择，选择更多的核心更好。多个内核提供的额外并发远胜过稍微快一点点的时钟频率。</p>
+<p>3、如果你负担得起 SSD，它将远远超出任何旋转介质。 基于 SSD 的节点，查询和索引性能都有提升。如果你负担得起，SSD 是一个好的选择。</p>
+<p>4、即使数据中心们近在咫尺，也要避免集群跨越多个数据中心。绝对要避免集群跨越大的地理距离。</p>
+<p>5、请确保运行你应用程序的 JVM 和服务器的 JVM 是完全一样的。 在Elasticsearch 的几个地方，使用 Java 的本地序列化。</p>
+<p>6、通过设置 gateway.recover_after_nodes、gateway.expected_nodes、gateway.recover_after_time 可以在集群重启的时候避免过多的分片交换，这可能会让数据恢复从数个小时缩短为几秒钟。</p>
+<p>7、Elasticsearch 默认被配置为使用单播发现，以防止节点无意中加入集群。只有在同一台机器上运行的节点才会自动组成集群。最好使用单播代替组播。</p>
+<p>8、不要随意修改垃圾回收器（CMS）和各个线程池的大小。</p>
+<p>9、把你的内存的（少于）一半给 Lucene（但不要超过 32 GB！），通过ES_HEAP_SIZE 环境变量设置。</p>
+<p>10、内存交换到磁盘对服务器性能来说是致命的。如果内存交换到磁盘上，一个100 微秒的操作可能变成 10 毫秒。 再想想那么多 10 微秒的操作时延累加起来。 不难看出 swapping 对于性能是多么可怕。</p>
+<p>11、Lucene 使用了大量 的文件。同时，Elasticsearch 在节点和 HTTP 客户端之间进行通信也使用了大量的套接字。 所有这一切都需要足够的文件描述符。你应该增加你的文件描述符，设置一个很大的值，如 64,000。</p>
+<p><strong>补充：索引阶段性能提升方法</strong></p>
+<p>1、使用批量请求并调整其大小：每次批量数据 5–15 MB 大是个不错的起始点。</p>
+<p>2、存储：使用 SSD</p>
+<p>3、段和合并：Elasticsearch 默认值是 20 MB/s，对机械磁盘应该是个不错的设置。如果你用的是 SSD，可以考虑提高到 100–200 MB/s。如果你在做批量导入，完全不在意搜索，你可以彻底关掉合并限流。另外还可以增加index.translog.flush_threshold_size 设置，从默认的 512 MB 到更大一些的值，比如 1 GB，这可以在一次清空触发的时候在事务日志里积累出更大的段。</p>
+<p>4、如果你的搜索结果不需要近实时的准确度，考虑把每个索引的index.refresh_interval 改到 30s。</p>
+<p>5、如果你在做大批量导入，考虑通过设置 index.number_of_replicas: 0 关闭副本。</p>
+<h3 id="介绍一下你们的个性化搜索方案？"><a href="#介绍一下你们的个性化搜索方案？" class="headerlink" title="介绍一下你们的个性化搜索方案？"></a>介绍一下你们的个性化搜索方案？</h3><p>网上的资料：SEE 基于 word2vec 和 Elasticsearch 实现个性化搜索</p>
+<h3 id="ElasticSearch是否有架构？"><a href="#ElasticSearch是否有架构？" class="headerlink" title="ElasticSearch是否有架构？"></a>ElasticSearch是否有架构？</h3><p>ElasticSearch可以有一个架构。架构是描述文档类型以及如何处理文档的不同字段的一个或多个字段的描述。Elasticsearch中的架构是一种映射，它描述了JSON文档中的字段及其数据类型，以及它们应该如何在Lucene索引中进行索引。因此，在Elasticsearch术语中，我们通常将此模式称为“映射”。</p>
+<p>Elasticsearch具有架构灵活的能力，这意味着可以在不明确提供架构的情况下索引文档。如果未指定映射，则默认情况下，Elasticsearch会在索引期间检测文档中的新字段时动态生成一个映射。</p>
+<h3 id="对于-GC-方面，在使用-Elasticsearch-时要注意什么？"><a href="#对于-GC-方面，在使用-Elasticsearch-时要注意什么？" class="headerlink" title="对于 GC 方面，在使用 Elasticsearch 时要注意什么？"></a>对于 GC 方面，在使用 Elasticsearch 时要注意什么？</h3><p>1、SEE：<a href="https://link.zhihu.com/?target=https://elasticsearch.cn/article/32">https://elasticsearch.cn/article/32</a></p>
+<p>2、倒排词典的索引需要常驻内存，无法 GC，需要监控 data node 上 segmentmemory 增长趋势。</p>
+<p>3、各类缓存，field cache, filter cache, indexing cache, bulk queue 等等，要设置合理的大小，并且要应该根据最坏的情况来看 heap 是否够用，也就是各类缓存全部占满的时候，还有 heap 空间可以分配给其他任务吗？避免采用 clear cache等 “自欺欺人” 的方式来释放内存。</p>
+<p>4、避免返回大量结果集的搜索与聚合。确实需要大量拉取数据的场景，可以采用scan &amp; scroll api 来实现。</p>
+<p>5、cluster stats 驻留内存并无法水平扩展，超大规模集群可以考虑分拆成多个集群通过 tribe node 连接。</p>
+<p>6、想知道 heap 够不够，必须结合实际应用场景，并对集群的 heap 使用情况做持续的监控。</p>
+<h3 id="详细描述一下-Elasticsearch-搜索的过程？"><a href="#详细描述一下-Elasticsearch-搜索的过程？" class="headerlink" title="详细描述一下 Elasticsearch 搜索的过程？"></a>详细描述一下 Elasticsearch 搜索的过程？</h3><p>1、搜索被执行成一个两阶段过程，我们称之为 Query Then Fetch；</p>
+<p>2、在初始<strong>查询阶段</strong>时，查询会广播到索引中每一个分片拷贝（主分片或者副本分片）。 每个分片在本地执行搜索并构建一个匹配文档的大小为 from + size 的优先队列。</p>
+<p>PS：在搜索的时候是会查询 Filesystem Cache 的，但是有部分数据还在 MemoryBuffer，所以搜索是近实时的。</p>
+<p>3、每个分片返回各自优先队列中 <strong>所有文档的 ID 和排序值</strong> 给协调节点，它合并这些值到自己的优先队列中来产生一个全局排序后的结果列表。</p>
+<p>4、接下来就是 <strong>取回阶段</strong>，协调节点辨别出哪些文档需要被取回并向相关的分片提交多个 GET 请求。每个分片加载并 丰富 文档，如果有需要的话，接着返回文档给协调节点。一旦所有的文档都被取回了，协调节点返回结果给客户端。</p>
+<p>5、补充：Query Then Fetch 的搜索类型在文档相关性打分的时候参考的是本分片的数据，这样在文档数量较少的时候可能不够准确，DFS Query Then Fetch 增加了一个预查询的处理，询问 Term 和 Document frequency，这个评分更准确，但是性能会变差。</p>
+<p><img src="/img/v2-aac5b983cb1aa9ec2c81e6624292e469_1440w.jpg"></p>
+<h3 id="介绍下你们电商搜索的整体技术架构。"><a href="#介绍下你们电商搜索的整体技术架构。" class="headerlink" title="介绍下你们电商搜索的整体技术架构。"></a>介绍下你们电商搜索的整体技术架构。</h3><p><img src="/img/v2-6ea22f379bab8d83f9e4697f19e75191_1440w.jpg"></p>
+<h3 id="是否了解字典树？"><a href="#是否了解字典树？" class="headerlink" title="是否了解字典树？"></a>是否了解字典树？</h3><p>Trie 的核心思想是空间换时间，利用字符串的公共前缀来降低查询时间的开销以达到提高效率的目的。它有 3 个基本性质：</p>
+<p>1、根节点不包含字符，除根节点外每一个节点都只包含一个字符。</p>
+<p>2、从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串。</p>
+<p>3、每个节点的所有子节点包含的字符都不相同。</p>
+<p><img src="/img/v2-df4c8cd2e2b1dad444a50bab3f6d9bb2_1440w.jpg"></p>
+<p>1、可以看到，trie 树每一层的节点数是 26^i 级别的。所以为了节省空间，我们还可以用动态链表，或者用数组来模拟动态。而空间的花费，不会超过单词数×单词长度。</p>
+<p>2、实现：对每个结点开一个字母集大小的数组，每个结点挂一个链表，使用左儿子右兄弟表示法记录这棵树；</p>
+<p>3、对于中文的字典树，每个节点的子节点用一个哈希表存储，这样就不用浪费太大的空间，而且查询速度上可以保留哈希的复杂度 O(1)。</p>
+<h3 id="Elasticsearch-索引数据多了怎么办，如何调优，部署？"><a href="#Elasticsearch-索引数据多了怎么办，如何调优，部署？" class="headerlink" title="Elasticsearch 索引数据多了怎么办，如何调优，部署？"></a>Elasticsearch 索引数据多了怎么办，如何调优，部署？</h3><p>解答：索引数据的规划，应在前期做好规划，正所谓“设计先行，编码在后”，这样才能有效的避免突如其来的数据激增导致集群处理能力不足引发的线上客户检索或者其他业务受到影响。</p>
+<p>如何调优：</p>
+<p><strong>3.1 动态索引层面</strong></p>
+<p>基于模板+时间+rollover api滚动创建索引，举例：设计阶段定义：blog索引的模板格式为：blog_index_时间戳的形式，每天递增数据。</p>
+<p>这样做的好处：不至于数据量激增导致单个索引数据量非常大，接近于上线2的32次幂-1，索引存储达到了TB+甚至更大。</p>
+<p>一旦单个索引很大，存储等各种风险也随之而来，所以要提前考虑+及早避免。</p>
+<p><strong>3.2 存储层面</strong></p>
+<p>冷热数据分离存储，热数据（比如最近3天或者一周的数据），其余为冷数据。</p>
+<p>对于冷数据不会再写入新数据，可以考虑定期force_merge加shrink压缩操作，节省存储空间和检索效率。</p>
+<p><strong>3.3 部署层面</strong></p>
+<p>一旦之前没有规划，这里就属于应急策略。</p>
+<p>结合ES自身的支持动态扩展的特点，动态新增机器的方式可以缓解集群压力，注意：如果之前主节点等规划合理，不需要重启集群也能完成动态新增的。</p>
+<h3 id="详细描述一下-Elasticsearch-更新和删除文档的过程。"><a href="#详细描述一下-Elasticsearch-更新和删除文档的过程。" class="headerlink" title="详细描述一下 Elasticsearch 更新和删除文档的过程。"></a>详细描述一下 Elasticsearch 更新和删除文档的过程。</h3><p>1、删除和更新也都是写操作，但是 Elasticsearch 中的文档是不可变的，因此不能被删除或者改动以展示其变更；</p>
+<p>2、磁盘上的每个段都有一个相应的.del 文件。当删除请求发送后，文档并没有真的被删除，而是在.del 文件中被标记为删除。该文档依然能匹配查询，但是会在结果中被过滤掉。当段合并时，在.del 文件中被标记为删除的文档将不会被写入新段。</p>
+<p>3、在新的文档被创建时，Elasticsearch 会为该文档指定一个版本号，当执行更新时，旧版本的文档在.del 文件中被标记为删除，新版本的文档被索引到一个新段。旧版本的文档依然能匹配查询，但是会在结果中被过滤掉。</p>
+<h3 id="Elasticsearch的倒排索引是什么？"><a href="#Elasticsearch的倒排索引是什么？" class="headerlink" title="Elasticsearch的倒排索引是什么？"></a>Elasticsearch的倒排索引是什么？</h3><p>倒排索引是搜索引擎的核心。搜索引擎的主要目标是在查找发生搜索条件的文档时提供快速搜索。倒排索引是一种像数据结构一样的散列图，可将用户从单词导向文档或网页。它是搜索引擎的核心。其主要目标是快速搜索从数百万文件中查找数据。</p>
+<p>传统的我们的检索是通过文章，逐个遍历找到对应关键词的位置。</p>
+<p>而倒排索引，是通过分词策略，形成了词和文章的映射关系表，这种词典+映射表即为倒排索引。</p>
+<p>有了倒排索引，就能实现o（1）时间复杂度的效率检索文章了，极大的提高了检索效率。</p>
+<p><img src="/img/10878070-4bb4584e1dca03a2.png"></p>
+<p>学术的解答方式：</p>
+<p>倒排索引，相反于一篇文章包含了哪些词，它从词出发，记载了这个词在哪些文档中出现过，由两部分组成——词典和倒排表。</p>
+<p>加分项：倒排索引的底层实现是基于：FST（Finite State Transducer）数据结构。</p>
+<p>lucene从4+版本后开始大量使用的数据结构是FST。FST有两个优点：</p>
+<p>1）空间占用小。通过对词典中单词前缀和后缀的重复利用，压缩了存储空间；</p>
+<p>2）查询速度快。O(len(str))的查询时间复杂度。</p>
+<h3 id="Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？"><a href="#Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？" class="headerlink" title="Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？"></a>Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？</h3><p>1、当集群 master 候选数量不小于 3 个时，可以通过设置最少投票通过数量（<strong>discovery.zen.minimum_master_nodes</strong>）超过所有候选节点一半以上来解决脑裂问题；</p>
+<p>2、当候选数量为两个时，只能修改为唯一的一个 master 候选，其他作为 data节点，避免脑裂问题。</p>
+<h3 id="Elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段-。"><a href="#Elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段-。" class="headerlink" title="Elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。"></a>Elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。</h3><p>解答：</p>
+<p>如实结合自己的实践场景回答即可。</p>
+<p>比如：ES集群架构13个节点，索引根据通道不同共20+索引，根据日期，每日递增20+，索引：10分片，每日递增1亿+数据，</p>
+<p>每个通道每天索引大小控制：150GB之内。</p>
+<p>仅索引层面调优手段：</p>
+<p><strong>1.1、设计阶段调优</strong></p>
+<p>1）根据业务增量需求，采取基于日期模板创建索引，通过roll over API滚动索引；</p>
+<p>2）使用别名进行索引管理；</p>
+<p>3）每天凌晨定时对索引做force_merge操作，以释放空间；</p>
+<p>4）采取冷热分离机制，热数据存储到SSD，提高检索效率；冷数据定期进行shrink操作，以缩减存储；</p>
+<p>5）采取curator进行索引的生命周期管理；</p>
+<p>6）仅针对需要分词的字段，合理的设置分词器；</p>
+<p>7）Mapping阶段充分结合各个字段的属性，是否需要检索、是否需要存储等。 …</p>
+<p><strong>1.2、写入调优</strong></p>
+<p>1）写入前副本数设置为0；</p>
+<p>2）写入前关闭refresh_interval设置为-1，禁用刷新机制；</p>
+<p>3）写入过程中：采取bulk批量写入；</p>
+<p>4）写入后恢复副本数和刷新间隔；</p>
+<p>5）尽量使用自动生成的id。</p>
+<p><strong>1.3、查询调优</strong></p>
+<p>1）禁用wildcard；</p>
+<p>2）禁用批量terms（成百上千的场景）；</p>
+<p>3）充分利用倒排索引机制，能keyword类型尽量keyword；</p>
+<p>4）数据量大时候，可以先基于时间敲定索引再检索；</p>
+<p>5）设置合理的路由机制。</p>
+<p><strong>1.4、其他调优</strong></p>
+<p>部署调优，业务调优等。</p>
+<p>上面的提及一部分，面试者就基本对你之前的实践或者运维经验有所评估了。</p>
+<h3 id="在并发情况下，Elasticsearch-如果保证读写一致？"><a href="#在并发情况下，Elasticsearch-如果保证读写一致？" class="headerlink" title="在并发情况下，Elasticsearch 如果保证读写一致？"></a>在并发情况下，Elasticsearch 如果保证读写一致？</h3><p>1、可以通过版本号使用乐观并发控制，以确保新版本不会被旧版本覆盖，由应用层来处理具体的冲突；</p>
+<p>2、另外对于写操作，一致性级别支持 quorum/one/all，默认为 quorum，即只有当大多数分片可用时才允许写操作。但即使大多数可用，也可能存在因为网络等原因导致写入副本失败，这样该副本被认为故障，分片将会在一个不同的节点上重建。</p>
+<p>3、对于读操作，可以设置 replication 为 sync(默认)，这使得操作在主分片和副本分片都完成后才会返回；如果设置 replication 为 async 时，也可以通过设置搜索请求参数_preference 为 primary 来查询主分片，确保文档是最新版本。</p>
+<h3 id="Elasticsearch-对于大数据量（上亿量级）的聚合如何实现？"><a href="#Elasticsearch-对于大数据量（上亿量级）的聚合如何实现？" class="headerlink" title="Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？"></a>Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？</h3><p>Elasticsearch 提供的首个近似聚合是 cardinality 度量。它提供一个字段的基数，即该字段的 distinct 或者unique 值的数目。它是基于 HLL 算法的。HLL 会先对我们的输入作哈希运算，然后根据哈希运算的结果中的 bits 做概率估算从而得到基数。</p>
+<p>其特点是：可配置的精度，用来控制内存的使用（更精确 ＝ 更多内存）；</p>
+<p>小的数据集精度是非常高的；我们可以通过配置参数，来设置去重需要的固定内存使用量。无论数千还是数十亿的唯一值，内存使用量只与你配置的精确度相关。</p>
+
+    </div>
+
+    
+    
+    
+
+      <div>   
+             
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:20px;">-------------
+The end of this article, thanks for reading  <i class="fas fa-coffee"></i>-------------</div>
+    
+</div>   
+         
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Elasticsearch/" rel="tag"><i class="fa fa-tag"></i> Elasticsearch</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/19/Redis/Redis%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="prev" title="Redis 基础数据结构">
+      <i class="fa fa-chevron-left"></i> Redis 基础数据结构
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/19/Kubernetes/%E6%90%AD%E5%BB%BAKubernetes%E9%9B%86%E7%BE%A4/" rel="next" title="搭建Kubernetes集群">
+      搭建Kubernetes集群 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+      <div>
+        
+          
+        
+      </div>
+
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFElasticsearch%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什么是Elasticsearch？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8Elasticsearch"><span class="nav-number">2.</span> <span class="nav-text">为什么要使用Elasticsearch?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0master%E9%80%89%E4%B8%BE%E7%9A%84%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">Elasticsearch是如何实现master选举的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFElasticSearch%E4%B8%AD%E7%9A%84%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">什么是ElasticSearch中的编译器？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%9C%A8%E5%92%8C%E9%9B%86%E7%BE%A4%E8%BF%9E%E6%8E%A5%E6%97%B6%EF%BC%8C%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E7%89%B9%E5%AE%9A%E7%9A%84%E8%8A%82%E7%82%B9%E6%89%A7%E8%A1%8C%E8%AF%B7%E6%B1%82%E7%9A%84%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">客户端在和集群连接时，如何选择特定的节点执行请求的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E4%B8%AD%E7%9A%84%E5%89%AF%E6%9C%AC%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">Elasticsearch中的副本是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E4%B8%AD%E7%9A%84%E9%9B%86%E7%BE%A4%E3%80%81%E8%8A%82%E7%82%B9%E3%80%81%E7%B4%A2%E5%BC%95%E3%80%81%E6%96%87%E6%A1%A3%E3%80%81%E7%B1%BB%E5%9E%8B%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">Elasticsearch中的集群、节点、索引、文档、类型是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7-Elasticsearch-%E9%9B%86%E7%BE%A4%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">如何监控 Elasticsearch 集群状态？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%BC%E5%86%99%E7%BA%A0%E9%94%99%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="nav-number">9.</span> <span class="nav-text">拼写纠错是如何实现的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E5%9C%A8%E9%83%A8%E7%BD%B2%E6%97%B6%EF%BC%8C%E5%AF%B9Linux%E7%9A%84%E8%AE%BE%E7%BD%AE%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">Elasticsearch在部署时，对Linux的设置有哪些优化方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E4%B8%AD%E7%9A%84%E5%88%86%E6%9E%90%E5%99%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">11.</span> <span class="nav-text">Elasticsearch中的分析器是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E5%B1%9E%E6%80%A7%EF%BC%8C%E7%B4%A2%E5%BC%95%E5%92%8C%E5%AD%98%E5%82%A8%E7%9A%84%E7%94%A8%E9%80%94%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">12.</span> <span class="nav-text">启用属性，索引和存储的用途是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E4%B8%AD%E7%9A%84%E5%88%86%E7%89%87%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">13.</span> <span class="nav-text">Elasticsearch中的分片是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch-%E5%9C%A8%E9%83%A8%E7%BD%B2%E6%97%B6%EF%BC%8C%E5%AF%B9-Linux-%E7%9A%84%E8%AE%BE%E7%BD%AE%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-number">14.</span> <span class="nav-text">Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8B%E4%BD%A0%E4%BB%AC%E7%9A%84%E4%B8%AA%E6%80%A7%E5%8C%96%E6%90%9C%E7%B4%A2%E6%96%B9%E6%A1%88%EF%BC%9F"><span class="nav-number">15.</span> <span class="nav-text">介绍一下你们的个性化搜索方案？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ElasticSearch%E6%98%AF%E5%90%A6%E6%9C%89%E6%9E%B6%E6%9E%84%EF%BC%9F"><span class="nav-number">16.</span> <span class="nav-text">ElasticSearch是否有架构？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E-GC-%E6%96%B9%E9%9D%A2%EF%BC%8C%E5%9C%A8%E4%BD%BF%E7%94%A8-Elasticsearch-%E6%97%B6%E8%A6%81%E6%B3%A8%E6%84%8F%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">17.</span> <span class="nav-text">对于 GC 方面，在使用 Elasticsearch 时要注意什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8B-Elasticsearch-%E6%90%9C%E7%B4%A2%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="nav-number">18.</span> <span class="nav-text">详细描述一下 Elasticsearch 搜索的过程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%8B%E4%BD%A0%E4%BB%AC%E7%94%B5%E5%95%86%E6%90%9C%E7%B4%A2%E7%9A%84%E6%95%B4%E4%BD%93%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E3%80%82"><span class="nav-number">19.</span> <span class="nav-text">介绍下你们电商搜索的整体技术架构。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%AF%E5%90%A6%E4%BA%86%E8%A7%A3%E5%AD%97%E5%85%B8%E6%A0%91%EF%BC%9F"><span class="nav-number">20.</span> <span class="nav-text">是否了解字典树？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch-%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E5%A4%9A%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%8C%E5%A6%82%E4%BD%95%E8%B0%83%E4%BC%98%EF%BC%8C%E9%83%A8%E7%BD%B2%EF%BC%9F"><span class="nav-number">21.</span> <span class="nav-text">Elasticsearch 索引数据多了怎么办，如何调优，部署？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8B-Elasticsearch-%E6%9B%B4%E6%96%B0%E5%92%8C%E5%88%A0%E9%99%A4%E6%96%87%E6%A1%A3%E7%9A%84%E8%BF%87%E7%A8%8B%E3%80%82"><span class="nav-number">22.</span> <span class="nav-text">详细描述一下 Elasticsearch 更新和删除文档的过程。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E7%9A%84%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">23.</span> <span class="nav-text">Elasticsearch的倒排索引是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E4%B8%AD%E7%9A%84%E8%8A%82%E7%82%B9%EF%BC%88%E6%AF%94%E5%A6%82%E5%85%B120%E4%B8%AA%EF%BC%89%EF%BC%8C%E5%85%B6%E4%B8%AD%E7%9A%8410%E4%B8%AA%E9%80%89%E4%BA%86%E4%B8%80%E4%B8%AAmaster%EF%BC%8C%E5%8F%A6%E5%A4%9610%E4%B8%AA%E9%80%89%E4%BA%86%E5%8F%A6%E4%B8%80%E4%B8%AAmaster%EF%BC%8C%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">24.</span> <span class="nav-text">Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch%E4%BA%86%E8%A7%A3%E5%A4%9A%E5%B0%91%EF%BC%8C%E8%AF%B4%E8%AF%B4%E4%BD%A0%E4%BB%AC%E5%85%AC%E5%8F%B8es%E7%9A%84%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%EF%BC%8C%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%86%E7%89%87%E6%9C%89%E5%A4%9A%E5%B0%91%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%80%E4%BA%9B%E8%B0%83%E4%BC%98%E6%89%8B%E6%AE%B5-%E3%80%82"><span class="nav-number">25.</span> <span class="nav-text">Elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E5%B9%B6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8CElasticsearch-%E5%A6%82%E6%9E%9C%E4%BF%9D%E8%AF%81%E8%AF%BB%E5%86%99%E4%B8%80%E8%87%B4%EF%BC%9F"><span class="nav-number">26.</span> <span class="nav-text">在并发情况下，Elasticsearch 如果保证读写一致？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch-%E5%AF%B9%E4%BA%8E%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%EF%BC%88%E4%B8%8A%E4%BA%BF%E9%87%8F%E7%BA%A7%EF%BC%89%E7%9A%84%E8%81%9A%E5%90%88%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="nav-number">27.</span> <span class="nav-text">Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BKing"
+      src="/images/avatat.png">
+  <p class="site-author-name" itemprop="name">BKing</p>
+  <div class="site-description" itemprop="description">记录 Book</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+        
+          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BKing2020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BKing2020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Bking60447128" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Bking60447128" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020-11</span>
+  <span class="with-love">
+    <i class="fa fa-star"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BKing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">690k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:27</span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("11/17/2020 15:54:40");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+
+</html>
+
+

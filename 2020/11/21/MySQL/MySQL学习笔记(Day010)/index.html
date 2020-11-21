@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bking.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bking.ico">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="MySQL学习笔记（Day010：Employees&#x2F;临时表的创建&#x2F;外键约束）[TOC]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL学习笔记（Day010：Employees&#x2F;临时表的创建&#x2F;外键约束）">
+<meta property="og:url" content="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day010)/index.html">
+<meta property="og:site_name" content="Boo-BKing.">
+<meta property="og:description" content="MySQL学习笔记（Day010：Employees&#x2F;临时表的创建&#x2F;外键约束）[TOC]">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-20T18:59:08.000Z">
+<meta property="article:modified_time" content="2020-11-21T08:13:58.863Z">
+<meta property="article:author" content="BKing">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day010)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MySQL学习笔记（Day010：Employees/临时表的创建/外键约束） | Boo-BKing.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<link rel="alternate" href="/atom.xml" title="Boo-BKing." type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband" >
+      <a target="_blank" rel="noopener" href="https://github.com/BKing2020" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    
+    </div>
+    
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Boo-BKing.</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">下雨 最爱听的旋律</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day010)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:13:58" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>19k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>17 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="MySQL学习笔记（Day010：Employees-临时表的创建-外键约束）"><a href="#MySQL学习笔记（Day010：Employees-临时表的创建-外键约束）" class="headerlink" title="MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）"></a>MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）</h2><p>[TOC]</p>
+<a id="more"></a>
+
+<h3 id="一-Employees数据库安装"><a href="#一-Employees数据库安装" class="headerlink" title="一. Employees数据库安装"></a>一. Employees数据库安装</h3><h4 id="1-Employees数据库介绍"><a href="#1-Employees数据库介绍" class="headerlink" title="1. Employees数据库介绍"></a>1. Employees数据库介绍</h4><p><code>Employees</code>数据库是一个用于学习和测试的数据库，大约<code>160MB</code>，<code>4百万条记录</code></p>
+<h4 id="2-Employees的安装"><a href="#2-Employees的安装" class="headerlink" title="2. Employees的安装"></a>2. Employees的安装</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/employee/en/employees-installation.html">官方安装文档</a></p>
+</blockquote>
+<h5 id="2-1-下载"><a href="#2-1-下载" class="headerlink" title="2.1. 下载"></a>2.1. 下载</h5><p>根据官方文档的连接，我们可以找到下载该数据库的两种方式</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://launchpad.net/test-db/employees-db-1/1.0.6/+download/employees_db-full-1.0.6.tar.bz2">employees_db-full-1.0.6.tar.bz2</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/datacharmer/test_db">github-test_db</a> 使用<code>git clone</code> 进行仓库拉取</li>
+</ul>
+<h5 id="2-2-解压和拉取"><a href="#2-2-解压和拉取" class="headerlink" title="2.2. 解压和拉取"></a>2.2. 解压和拉取</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">[root@MyServer Downloads]&gt; tar jxf employees_db-full-1.0.6.tar.bz2 </span><br><span class="line"><span class="comment"># 老师讲解时说是解压有问题，但是我这里却可以解压</span></span><br><span class="line">[root@MyServer Downloads]&gt; <span class="built_in">cd</span> employees_db</span><br><span class="line">[root@MyServer employees_db]&gt; ll</span><br><span class="line">total 164492</span><br><span class="line">-rw-r--r--. 1 501 games       752 Mar 30  2009 Changelog</span><br><span class="line">-rw-r--r--. 1 501 games      6460 Oct  9  2008 employees_partitioned2.sql</span><br><span class="line">-rw-r--r--. 1 501 games      7624 Feb  6  2009 employees_partitioned3.sql</span><br><span class="line">-rw-r--r--. 1 501 games      5660 Feb  6  2009 employees_partitioned.sql</span><br><span class="line">-rw-r--r--. 1 501 games      3861 Nov 28  2008 employees.sql <span class="comment"># 主要文件</span></span><br><span class="line">-rw-r--r--. 1 501 games       241 Jul 30  2008 load_departments.dump</span><br><span class="line">-rw-r--r--. 1 501 games  13828291 Mar 30  2009 load_dept_emp.dump</span><br><span class="line">-rw-r--r--. 1 501 games      1043 Jul 30  2008 load_dept_manager.dump</span><br><span class="line">-rw-r--r--. 1 501 games  17422825 Jul 30  2008 load_employees.dump</span><br><span class="line">-rw-r--r--. 1 501 games 115848997 Jul 30  2008 load_salaries.dump</span><br><span class="line">-rw-r--r--. 1 501 games  21265449 Jul 30  2008 load_titles.dump</span><br><span class="line">-rw-r--r--. 1 501 games      3889 Mar 30  2009 objects.sql</span><br><span class="line">-rw-r--r--. 1 501 games      2211 Jul 30  2008 README</span><br><span class="line">-rw-r--r--. 1 501 games      4455 Mar 30  2009 test_employees_md5.sql</span><br><span class="line">-rw-r--r--. 1 501 games      4450 Mar 30  2009 test_employees_sha.sql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@MyServer github_employees]&gt; git <span class="built_in">clone</span> https://github.com/datacharmer/test_db.git</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> /root/Downloads/github_employees/test_db/.git/</span><br><span class="line">Cloning into <span class="string">&#x27;test_db&#x27;</span>...</span><br><span class="line">remote: Counting objects: 94, <span class="keyword">done</span>.</span><br><span class="line">remote: Total 94 (delta 0), reused 0 (delta 0), pack-reused 94</span><br><span class="line">Unpacking objects: 100% (94/94), <span class="keyword">done</span>.</span><br><span class="line">Checking connectivity... <span class="keyword">done</span>.</span><br><span class="line"></span><br><span class="line">[root@MyServer test_db]&gt; ll</span><br><span class="line">total 168340</span><br><span class="line">-rw-r--r--. 1 root root      964 Dec  2 21:25 Changelog</span><br><span class="line">-rw-r--r--. 1 root root     7948 Dec  2 21:25 employees_partitioned_5.1.sql</span><br><span class="line">-rw-r--r--. 1 root root     6276 Dec  2 21:25 employees_partitioned.sql</span><br><span class="line">-rw-r--r--. 1 root root     4193 Dec  2 21:25 employees.sql  <span class="comment"># 主要文件</span></span><br><span class="line">drwxrwxr-x. 2 root root     4096 Dec  2 21:25 images</span><br><span class="line">-rw-r--r--. 1 root root      250 Dec  2 21:25 load_departments.dump</span><br><span class="line">-rw-r--r--. 1 root root 14159880 Dec  2 21:25 load_dept_emp.dump</span><br><span class="line">-rw-r--r--. 1 root root     1090 Dec  2 21:25 load_dept_manager.dump</span><br><span class="line">-rw-r--r--. 1 root root 17722832 Dec  2 21:25 load_employees.dump</span><br><span class="line">-rw-r--r--. 1 root root 39806034 Dec  2 21:25 load_salaries1.dump</span><br><span class="line">-rw-r--r--. 1 root root 39805981 Dec  2 21:25 load_salaries2.dump</span><br><span class="line">-rw-r--r--. 1 root root 39080916 Dec  2 21:25 load_salaries3.dump</span><br><span class="line">-rw-r--r--. 1 root root 21708736 Dec  2 21:25 load_titles.dump</span><br><span class="line">-rw-r--r--. 1 root root     4568 Dec  2 21:25 objects.sql</span><br><span class="line">-rw-r--r--. 1 root root     4007 Dec  2 21:25 README.md</span><br><span class="line">drwxrwxr-x. 2 root root     4096 Dec  2 21:25 sakila</span><br><span class="line">-rw-r--r--. 1 root root      272 Dec  2 21:25 show_elapsed.sql</span><br><span class="line">-rwxr-xr-x. 1 root root     1800 Dec  2 21:25 sql_test.sh</span><br><span class="line">-rw-r--r--. 1 root root     4878 Dec  2 21:25 test_employees_md5.sql</span><br><span class="line">-rw-r--r--. 1 root root     4882 Dec  2 21:25 test_employees_sha.sql</span><br></pre></td></tr></table></figure>
+
+<p><strong>解压出来的主要文件大小是不一样的，且根据网页上发布和更新的时间上看，github中的时间比较新，所以这里使用github中源作为的安装文件</strong></p>
+<h5 id="2-3-安装"><a href="#2-3-安装" class="headerlink" title="2.3. 安装"></a>2.3. 安装</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@MyServer test_db]&gt; mysql -uroot -S /tmp/mysql.sock_57 -p &lt; employees.sql </span><br><span class="line">Enter password: </span><br><span class="line">INFO</span><br><span class="line">CREATING DATABASE STRUCTURE</span><br><span class="line">INFO</span><br><span class="line">storage engine: InnoDB</span><br><span class="line">INFO</span><br><span class="line">LOADING departments</span><br><span class="line">INFO</span><br><span class="line">LOADING employees</span><br><span class="line">INFO</span><br><span class="line">LOADING dept_emp</span><br><span class="line">INFO</span><br><span class="line">LOADING dept_manager</span><br><span class="line">INFO</span><br><span class="line">LOADING titles</span><br><span class="line">INFO</span><br><span class="line">LOADING salaries</span><br><span class="line">data_load_time_diff</span><br><span class="line">00:01:51</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-4-验证"><a href="#2-4-验证" class="headerlink" title="2.4. 验证"></a>2.4. 验证</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">[root@MyServer test_db]&gt; time mysql -uroot -S /tmp/mysql.sock_57 -p -t &lt; test_employees_sha.sql </span><br><span class="line">Enter password: </span><br><span class="line">+----------------------+</span><br><span class="line">| INFO                 |</span><br><span class="line">+----------------------+</span><br><span class="line">| TESTING INSTALLATION |</span><br><span class="line">+----------------------+</span><br><span class="line">+--------------+------------------+------------------------------------------+</span><br><span class="line">| table_name   | expected_records | expected_crc                             |</span><br><span class="line">+--------------+------------------+------------------------------------------+</span><br><span class="line">| employees    |           300024 | 4d4aa689914d8fd41db7e45c2168e7dcb9697359 |</span><br><span class="line">| departments  |                9 | 4b315afa0e35ca6649df897b958345bcb3d2b764 |</span><br><span class="line">| dept_manager |               24 | 9687a7d6f93ca8847388a42a6d8d93982a841c6c |</span><br><span class="line">| dept_emp     |           331603 | d95ab9fe07df0865f592574b3b33b9c741d9fd1b |</span><br><span class="line">| titles       |           443308 | d12d5f746b88f07e69b9e36675b6067abb01b60e |</span><br><span class="line">| salaries     |          2844047 | b5a1785c27d75e33a4173aaa22ccf41ebd7d4a9f |</span><br><span class="line">+--------------+------------------+------------------------------------------+</span><br><span class="line">+--------------+------------------+------------------------------------------+</span><br><span class="line">| table_name   | found_records    | found_crc                                |</span><br><span class="line">+--------------+------------------+------------------------------------------+</span><br><span class="line">| employees    |           300024 | 4d4aa689914d8fd41db7e45c2168e7dcb9697359 |</span><br><span class="line">| departments  |                9 | 4b315afa0e35ca6649df897b958345bcb3d2b764 |</span><br><span class="line">| dept_manager |               24 | 9687a7d6f93ca8847388a42a6d8d93982a841c6c |</span><br><span class="line">| dept_emp     |           331603 | d95ab9fe07df0865f592574b3b33b9c741d9fd1b |</span><br><span class="line">| titles       |           443308 | d12d5f746b88f07e69b9e36675b6067abb01b60e |</span><br><span class="line">| salaries     |          2844047 | b5a1785c27d75e33a4173aaa22ccf41ebd7d4a9f |</span><br><span class="line">+--------------+------------------+------------------------------------------+</span><br><span class="line">+--------------+---------------+-----------+</span><br><span class="line">| table_name   | records_match | crc_match |</span><br><span class="line">+--------------+---------------+-----------+</span><br><span class="line">| employees    | OK            | ok        |</span><br><span class="line">| departments  | OK            | ok        |</span><br><span class="line">| dept_manager | OK            | ok        |</span><br><span class="line">| dept_emp     | OK            | ok        |</span><br><span class="line">| titles       | OK            | ok        |</span><br><span class="line">| salaries     | OK            | ok        |</span><br><span class="line">+--------------+---------------+-----------+</span><br><span class="line">+------------------+</span><br><span class="line">| computation_time |</span><br><span class="line">+------------------+</span><br><span class="line">| 00:00:18         |</span><br><span class="line">+------------------+</span><br><span class="line">+---------+--------+</span><br><span class="line">| summary | result |</span><br><span class="line">+---------+--------+</span><br><span class="line">| CRC     | OK     |</span><br><span class="line">| count   | OK     |</span><br><span class="line">+---------+--------+</span><br><span class="line"></span><br><span class="line">real    0m19.406s</span><br><span class="line">user    0m0.005s</span><br><span class="line">sys     0m0.004s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@MyServer test_db]&gt; time mysql -uroot -S /tmp/mysql.sock_57 -p -t &lt; test_employees_md5.sql    </span><br><span class="line">Enter password: </span><br><span class="line">+----------------------+</span><br><span class="line">| INFO                 |</span><br><span class="line">+----------------------+</span><br><span class="line">| TESTING INSTALLATION |</span><br><span class="line">+----------------------+</span><br><span class="line">+--------------+------------------+----------------------------------+</span><br><span class="line">| table_name   | expected_records | expected_crc                     |</span><br><span class="line">+--------------+------------------+----------------------------------+</span><br><span class="line">| employees    |           300024 | 4ec56ab5ba37218d187cf6ab09ce1aa1 |</span><br><span class="line">| departments  |                9 | d1af5e170d2d1591d776d5638d71fc5f |</span><br><span class="line">| dept_manager |               24 | 8720e2f0853ac9096b689c14664f847e |</span><br><span class="line">| dept_emp     |           331603 | ccf6fe516f990bdaa49713fc478701b7 |</span><br><span class="line">| titles       |           443308 | bfa016c472df68e70a03facafa1bc0a8 |</span><br><span class="line">| salaries     |          2844047 | fd220654e95aea1b169624ffe3fca934 |</span><br><span class="line">+--------------+------------------+----------------------------------+</span><br><span class="line">+--------------+------------------+----------------------------------+</span><br><span class="line">| table_name   | found_records    | found_crc                        |</span><br><span class="line">+--------------+------------------+----------------------------------+</span><br><span class="line">| employees    |           300024 | 4ec56ab5ba37218d187cf6ab09ce1aa1 |</span><br><span class="line">| departments  |                9 | d1af5e170d2d1591d776d5638d71fc5f |</span><br><span class="line">| dept_manager |               24 | 8720e2f0853ac9096b689c14664f847e |</span><br><span class="line">| dept_emp     |           331603 | ccf6fe516f990bdaa49713fc478701b7 |</span><br><span class="line">| titles       |           443308 | bfa016c472df68e70a03facafa1bc0a8 |</span><br><span class="line">| salaries     |          2844047 | fd220654e95aea1b169624ffe3fca934 |</span><br><span class="line">+--------------+------------------+----------------------------------+</span><br><span class="line">+--------------+---------------+-----------+</span><br><span class="line">| table_name   | records_match | crc_match |</span><br><span class="line">+--------------+---------------+-----------+</span><br><span class="line">| employees    | OK            | ok        |</span><br><span class="line">| departments  | OK            | ok        |</span><br><span class="line">| dept_manager | OK            | ok        |</span><br><span class="line">| dept_emp     | OK            | ok        |</span><br><span class="line">| titles       | OK            | ok        |</span><br><span class="line">| salaries     | OK            | ok        |</span><br><span class="line">+--------------+---------------+-----------+</span><br><span class="line">+------------------+</span><br><span class="line">| computation_time |</span><br><span class="line">+------------------+</span><br><span class="line">| 00:00:16         |</span><br><span class="line">+------------------+</span><br><span class="line">+---------+--------+</span><br><span class="line">| summary | result |</span><br><span class="line">+---------+--------+</span><br><span class="line">| CRC     | OK     |</span><br><span class="line">| count   | OK     |</span><br><span class="line">+---------+--------+</span><br><span class="line"></span><br><span class="line">real    0m18.452s</span><br><span class="line">user    0m0.007s</span><br><span class="line">sys     0m0.005s</span><br></pre></td></tr></table></figure>
+
+<p>至此，<code>Employees</code>测试数据库就安装完成了</p>
+<hr>
+<h3 id="二-表-TABLE"><a href="#二-表-TABLE" class="headerlink" title="二. 表(TABLE)"></a>二. 表(TABLE)</h3><h4 id="1-表的介绍"><a href="#1-表的介绍" class="headerlink" title="1. 表的介绍"></a>1. 表的介绍</h4><ul>
+<li>表是关系数据库的核心</li>
+<li>表 = 关系</li>
+<li>表是记录的集合</li>
+<li>二维表格模型易于人的理解</li>
+<li>MySQL默认存储引擎都是基于行(记录)存储</li>
+<li>每行记录都是基于列进行组织的</li>
+</ul>
+<h4 id="2-表是数据的集合"><a href="#2-表是数据的集合" class="headerlink" title="2. 表是数据的集合"></a>2. 表是数据的集合</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table_name <span class="keyword">limit</span> <span class="number">1</span>;  </span><br></pre></td></tr></table></figure>
+
+<p>集合是无序的，上面的SQL语句的意思是 <strong>从表(集合)中<code>随机</code>选出一条数据，结果是不确定的</strong>, 不能简单的认为是取出第一条数据。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table_name <span class="keyword">order</span> <span class="keyword">by</span> col_name <span class="keyword">limit</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>只有通过<code>order by</code>排序之后取出的数据，才是确定的。</p>
+<h4 id="3-创建表"><a href="#3-创建表" class="headerlink" title="3. 创建表"></a>3. 创建表</h4><h5 id="3-1-临时表"><a href="#3-1-临时表" class="headerlink" title="3.1. 临时表"></a>3.1. 临时表</h5><blockquote>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/create-table.html">官方文档 表创建的语法</a></p>
+</blockquote>
+<ul>
+<li><h5 id="临时表的创建"><a href="#临时表的创建" class="headerlink" title="临时表的创建"></a><strong>临时表的创建</strong></h5></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">--  mysql 5.7.9</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line">mysql&gt; select version();</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| version() |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| 5.7.9-log |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">use</span> burn_test;</span><br><span class="line">Database changed</span><br><span class="line"></span><br><span class="line">mysql&gt; create temporary table temp_a(a int);</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show  create table temp_a\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">       Table: temp_a</span><br><span class="line"><span class="keyword">Create</span> <span class="keyword">Table</span>: <span class="keyword">CREATE</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> <span class="string">`temp_a`</span> (</span><br><span class="line">  <span class="string">`a`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4   <span class="comment">-- 使用的是innodb </span></span><br><span class="line"><span class="number">1</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- mysql 5.6.27</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line">mysql&gt; <span class="keyword">select</span> <span class="keyword">version</span>();</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">| version()  |</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">| 5.6.27-log |</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">table</span>  temp_a_56(a <span class="built_in">int</span>);</span><br><span class="line">Query OK, 0 rows affected (0.06 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show create table temp_a_56\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">       Table: temp_a_56</span><br><span class="line"><span class="keyword">Create</span> <span class="keyword">Table</span>: <span class="keyword">CREATE</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> <span class="string">`temp_a_56`</span> (</span><br><span class="line">  <span class="string">`a`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4  <span class="comment">-- 5.6 也是innodb</span></span><br><span class="line"><span class="number">1</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">-----</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- 终端1 MySQL 5.7.9</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">select</span> <span class="keyword">version</span>();</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| version() |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| 5.7.9-log |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">processlist</span>\G</span><br><span class="line">*************************** <span class="number">1.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">     <span class="keyword">Id</span>: <span class="number">10</span>  <span class="comment">-- 当前ID 是 10</span></span><br><span class="line">   <span class="keyword">User</span>: root</span><br><span class="line">   Host: localhost</span><br><span class="line">     db: burn_test</span><br><span class="line">Command: <span class="keyword">Query</span></span><br><span class="line">   <span class="built_in">Time</span>: <span class="number">0</span></span><br><span class="line">  State: <span class="keyword">starting</span></span><br><span class="line">   Info: <span class="keyword">show</span> <span class="keyword">processlist</span>   <span class="comment">-- 当前终端执行</span></span><br><span class="line">*************************** <span class="number">2.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">     <span class="keyword">Id</span>: <span class="number">12</span></span><br><span class="line">   <span class="keyword">User</span>: root</span><br><span class="line">   Host: localhost</span><br><span class="line">     db: <span class="literal">NULL</span></span><br><span class="line">Command: <span class="keyword">Sleep</span></span><br><span class="line">   <span class="built_in">Time</span>: <span class="number">328</span></span><br><span class="line">  State: </span><br><span class="line">   Info: <span class="literal">NULL</span></span><br><span class="line">*************************** <span class="number">3.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">     <span class="keyword">Id</span>: <span class="number">13</span></span><br><span class="line">   <span class="keyword">User</span>: root</span><br><span class="line">   Host: localhost</span><br><span class="line">     db: burn_test</span><br><span class="line">Command: <span class="keyword">Sleep</span></span><br><span class="line">   <span class="built_in">Time</span>: <span class="number">16</span></span><br><span class="line">  State: </span><br><span class="line">   Info: <span class="literal">NULL</span></span><br><span class="line"><span class="number">3</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">insert</span> <span class="keyword">into</span> temp_a <span class="keyword">values</span>(<span class="number">123</span>);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from temp_a;      </span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">| a    |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">|  123 |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- 终端2 MySQL 5.7.9</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line">mysql&gt; <span class="keyword">select</span> <span class="keyword">version</span>();</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| version() |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| 5.7.9-log |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">processlist</span>\G</span><br><span class="line">*************************** <span class="number">1.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">     <span class="keyword">Id</span>: <span class="number">10</span></span><br><span class="line">   <span class="keyword">User</span>: root</span><br><span class="line">   Host: localhost</span><br><span class="line">     db: burn_test</span><br><span class="line">Command: <span class="keyword">Sleep</span></span><br><span class="line">   <span class="built_in">Time</span>: <span class="number">75</span></span><br><span class="line">  State: </span><br><span class="line">   Info: <span class="literal">NULL</span></span><br><span class="line">*************************** <span class="number">2.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">     <span class="keyword">Id</span>: <span class="number">12</span></span><br><span class="line">   <span class="keyword">User</span>: root</span><br><span class="line">   Host: localhost</span><br><span class="line">     db: <span class="literal">NULL</span></span><br><span class="line">Command: <span class="keyword">Sleep</span></span><br><span class="line">   <span class="built_in">Time</span>: <span class="number">403</span></span><br><span class="line">  State: </span><br><span class="line">   Info: <span class="literal">NULL</span></span><br><span class="line">*************************** <span class="number">3.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">     <span class="keyword">Id</span>: <span class="number">13</span>   <span class="comment">-- 当前 ID 是 13</span></span><br><span class="line">   <span class="keyword">User</span>: root</span><br><span class="line">   Host: localhost</span><br><span class="line">     db: burn_test</span><br><span class="line">Command: <span class="keyword">Query</span></span><br><span class="line">   <span class="built_in">Time</span>: <span class="number">0</span></span><br><span class="line">  State: <span class="keyword">starting</span></span><br><span class="line">   Info: <span class="keyword">show</span> <span class="keyword">processlist</span>  <span class="comment">-- 当前终端执行</span></span><br><span class="line"><span class="number">3</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">use</span> burn_test;</span><br><span class="line">Database changed</span><br><span class="line"></span><br><span class="line">mysql&gt; show tables;</span><br><span class="line">Empty <span class="keyword">set</span> (<span class="number">0.00</span> sec)   <span class="comment">-- 从其他终端登录的用户(session)无法看到temp_a这个临时表</span></span><br><span class="line"></span><br><span class="line"><span class="comment">----</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- 临时表 和 普通表 同名问题</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line">mysql&gt; <span class="keyword">create</span> <span class="keyword">table</span> test_1 (a <span class="built_in">int</span>);  <span class="comment">-- 创建一张普通的表叫做 test_1</span></span><br><span class="line">Query OK, 0 rows affected (0.16 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test_1 values(23);</span><br><span class="line">Query OK, 1 row affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test_1 values(24);</span><br><span class="line">Query OK, 1 row affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_1;</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">| a    |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">|   23 |   <span class="comment">-- 可以看到插入的数据</span></span><br><span class="line">|   24 |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">table</span> test_1 (a <span class="built_in">int</span>);   <span class="comment">-- 创建一种和test_1 同名的临时表</span></span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into test_1 values(1000);  -- 插入一个 不一样的值</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_1;</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">| a    |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">| 1000 |   <span class="comment">-- 只能搜索到 临时表中的数据</span></span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">not</span> <span class="keyword">exists</span> table_name  (a <span class="built_in">int</span>);  <span class="comment">-- 使用if not exists进行判断</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>1：临时表是<code>SESSION</code>级别的, 当前用户logout或者其他用户登录上来，是无法看到这张表的</strong><br><strong>2：当临时表和普通表同名时，当前用户只能看到同名的临时表</strong><br><strong>3：创建表时带上<code>if not exists</code>进行表的存在性检查；同时建议在临时表的表名前面加上统一的<code>prefix</code></strong></p>
+</blockquote>
+<ul>
+<li><strong>临时表的作用</strong><ul>
+<li>临时表主要的作用是给当前登录的用户存储临时数据或者临时结果的。</li>
+<li>不要和SQL优化器在排序过程中内部帮你创建的临时表相混淆。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong>临时表的存储引擎</strong></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select version();</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| version() |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">| 5.7.9-log |</span><br><span class="line">+<span class="comment">-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">&quot;default%tmp%&quot;</span>;</span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">| Variable_name              | Value  |</span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">| default_tmp_storage_engine | InnoDB |  <span class="comment">-- 5.7.9 的临时表默认存储引擎就是 InnoDB</span></span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">select</span> <span class="keyword">version</span>();</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">| version()  |</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">| 5.6.27-log |</span><br><span class="line">+<span class="comment">------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">variables</span> <span class="keyword">like</span> <span class="string">&quot;default%tmp%&quot;</span>;</span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">| Variable_name              | Value  |</span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">| default_tmp_storage_engine | InnoDB |  <span class="comment">-- 5.7.26 的临时表默认存储引擎也是 InnoDB</span></span><br><span class="line">+<span class="comment">----------------------------+--------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 5.6 之前用的是MyISAM</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>临时表存储位置</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># MySQL 5.7</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">mysql&gt; system ls -l /tmp  <span class="comment"># 使用system 可以解析执行linux shell命令</span></span><br><span class="line">total 20</span><br><span class="line">drwxr-xr-x. 4 mysql mysql 4096 Dec  2 10:06 mysql_data</span><br><span class="line">srwxrwxrwx. 1 mysql mysql    0 Dec  2 21:20 mysql.sock_56</span><br><span class="line">srwxrwxrwx. 1 mysql mysql    0 Dec  2 20:51 mysql.sock_57</span><br><span class="line">-rw-------. 1 mysql mysql    5 Dec  2 20:51 mysql.sock_57.lock</span><br><span class="line">-rw-r-----. 1 mysql mysql 8554 Dec  2 22:04 <span class="comment">#sqlf18_a_0.frm  -- temp_1 的表结构</span></span><br><span class="line"></span><br><span class="line">mysql&gt; system ls -l /data/mysql_data/5.7/ | grep ib</span><br><span class="line">-rw-r-----. 1 mysql mysql       879 Dec  2 20:47 ib_buffer_pool</span><br><span class="line">-rw-r-----. 1 mysql mysql  12582912 Dec  2 22:21 ibdata1</span><br><span class="line">-rw-r-----. 1 mysql mysql 134217728 Dec  2 22:20 ib_logfile0</span><br><span class="line">-rw-r-----. 1 mysql mysql 134217728 Dec  2 21:33 ib_logfile1</span><br><span class="line">-rw-r-----. 1 mysql mysql  12582912 Dec  2 22:33 ibtmp1  -- 这个是我们的表结构对应的数据</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like <span class="string">&quot;innodb_temp%&quot;</span>;</span><br><span class="line">+----------------------------+-----------------------+</span><br><span class="line">| Variable_name              | Value                 |</span><br><span class="line">+----------------------------+-----------------------+</span><br><span class="line">| innodb_temp_data_file_path | ibtmp1:12M:autoextend |</span><br><span class="line">+----------------------------+-----------------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="comment">#-----</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># MySQL 5.6</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">mysql&gt; system ls -l /tmp</span><br><span class="line">total 68</span><br><span class="line">drwxr-xr-x. 4 mysql mysql  4096 Dec  2 10:06 mysql_data</span><br><span class="line">srwxrwxrwx. 1 mysql mysql     0 Dec  2 21:20 mysql.sock_56</span><br><span class="line">srwxrwxrwx. 1 mysql mysql     0 Dec  2 20:51 mysql.sock_57</span><br><span class="line">-rw-------. 1 mysql mysql     5 Dec  2 20:51 mysql.sock_57.lock</span><br><span class="line">-rw-rw----. 1 mysql mysql  8554 Dec  2 22:38 <span class="comment">#sql13f3_7_0.frm   -- 表结构</span></span><br><span class="line">-rw-rw----. 1 mysql mysql 49152 Dec  2 22:38 <span class="comment">#sql13f3_7_0.ibd   -- 表数据</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.6.27 中没有 innodb_temp_data_file_path 变量</span></span><br><span class="line">mysql&gt; show variables like <span class="string">&quot;innodb_temp%&quot;</span>;</span><br><span class="line">Empty <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like <span class="string">&quot;%innodb%temp%&quot;</span>;</span><br><span class="line">Empty <span class="built_in">set</span> (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>MySQL5.7.9 把临时<code>表结构</code>放在<code>tmpdir</code>，而数据<code>表数据</code>放在<code>datadir</code><br>MySQL5.6.27 把临时<code>表结构</code>和<code>表数据</code>都放在<code>tmpdir</code></p>
+</blockquote>
+<h4 id="4-查看表结构"><a href="#4-查看表结构" class="headerlink" title="4. 查看表结构"></a>4. 查看表结构</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show create table test_1\G   -- 表结构</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">       Table: test_1</span><br><span class="line"><span class="keyword">Create</span> <span class="keyword">Table</span>: <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`test_1`</span> (</span><br><span class="line">  <span class="string">`a`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span></span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4</span><br><span class="line"><span class="number">1</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">desc</span> test_1\G  <span class="comment">-- 表的描述,描述二维表信息</span></span><br><span class="line">*************************** <span class="number">1.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">  <span class="keyword">Field</span>: a</span><br><span class="line">   <span class="keyword">Type</span>: <span class="built_in">int</span>(<span class="number">11</span>)</span><br><span class="line">   <span class="literal">Null</span>: YES</span><br><span class="line">    <span class="keyword">Key</span>: </span><br><span class="line"><span class="keyword">Default</span>: <span class="literal">NULL</span></span><br><span class="line">  Extra: </span><br><span class="line"><span class="number">1</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">&quot;test_1&quot;</span>\G    <span class="comment">-- 看表结构的元数据信息</span></span><br><span class="line">*************************** <span class="number">1.</span> <span class="keyword">row</span> ***************************</span><br><span class="line">           <span class="keyword">Name</span>: test_1</span><br><span class="line">         <span class="keyword">Engine</span>: <span class="keyword">InnoDB</span></span><br><span class="line">        <span class="keyword">Version</span>: <span class="number">10</span></span><br><span class="line">     Row_format: Dynamic</span><br><span class="line">           <span class="keyword">Rows</span>: <span class="number">2</span></span><br><span class="line"> Avg_row_length: <span class="number">4096</span></span><br><span class="line">    Data_length: <span class="number">8192</span></span><br><span class="line">Max_data_length: <span class="number">0</span></span><br><span class="line">   Index_length: <span class="number">0</span></span><br><span class="line">      Data_free: <span class="number">0</span></span><br><span class="line"> Auto_increment: <span class="literal">NULL</span></span><br><span class="line">    Create_time: <span class="number">2015</span><span class="number">-12</span><span class="number">-02</span> <span class="number">22</span>:<span class="number">20</span>:<span class="number">19</span></span><br><span class="line">    Update_time: <span class="number">2015</span><span class="number">-12</span><span class="number">-02</span> <span class="number">22</span>:<span class="number">20</span>:<span class="number">44</span></span><br><span class="line">     Check_time: <span class="literal">NULL</span></span><br><span class="line">      <span class="keyword">Collation</span>: utf8mb4_general_ci</span><br><span class="line">       <span class="keyword">Checksum</span>: <span class="literal">NULL</span></span><br><span class="line"> Create_options: </span><br><span class="line">        <span class="keyword">Comment</span>: </span><br><span class="line"><span class="number">1</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-ALTER-TABLE"><a href="#5-ALTER-TABLE" class="headerlink" title="5. ALTER TABLE"></a>5. ALTER TABLE</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="http://dev.mysql.com/doc/refman/5.7/en/alter-table.html">ALTER TABLE语法官方文档</a></p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter table test_1 add column b char(10);  -- 添加列 b</span><br><span class="line">Query OK, 0 rows affected (0.25 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_1;</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">| a    | b    |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">|   23 | NULL |</span><br><span class="line">|   24 | NULL |</span><br><span class="line">+<span class="comment">------+------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">alter</span> <span class="keyword">table</span> test_1 <span class="keyword">drop</span> <span class="keyword">column</span> b;  <span class="comment">-- 删除列 b</span></span><br><span class="line">Query OK, 0 rows affected (0.27 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from test_1;</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">| a    |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">|   23 |</span><br><span class="line">|   24 |</span><br><span class="line">+<span class="comment">------+</span></span><br><span class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意，当表记录很大的时候，<code>alter table</code>会很耗时，影响性能</p>
+</blockquote>
+<ul>
+<li><strong>ONLINE DDL</strong><br>5.6以后对在线DDL操作进行了优化，以提高性能。<a target="_blank" rel="noopener" href="http://dev.mysql.com/doc/refman/5.7/en/innodb-create-index-overview.html">官方文档</a>     </li>
+</ul>
+<hr>
+<h3 id="三-外键约束"><a href="#三-外键约束" class="headerlink" title="三. 外键约束"></a>三. 外键约束</h3><h4 id="1-外键的介绍"><a href="#1-外键的介绍" class="headerlink" title="1. 外键的介绍"></a>1. 外键的介绍</h4><blockquote>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/create-table-foreign-keys.html">官方文档</a></p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- 摘自 MySQL官方文档</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> product (         <span class="comment">-- 商品表</span></span><br><span class="line">    <span class="keyword">category</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,     <span class="comment">-- 商品种类</span></span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,           <span class="comment">-- 商品id</span></span><br><span class="line">    price <span class="built_in">DECIMAL</span>, </span><br><span class="line">    PRIMARY <span class="keyword">KEY</span>(<span class="keyword">category</span>, <span class="keyword">id</span>)  <span class="comment">-- 主键是 (category, id)</span></span><br><span class="line">)   <span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> customer (   <span class="comment">-- 客户表</span></span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,      <span class="comment">-- 客户id</span></span><br><span class="line">    PRIMARY <span class="keyword">KEY</span> (<span class="keyword">id</span>)      <span class="comment">-- 主键是 id</span></span><br><span class="line">)   <span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> product_order (         <span class="comment">-- 订单表</span></span><br><span class="line">    <span class="keyword">no</span> <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,  <span class="comment">-- number，自增长</span></span><br><span class="line">    product_category <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,   <span class="comment">-- 商品种类</span></span><br><span class="line">    product_id <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,         <span class="comment">-- 商品id </span></span><br><span class="line">    customer_id <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,        <span class="comment">-- 客户id</span></span><br><span class="line"></span><br><span class="line">    PRIMARY <span class="keyword">KEY</span>(<span class="keyword">no</span>),                        <span class="comment">-- 主键是  no </span></span><br><span class="line">    <span class="keyword">INDEX</span> (product_category, product_id),   <span class="comment">-- 对 (product_category, product_id) 做索引</span></span><br><span class="line">    <span class="keyword">INDEX</span> (customer_id),                    <span class="comment">-- 对 customer_id 做索引</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (product_category, product_id)  <span class="comment">-- 两个外键约束</span></span><br><span class="line">    <span class="keyword">REFERENCES</span> product(<span class="keyword">category</span>, <span class="keyword">id</span>)   <span class="comment">-- 字段 product_category 引用自 product表的category</span></span><br><span class="line">                                       <span class="comment">-- 字段 product_id 引用自 product表的id</span></span><br><span class="line">      <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span> <span class="keyword">ON</span> <span class="keyword">DELETE</span> RESTRICT,     <span class="comment">-- 级联跟新  和  严格模式删除</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (customer_id)</span><br><span class="line">      <span class="keyword">REFERENCES</span> customer(<span class="keyword">id</span>)</span><br><span class="line">)   <span class="keyword">ENGINE</span>=<span class="keyword">INNODB</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-外键操作"><a href="#2-外键操作" class="headerlink" title="2. 外键操作"></a>2. 外键操作</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--</span></span><br><span class="line"><span class="comment">-- 表结构 摘自  MySQL 官方文档</span></span><br><span class="line"><span class="comment">--</span></span><br><span class="line"></span><br><span class="line">mysql&gt; create table parent (</span><br><span class="line">    -&gt;     id int not null,</span><br><span class="line">    -&gt;     primary key (id)</span><br><span class="line">    -&gt; ) engine=innodb;</span><br><span class="line">Query OK, 0 rows affected (0.14 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; create table child (</span><br><span class="line">    -&gt;     id int, </span><br><span class="line">    -&gt;     parent_id INT,</span><br><span class="line">    -&gt;     index par_ind (parent_id),</span><br><span class="line">    -&gt;     foreign key (parent_id) </span><br><span class="line">    -&gt;         references parent(id)</span><br><span class="line">    -&gt;         on delete cascade on update cascade  -- 比官网例子增加 update cascade </span><br><span class="line">    -&gt; ) engine=innodb;</span><br><span class="line">Query ok, 0 rows affected (0.15 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into child values(1,1);  -- 我们插入一条数据，id=1，parent_id=1</span><br><span class="line">ERROR 1452 (23000): Cannot add or <span class="keyword">update</span> a <span class="keyword">child</span> <span class="keyword">row</span>: a <span class="keyword">foreign</span> <span class="keyword">key</span> <span class="keyword">constraint</span> fails (<span class="string">`burn_test`</span>.<span class="string">`child`</span>, <span class="keyword">CONSTRAINT</span> <span class="string">`child_ibfk_1`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`parent_id`</span>) <span class="keyword">REFERENCES</span> <span class="string">`parent`</span> (<span class="string">`id`</span>) <span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">CASCADE</span>)  </span><br><span class="line"><span class="comment">-- 直接报错了，因为此时parent表中没有任何记录</span></span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">parent</span> <span class="keyword">values</span>(<span class="number">1</span>);   <span class="comment">-- 现在parent中插入记录</span></span><br><span class="line">Query OK, 1 row affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into child values(1,1);  -- 然后在child中插入记录，且parent_id是在parent中存在的</span><br><span class="line">Query OK, 1 row affected (0.02 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into child values(1,2);  -- 插入parent_id=2的记录，报错。因为此时parent_id=2的记录不存在</span><br><span class="line">ERROR 1452 (23000): Cannot add or <span class="keyword">update</span> a <span class="keyword">child</span> <span class="keyword">row</span>: a <span class="keyword">foreign</span> <span class="keyword">key</span> <span class="keyword">constraint</span> fails (<span class="string">`burn_test`</span>.<span class="string">`child`</span>, <span class="keyword">CONSTRAINT</span> <span class="string">`child_ibfk_1`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`parent_id`</span>) <span class="keyword">REFERENCES</span> <span class="string">`parent`</span> (<span class="string">`id`</span>) <span class="keyword">ON</span> <span class="keyword">DELETE</span> <span class="keyword">CASCADE</span>)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">select</span> * <span class="keyword">from</span>  <span class="keyword">child</span>;     </span><br><span class="line">+<span class="comment">------+-----------+</span></span><br><span class="line">| id   | parent_id |</span><br><span class="line">+<span class="comment">------+-----------+</span></span><br><span class="line">|    1 |         1 |  <span class="comment">-- parent_id = 1</span></span><br><span class="line">+<span class="comment">------+-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">select</span> * <span class="keyword">from</span>  <span class="keyword">parent</span>;</span><br><span class="line">+<span class="comment">----+</span></span><br><span class="line">| id |</span><br><span class="line">+<span class="comment">----+</span></span><br><span class="line">|  1 |  <span class="comment">-- 根据表结构的定义（Foreign_key），这个值就是 child表中的id</span></span><br><span class="line">+<span class="comment">----+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">update</span> <span class="keyword">parent</span> <span class="keyword">set</span> <span class="keyword">id</span>=<span class="number">100</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span>;       </span><br><span class="line">Query OK, 1 row affected (0.04 sec)</span><br><span class="line">Rows matched: 1  Changed: 1  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from parent;</span><br><span class="line">+<span class="comment">-----+</span></span><br><span class="line">| id  |</span><br><span class="line">+<span class="comment">-----+</span></span><br><span class="line">| 100 |  <span class="comment">-- 已经设置成了100</span></span><br><span class="line">+<span class="comment">-----+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">child</span>;</span><br><span class="line">+<span class="comment">------+-----------+</span></span><br><span class="line">| id   | parent_id |</span><br><span class="line">+<span class="comment">------+-----------+</span></span><br><span class="line">|    1 |       100 |  <span class="comment">-- 自动变化，这是on update cascade的作用，联级更新，parent更新，child也跟着更新</span></span><br><span class="line">+<span class="comment">------+-----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">delete</span> <span class="keyword">from</span> <span class="keyword">parent</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">100</span>;  <span class="comment">-- 删除这条记录</span></span><br><span class="line">Query OK, 1 row affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; select * from parent;  -- id=100的记录已经被删除了</span><br><span class="line">Empty <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">child</span>;  <span class="comment">-- id=1，parent_id=100的记录跟着被删除了。on delete cascade的作用</span></span><br><span class="line">Empty <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">child</span> <span class="keyword">drop</span> <span class="keyword">foreign</span> <span class="keyword">key</span> child_ibfk_1;  <span class="comment">-- 删除 之前的外键</span></span><br><span class="line">Query OK, 0 rows affected (0.07 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; alter table child add foreign key(parent_id) </span><br><span class="line">    -&gt; references parent(id) on update cascade on delete restrict;  -- 使用严格模式</span><br><span class="line">Query OK, 0 rows affected (0.27 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into parent values(50);</span><br><span class="line">Query OK, 1 row affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into child values(3,50); </span><br><span class="line">Query OK, 1 row affected (0.03 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; insert into child values(3,51);  -- 和之前一样会提示错误</span><br><span class="line">ERROR 1452 (23000): Cannot add or <span class="keyword">update</span> a <span class="keyword">child</span> <span class="keyword">row</span>: a <span class="keyword">foreign</span> <span class="keyword">key</span> <span class="keyword">constraint</span> fails (<span class="string">`burn_test`</span>.<span class="string">`child`</span>, <span class="keyword">CONSTRAINT</span> <span class="string">`child_ibfk_1`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`parent_id`</span>) <span class="keyword">REFERENCES</span> <span class="string">`parent`</span> (<span class="string">`id`</span>) <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span>)</span><br><span class="line"></span><br><span class="line">mysql&gt; <span class="keyword">delete</span> <span class="keyword">from</span> <span class="keyword">parent</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">50</span>;  <span class="comment">-- 删除失败了，因为是restrict模式</span></span><br><span class="line">ERROR 1451 (23000): Cannot <span class="keyword">delete</span> <span class="keyword">or</span> <span class="keyword">update</span> a <span class="keyword">parent</span> <span class="keyword">row</span>: a <span class="keyword">foreign</span> <span class="keyword">key</span> <span class="keyword">constraint</span> fails (<span class="string">`burn_test`</span>.<span class="string">`child`</span>, <span class="keyword">CONSTRAINT</span> <span class="string">`child_ibfk_1`</span> <span class="keyword">FOREIGN</span> <span class="keyword">KEY</span> (<span class="string">`parent_id`</span>) <span class="keyword">REFERENCES</span> <span class="string">`parent`</span> (<span class="string">`id`</span>) <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CASCADE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 注意，delete 后面说明都不写表示 no action == restrict</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>外键约束，可以让数据进行一致性更新，但是会有一定的<code>性能损耗</code>，线上业务使用不多。通常上述级联更新和删除都是由应用层业务逻辑进行判断并实现。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <div>   
+             
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:20px;">-------------
+The end of this article, thanks for reading  <i class="fas fa-coffee"></i>-------------</div>
+    
+</div>   
+         
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"><i class="fa fa-tag"></i> MySQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day012)/" rel="prev" title="MySQL学习笔记（Day012：子查询/INSERT/UPDATE/DELETE/REPLACE）">
+      <i class="fa fa-chevron-left"></i> MySQL学习笔记（Day012：子查询/INSERT/UPDATE/DELETE/REPLACE）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day009)/" rel="next" title="MySQL学习笔记（Day009)JSON">
+      MySQL学习笔记（Day009)JSON <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+      <div>
+        
+          
+        
+      </div>
+
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88Day010%EF%BC%9AEmployees-%E4%B8%B4%E6%97%B6%E8%A1%A8%E7%9A%84%E5%88%9B%E5%BB%BA-%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">MySQL学习笔记（Day010：Employees&#x2F;临时表的创建&#x2F;外键约束）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80-Employees%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.</span> <span class="nav-text">一. Employees数据库安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Employees%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. Employees数据库介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Employees%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. Employees的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">2.1. 下载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-%E8%A7%A3%E5%8E%8B%E5%92%8C%E6%8B%89%E5%8F%96"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">2.2. 解压和拉取</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-%E5%AE%89%E8%A3%85"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">2.3. 安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-%E9%AA%8C%E8%AF%81"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">2.4. 验证</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C-%E8%A1%A8-TABLE"><span class="nav-number">1.2.</span> <span class="nav-text">二. 表(TABLE)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%A1%A8%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 表的介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E8%A1%A8%E6%98%AF%E6%95%B0%E6%8D%AE%E7%9A%84%E9%9B%86%E5%90%88"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 表是数据的集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%88%9B%E5%BB%BA%E8%A1%A8"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 创建表</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-%E4%B8%B4%E6%97%B6%E8%A1%A8"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">3.1. 临时表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E8%A1%A8%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">临时表的创建</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%9F%A5%E7%9C%8B%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 查看表结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-ALTER-TABLE"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. ALTER TABLE</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89-%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.3.</span> <span class="nav-text">三. 外键约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%A4%96%E9%94%AE%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 外键的介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%A4%96%E9%94%AE%E6%93%8D%E4%BD%9C"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 外键操作</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BKing"
+      src="/images/avatat.png">
+  <p class="site-author-name" itemprop="name">BKing</p>
+  <div class="site-description" itemprop="description">记录 Book</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+        
+          <span class="site-state-item-count">128</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BKing2020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BKing2020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Bking60447128" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Bking60447128" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020-11</span>
+  <span class="with-love">
+    <i class="fa fa-star"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BKing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">690k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">10:27</span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("11/17/2020 15:54:40");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.4' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+
+</html>
+
+

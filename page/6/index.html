@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="记录 Book">
@@ -198,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92%E5%8E%9F%E7%90%86%E5%92%8C%E8%A7%84%E5%88%99/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day011)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -212,7 +212,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/JVM/%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92%E5%8E%9F%E7%90%86%E5%92%8C%E8%A7%84%E5%88%99/" class="post-title-link" itemprop="url">指令重排原理和规则</a>
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day011)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day011：SELECT）</a>
         </h2>
 
         <div class="post-meta">
@@ -221,23 +221,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:23:19" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:47:16" itemprop="dateModified" datetime="2020-11-20T08:47:16+08:00">2020-11-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
                 </span>
             </span>
 
@@ -247,14 +241,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>491</span>
+              <span>20k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>18 分钟</span>
             </span>
 
         </div>
@@ -266,10 +260,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="指令重排原理和规则"><a href="#指令重排原理和规则" class="headerlink" title="指令重排原理和规则"></a>指令重排原理和规则</h3><p>指令重排：指的是JVM为了优化，在条件允许的情况下，对指令进行一定的重新排列，直接运行当前能够立即执行的后续指令，避开获取下一条指令所需的数据造成的等待。</p>
+          <h2 id="MySQL学习笔记（Day011：SELECT）"><a href="#MySQL学习笔记（Day011：SELECT）" class="headerlink" title="MySQL学习笔记（Day011：SELECT）"></a>MySQL学习笔记（Day011：SELECT）</h2><p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92%E5%8E%9F%E7%90%86%E5%92%8C%E8%A7%84%E5%88%99/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day011)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -293,7 +287,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day013)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -307,7 +301,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/JVM/%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88/" class="post-title-link" itemprop="url">未命名</a>
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day013)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day013：作业讲解一/Rank/视图/UNION/触发器）</a>
         </h2>
 
         <div class="post-meta">
@@ -316,23 +310,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:14:14" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:46:34" itemprop="dateModified" datetime="2020-11-20T08:46:34+08:00">2020-11-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
                 </span>
             </span>
 
@@ -342,14 +330,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>304</span>
+              <span>13k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>12 分钟</span>
             </span>
 
         </div>
@@ -361,14 +349,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h3><p>操作数栈：用来存放方法运行期间，各个指令操作的数据。</p>
-<ol>
-<li>操作数栈中元素的数据类型必须和字节码指令的顺序严格匹配</li>
-<li>虚拟机在实现栈帧的时候可能会做一些优化，让两个栈帧出现部分重叠区域，以存放公用的数据  </li>
-</ol>
+          <h2 id="MySQL学习笔记（Day013：作业讲解一-Rank-视图-UNION-触发器）"><a href="#MySQL学习笔记（Day013：作业讲解一-Rank-视图-UNION-触发器）" class="headerlink" title="MySQL学习笔记（Day013：作业讲解一/Rank/视图/UNION/触发器）"></a>MySQL学习笔记（Day013：作业讲解一/Rank/视图/UNION/触发器）</h2><p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day013)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -392,7 +376,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E6%A0%88%E5%B8%A7%E5%92%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A1%A8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day014)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -406,7 +390,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/JVM/%E6%A0%88%E5%B8%A7%E5%92%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A1%A8/" class="post-title-link" itemprop="url">栈帧和局部变量表</a>
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day014)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day014：触发器下/存储过程/自定义函数）</a>
         </h2>
 
         <div class="post-meta">
@@ -415,23 +399,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:14:18" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:47:13" itemprop="dateModified" datetime="2020-11-20T08:47:13+08:00">2020-11-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
                 </span>
             </span>
 
@@ -441,14 +419,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>751</span>
+              <span>17k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>15 分钟</span>
             </span>
 
         </div>
@@ -460,15 +438,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="栈帧和局部变量表"><a href="#栈帧和局部变量表" class="headerlink" title="栈帧和局部变量表"></a>栈帧和局部变量表</h3><ol>
-<li><p>字节码执行引擎</p>
-<p>栈帧、运行期操作数栈和局部变量表之间的交换关系</p>
-<p>方法调用、静态分派和动态分派</p>
-</li>
-</ol>
+          <h2 id="MySQL学习笔记（Day014：触发器下-存储过程-自定义函数）"><a href="#MySQL学习笔记（Day014：触发器下-存储过程-自定义函数）" class="headerlink" title="MySQL学习笔记（Day014：触发器下/存储过程/自定义函数）"></a>MySQL学习笔记（Day014：触发器下/存储过程/自定义函数）</h2><p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/%E6%A0%88%E5%B8%A7%E5%92%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A1%A8/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day014)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -492,7 +465,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%92%8C%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day017)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -506,7 +479,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/JVM/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%92%8C%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/" class="post-title-link" itemprop="url">类加载和类加载器</a>
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day017)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day017：Explain_2）</a>
         </h2>
 
         <div class="post-meta">
@@ -515,23 +488,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:30:30" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:46:56" itemprop="dateModified" datetime="2020-11-20T08:46:56+08:00">2020-11-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
                 </span>
             </span>
 
@@ -541,14 +508,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>10 分钟</span>
             </span>
 
         </div>
@@ -560,13 +527,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="类加载和类加载器"><a href="#类加载和类加载器" class="headerlink" title="类加载和类加载器"></a>类加载和类加载器</h3><p>类加载、连接和初始化</p>
-<p>理解类从加载、连接、初始化到卸载的生命周期</p>
-<p>理解类加载、类加载器、理解双亲委派模型</p>
-<p>理解并掌握各种主动使用类的初始化时机</p>
+          <h2 id="MySQL学习笔记（Day017：Explain-2）"><a href="#MySQL学习笔记（Day017：Explain-2）" class="headerlink" title="MySQL学习笔记（Day017：Explain_2）"></a>MySQL学习笔记（Day017：Explain_2）</h2><p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%92%8C%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day017)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -590,7 +554,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E7%B1%BB%E7%9A%84%E4%B8%BB%E5%8A%A8%E5%88%9D%E5%A7%8B%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day019)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -604,7 +568,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/JVM/%E7%B1%BB%E7%9A%84%E4%B8%BB%E5%8A%A8%E5%88%9D%E5%A7%8B%E5%8C%96/" class="post-title-link" itemprop="url">类的主动初始化</a>
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day019)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day019：磁盘测试）</a>
         </h2>
 
         <div class="post-meta">
@@ -613,23 +577,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:32:52" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:46:54" itemprop="dateModified" datetime="2020-11-20T08:46:54+08:00">2020-11-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
                 </span>
             </span>
 
@@ -639,14 +597,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>399</span>
+              <span>12k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>11 分钟</span>
             </span>
 
         </div>
@@ -658,11 +616,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="类的主动初始化"><a href="#类的主动初始化" class="headerlink" title="类的主动初始化"></a>类的主动初始化</h3><p>类的初始化时机</p>
-<p>❤：Java程序对类的使用方式分成：主动使用和被动使用，JVM必须在每个类或接口“首次主动使用”时才初始化它们；被动使用类不会导致类的初始化，主动使用的情况：</p>
+          <h2 id="MySQL学习笔记（Day019：磁盘测试）"><a href="#MySQL学习笔记（Day019：磁盘测试）" class="headerlink" title="MySQL学习笔记（Day019：磁盘测试）"></a>MySQL学习笔记（Day019：磁盘测试）</h2><p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/%E7%B1%BB%E7%9A%84%E4%B8%BB%E5%8A%A8%E5%88%9D%E5%A7%8B%E5%8C%96/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day019)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -686,7 +643,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E7%B1%BB%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day008)-v2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -700,7 +657,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/JVM/%E7%B1%BB%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/" class="post-title-link" itemprop="url">类连接和初始化</a>
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day008)-v2/" class="post-title-link" itemprop="url">MySQL学习笔记(Day008）V2.0</a>
         </h2>
 
         <div class="post-meta">
@@ -709,23 +666,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:13:42" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:46:59" itemprop="dateModified" datetime="2020-11-20T08:46:59+08:00">2020-11-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
                 </span>
             </span>
 
@@ -735,14 +686,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>625</span>
+              <span>24k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>22 分钟</span>
             </span>
 
         </div>
@@ -754,14 +705,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="类连接和初始化"><a href="#类连接和初始化" class="headerlink" title="类连接和初始化"></a>类连接和初始化</h3><p>类连接主要验证的内容</p>
-<p>❤：类文件结构检查：按照JVM规范规定的类文件结构进行</p>
-<p>❤：元数据验证：对字节码描述的信息进行语义分析，保证其符合Java语言规范要求（重载、final等）</p>
-<p>❤：字节码验证：通过对数据流和控制流进行分析，确保程序语义是合法和符合逻辑的。这里主要对方法体进行校验。</p>
-<p>❤：符号引用验证：对类自身以外的信息，也就是常量池中的各种符号引用，进行匹配校验</p>
+          <h2 id="MySQL学习笔记（Day008：数据类型）-v2-0"><a href="#MySQL学习笔记（Day008：数据类型）-v2-0" class="headerlink" title="MySQL学习笔记（Day008：数据类型）-v2.0"></a>MySQL学习笔记（Day008：数据类型）-v2.0</h2><p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/%E7%B1%BB%E8%BF%9E%E6%8E%A5%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day008)-v2/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -785,7 +732,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day015-Day016)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -799,7 +746,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/JVM/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/" class="post-title-link" itemprop="url">跨代引用</a>
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day015-Day016)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day015-Day016：索引/B+树/Explain）</a>
         </h2>
 
         <div class="post-meta">
@@ -808,23 +755,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：16:29:25" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:46:46" itemprop="dateModified" datetime="2020-11-20T08:46:46+08:00">2020-11-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
                 </span>
             </span>
 
@@ -834,14 +775,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>999</span>
+              <span>26k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>24 分钟</span>
             </span>
 
         </div>
@@ -853,11 +794,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="跨代引用"><a href="#跨代引用" class="headerlink" title="跨代引用"></a>跨代引用</h3><p>跨代应用：也就是一个代中的对象引用另一个代中的对象。</p>
-<p>跨代引用假说：跨代引用相对于同代应用来说只是极少数</p>
+          <h2 id="MySQL学习笔记（Day015-Day016：索引-B-树-Explain）"><a href="#MySQL学习笔记（Day015-Day016：索引-B-树-Explain）" class="headerlink" title="MySQL学习笔记（Day015-Day016：索引/B+树/Explain）"></a>MySQL学习笔记（Day015-Day016：索引/B+树/Explain）</h2><p>[TOC]</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day015-Day016)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -881,7 +821,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/%E9%94%81%E4%BC%98%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/20/Redis/Redis%E7%9A%84%E4%BD%9C%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -895,7 +835,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/JVM/%E9%94%81%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">锁优化</a>
+            <a href="/2020/11/20/Redis/Redis%E7%9A%84%E4%BD%9C%E7%94%A8/" class="post-title-link" itemprop="url">Redis的作用</a>
         </h2>
 
         <div class="post-meta">
@@ -905,14 +845,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-20 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-20T02:59:08+08:00">2020-11-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:47:07" itemprop="dateModified" datetime="2020-11-20T08:47:07+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-21 14:10:14" itemprop="dateModified" datetime="2020-11-21T14:10:14+08:00">2020-11-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -920,7 +860,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                  <a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a>
                 </span>
             </span>
 
@@ -930,7 +870,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>861</span>
+              <span>405</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -949,12 +889,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="锁优化"><a href="#锁优化" class="headerlink" title="锁优化"></a>锁优化</h3><p>自旋锁与自适应自旋：</p>
-<p>自旋：如果线程可以很快获得锁，那么可以不在OS层挂起线程，而是让线程做几个忙循环，那么就是自旋</p>
-<p>自适应自旋：自旋的时间不再固定，而是由前一次在同一个锁上的自旋时间和锁的拥有者状态来决定</p>
+          有东西被加密了, 请输入密码查看.
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/%E9%94%81%E4%BC%98%E5%8C%96/#more" rel="contents">
+              <a class="btn" href="/2020/11/20/Redis/Redis%E7%9A%84%E4%BD%9C%E7%94%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -978,7 +916,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/10/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/19/hello/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -992,7 +930,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/10/" class="post-title-link" itemprop="url">LeetCode 10. Regular Expression Matching</a>
+            <a href="/2020/11/19/hello/" class="post-title-link" itemprop="url">hello</a>
         </h2>
 
         <div class="post-meta">
@@ -1002,24 +940,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-19 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-19T02:59:08+08:00">2020-11-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:44:04" itemprop="dateModified" datetime="2020-11-20T08:44:04+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 07:22:58" itemprop="dateModified" datetime="2020-11-20T07:22:58+08:00">2020-11-20</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
-                </span>
-            </span>
 
           <br>
             <span class="post-meta-item" title="本文字数">
@@ -1027,7 +956,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -1046,11 +975,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个字符串 s 和模板串 p ，实现支持通配符 ‘.’  和 ‘*’ 的正则表达式匹配。</p>
-<p>‘.’ : 可以匹配任意单个字符<br>‘*’ : 表示 0 个或任意多个前一个字符</p>
+          有东西被加密了, 请输入密码查看.
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/10/#more" rel="contents">
+              <a class="btn" href="/2020/11/19/hello/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1074,7 +1002,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Leetcode/153/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/19/Kubernetes/Helm%20%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -1088,7 +1016,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/15/Leetcode/153/" class="post-title-link" itemprop="url">153. 寻找旋转排序数组中的最小值</a>
+            <a href="/2020/11/19/Kubernetes/Helm%20%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">Helm 部署项目</a>
         </h2>
 
         <div class="post-meta">
@@ -1098,14 +1026,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-19 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-19T02:59:08+08:00">2020-11-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:44:11" itemprop="dateModified" datetime="2020-11-20T08:44:11+08:00">2020-11-20</time>
+                <time title="修改时间：2020-11-20 08:42:23" itemprop="dateModified" datetime="2020-11-20T08:42:23+08:00">2020-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1113,7 +1041,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Kubernetes</span></a>
                 </span>
             </span>
 
@@ -1123,14 +1051,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>704</span>
+              <span>6.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -1142,11 +1070,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>现有一个有序数组，假设从某个数开始将它后面的数按顺序放到了数组前面。<br>即 [0,1,2,4,5,6,7] 可能变成 [4,5,6,7,0,1,2].</p>
-<p>请找出数组中的最小元素。</p>
+          有东西被加密了, 请输入密码查看.
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/15/Leetcode/153/#more" rel="contents">
+              <a class="btn" href="/2020/11/19/Kubernetes/Helm%20%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1169,7 +1096,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1237,20 +1164,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1286,6 +1213,7 @@
 
         
 
+
 <div class="copyright">
   
   &copy; 
@@ -1299,24 +1227,22 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">235k</span>
+    <span title="站点总字数">690k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">3:34</span>
+    <span title="站点阅读时长">10:27</span>
 </div>
 
-
-<br />
 <!-- 网站运行时间的设置 -->
 <span id="timeDate">载入天数...</span>
 <span id="times">载入时分秒...</span>
 <script>
     var now = new Date();
     function createtime() {
-        var grt= new Date("11/20/2020 15:54:40");//此处修改你的建站时间或者网站上线时间
+        var grt= new Date("11/17/2020 15:54:40");//此处修改你的建站时间或者网站上线时间
         now.setTime(now.getTime()+250);
         days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
         hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
@@ -1376,7 +1302,7 @@ setInterval("createtime()",250);
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/pisces.js"></script>
+<script src="/js/schemes/muse.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
