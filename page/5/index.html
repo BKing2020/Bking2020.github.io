@@ -198,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day001-002)/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/23/Leetcode/541/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -212,7 +212,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day001-002)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day001-002：介绍和安装）</a>
+            <a href="/2020/11/23/Leetcode/541/" class="post-title-link" itemprop="url">LeetCode 541. Reverse String II</a>
         </h2>
 
         <div class="post-meta">
@@ -223,7 +223,183 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:53:41" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-23 05:42:26 / 修改时间：05:46:51" itemprop="dateCreated datePublished" datetime="2020-11-23T05:42:26+08:00">2020-11-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>467</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个字符串和一个整数 k，你需要对从字符串开头算起的每个 2k 个字符的前k个字符进行反转。如果剩余少于 k 个字符，则将剩余的所有全部反转。如果有小于 2k 但大于或等于 k 个字符，则反转前 k 个字符，并将剩余的字符保持原样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">样例</span><br><span class="line">输入: s &#x3D; &quot;abcdefg&quot;, k &#x3D; 2</span><br><span class="line">输出: &quot;bacdfeg&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h4><p>该字符串只包含小写的英文字母。<br>给定字符串的长度和 k 在[1, 10000]范围内。</p>
+<h4 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h4><p>(模拟) O(n)<br>循环枚举每 2k 个字母的开头位置。</p>
+<h4 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h4><p>每个字母最多仅被遍历一次，故时间复杂度为 O(n)。</p>
+<h4 id="python-code"><a href="#python-code" class="headerlink" title="python code"></a>python code</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseStr</span>(<span class="params">self, s: <span class="built_in">str</span>, k: <span class="built_in">int</span></span>) -&gt; str:</span></span><br><span class="line">        l = <span class="number">0</span></span><br><span class="line">        mid = k</span><br><span class="line">        r = <span class="number">2</span> * k</span><br><span class="line">        res = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">while</span> <span class="built_in">len</span>(res) &lt; <span class="built_in">len</span>(s):</span><br><span class="line">            res += s[l:mid][::<span class="number">-1</span>] + s[mid:r]</span><br><span class="line">            l = <span class="number">2</span> * k + l</span><br><span class="line">            mid = mid + <span class="number">2</span> * k</span><br><span class="line">            r = r + <span class="number">2</span> * k</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/23/Leetcode/542/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/23/Leetcode/542/" class="post-title-link" itemprop="url">LeetCode 541. Reverse String II</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-23 05:42:26 / 修改时间：07:32:14" itemprop="dateCreated datePublished" datetime="2020-11-23T05:42:26+08:00">2020-11-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>949</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个由 0 和 1 组成的矩阵，找出每个元素到最近的 0 的距离。</p>
+<p>两个相邻元素间的距离为 1 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">示例 1：</span><br><span class="line"></span><br><span class="line">输入：</span><br><span class="line">[[0,0,0],</span><br><span class="line"> [0,1,0],</span><br><span class="line"> [0,0,0]]</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">[[0,0,0],</span><br><span class="line"> [0,1,0],</span><br><span class="line"> [0,0,0]]</span><br><span class="line">示例 2：</span><br><span class="line"></span><br><span class="line">输入：</span><br><span class="line">[[0,0,0],</span><br><span class="line"> [0,1,0],</span><br><span class="line"> [1,1,1]]</span><br><span class="line"></span><br><span class="line">输出：</span><br><span class="line">[[0,0,0],</span><br><span class="line"> [0,1,0],</span><br><span class="line"> [1,2,1]]</span><br></pre></td></tr></table></figure>
+
+<h4 id="提示："><a href="#提示：" class="headerlink" title="提示："></a>提示：</h4><p>给定矩阵的元素个数不超过 10000。<br>给定矩阵中至少有一个元素是 0。<br>矩阵中的元素只在四个方向上相邻: 上、下、左、右。</p>
+<h4 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h4><p>(宽度优先搜索) O(nm)<br>定义一个队列，初始时将所有 0 元素的坐标进队；定义答案数组 res，0 元素位置的值为 0，其余为 -1。<br>对这个队列开始进行宽度优先搜索，每次扩展上下左右四个方向，若发现新的位置在 dis 中值为 -1，则更新新位置的答案为当前位置答案加 1。</p>
+<h4 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h4><p>宽度优先搜索每个位置仅被遍历一次，故时间复杂度为 O(nm)。</p>
+<h4 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h4><p>需要额外的空间存放队列和每个点的距离，故空间复杂度为 O(nm)。</p>
+<h4 id="python-code"><a href="#python-code" class="headerlink" title="python code"></a>python code</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">updateMatrix</span>(<span class="params">self, matrix: List[List[<span class="built_in">int</span>]]</span>) -&gt; List[List[int]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> matrix <span class="keyword">or</span> <span class="keyword">not</span> matrix[<span class="number">0</span>]: <span class="keyword">return</span> matrix</span><br><span class="line">        m = <span class="built_in">len</span>(matrix)</span><br><span class="line">        n = <span class="built_in">len</span>(matrix[<span class="number">0</span>])</span><br><span class="line">        res = [[<span class="number">-1</span>]*n <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(m)]</span><br><span class="line">        q = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                <span class="keyword">if</span> matrix[i][j] == <span class="number">0</span>:</span><br><span class="line">                    res[i][j] = <span class="number">0</span></span><br><span class="line">                    q.append([i,j])</span><br><span class="line">        dx = [<span class="number">-1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>]</span><br><span class="line">        dy = [<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">while</span> q:</span><br><span class="line">            tmp = q.pop(<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">                x = dx[i] + tmp[<span class="number">0</span>]</span><br><span class="line">                y = dy[i] + tmp[<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">if</span> <span class="number">0</span> &lt;= x &lt; m <span class="keyword">and</span> <span class="number">0</span> &lt;= y &lt; n <span class="keyword">and</span> res[x][y] == <span class="number">-1</span>:</span><br><span class="line">                    res[x][y] = res[tmp[<span class="number">0</span>]][tmp[<span class="number">1</span>]] + <span class="number">1</span></span><br><span class="line">                    q.append([x,y])</span><br><span class="line">        <span class="keyword">return</span> res </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day003)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day003)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day003：升级/参数/连接/权限）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:53:27" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,14 +417,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.8k</span>
+              <span>7.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -260,17 +436,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day001-002：介绍和安装）"><a href="#MySQL学习笔记（Day001-002：介绍和安装）" class="headerlink" title="MySQL学习笔记（Day001-002：介绍和安装）"></a>MySQL学习笔记（Day001-002：介绍和安装）</h2><p>###一.MySQL版本选择</p>
-<ol>
-<li>MySQL5.6以后的版本，推荐使用官方版本。</li>
-<li>Percona：在5.6版本以后，MySQL将Percon之前优化集成到官方版本中;</li>
-<li>MariaDB：无INNODB;且核心代码较老</li>
-<li>MySQL在5.6以后不断重构源码，安装包越来越大，功能和性能在持续改进</li>
-</ol>
-<hr>
+          <h2 id="MySQL学习笔记（Day003：升级-参数-连接-权限）"><a href="#MySQL学习笔记（Day003：升级-参数-连接-权限）" class="headerlink" title="MySQL学习笔记（Day003：升级/参数/连接/权限）"></a>MySQL学习笔记（Day003：升级/参数/连接/权限）</h2><h3 id="一-数据库升级"><a href="#一-数据库升级" class="headerlink" title="一. 数据库升级"></a>一. 数据库升级</h3><p>####1. <strong>环境说明：</strong></p>
+<p>一般说来，MySQL数据库的二进制数据文件，也就是<code>my.cnf</code>中的配置项<code>datadir</code>所在的位置，和我们MySQL应用程序安装的位置，是分开的，仅仅通过配置项告诉MySQL，数据库的数据存在<code>datadir</code>这个目录下。当程序和数据分离以后，方便我们对数据库应用程序做版本的升级或者回退。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day001-002)/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day003)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -361,6 +531,102 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day004)/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day001-002)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day001-002)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day001-002：介绍和安装）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:53:41" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MySQL学习笔记（Day001-002：介绍和安装）"><a href="#MySQL学习笔记（Day001-002：介绍和安装）" class="headerlink" title="MySQL学习笔记（Day001-002：介绍和安装）"></a>MySQL学习笔记（Day001-002：介绍和安装）</h2><p>###一.MySQL版本选择</p>
+<ol>
+<li>MySQL5.6以后的版本，推荐使用官方版本。</li>
+<li>Percona：在5.6版本以后，MySQL将Percon之前优化集成到官方版本中;</li>
+<li>MariaDB：无INNODB;且核心代码较老</li>
+<li>MySQL在5.6以后不断重构源码，安装包越来越大，功能和性能在持续改进</li>
+</ol>
+<hr>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day001-002)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -548,97 +814,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day005)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day007)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatat.png">
-      <meta itemprop="name" content="BKing">
-      <meta itemprop="description" content="记录 Book">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boo-BKing.">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day007)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day007：多实例下/SSL）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:55:45" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>23k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>21 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MySQL学习笔记（Day007：多实例下-SSL）"><a href="#MySQL学习笔记（Day007：多实例下-SSL）" class="headerlink" title="MySQL学习笔记（Day007：多实例下/SSL）"></a>MySQL学习笔记（Day007：多实例下/SSL）</h2><h3 id="一-多实例安装-–-多版本"><a href="#一-多实例安装-–-多版本" class="headerlink" title="一. 多实例安装 – 多版本"></a>一. 多实例安装 – 多版本</h3><h4 id="1-mysqld-multi-标签"><a href="#1-mysqld-multi-标签" class="headerlink" title="1. [mysqld_multi]标签"></a>1. [mysqld_multi]标签</h4><ul>
-<li><strong><code>[mysqld_multi]</code> 是否需要配置</strong><br>从操作演示来看，在<code>my.cnf</code>(<em>老师给的模板配置</em>)上直接配置<code>[mysqld1]</code>、<code>[mysqld2]</code>等实例标签，而<code>不配置[mysqld_multi]</code>,使用<code>mysqld_multi start 1</code>也是<code>可以启动</code>数据库实例的，但是没有<code>mysqld_safe</code>的守护进程。所以该标签<code>需要配置</code></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day007)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -854,7 +1029,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day009)/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day007)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -868,7 +1043,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day009)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day009)JSON</a>
+            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day007)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day007：多实例下/SSL）</a>
         </h2>
 
         <div class="post-meta">
@@ -879,7 +1054,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:57:00" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
+              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:55:45" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -897,14 +1072,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>19k</span>
+              <span>23k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>18 分钟</span>
+              <span>21 分钟</span>
             </span>
 
         </div>
@@ -916,193 +1091,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="MySQL学习笔记（Day009：JSON）"><a href="#MySQL学习笔记（Day009：JSON）" class="headerlink" title="MySQL学习笔记（Day009：JSON）"></a>MySQL学习笔记（Day009：JSON）</h2><h3 id="一-MySQL-JSON类型"><a href="#一-MySQL-JSON类型" class="headerlink" title="一. MySQL JSON类型"></a>一. MySQL JSON类型</h3><h4 id="1-JSON介绍"><a href="#1-JSON介绍" class="headerlink" title="1. JSON介绍"></a>1. JSON介绍</h4><ul>
-<li><strong>JSON</strong>（<code>J</code>ava<code>S</code>cript <code>O</code>bject <code>N</code>otation）是一种轻量级的数据交换语言，并且是独立于语言的文本格式。</li>
-<li>一些<code>NoSQL数据库</code>选择<code>JSON</code>作为其数据存储格式，比如：MongoDB、CouchDB等。</li>
-<li>MySQL<code>5.7.x</code>开始支持<strong>JSON</strong>数据类型。</li>
+          <h2 id="MySQL学习笔记（Day007：多实例下-SSL）"><a href="#MySQL学习笔记（Day007：多实例下-SSL）" class="headerlink" title="MySQL学习笔记（Day007：多实例下/SSL）"></a>MySQL学习笔记（Day007：多实例下/SSL）</h2><h3 id="一-多实例安装-–-多版本"><a href="#一-多实例安装-–-多版本" class="headerlink" title="一. 多实例安装 – 多版本"></a>一. 多实例安装 – 多版本</h3><h4 id="1-mysqld-multi-标签"><a href="#1-mysqld-multi-标签" class="headerlink" title="1. [mysqld_multi]标签"></a>1. [mysqld_multi]标签</h4><ul>
+<li><strong><code>[mysqld_multi]</code> 是否需要配置</strong><br>从操作演示来看，在<code>my.cnf</code>(<em>老师给的模板配置</em>)上直接配置<code>[mysqld1]</code>、<code>[mysqld2]</code>等实例标签，而<code>不配置[mysqld_multi]</code>,使用<code>mysqld_multi start 1</code>也是<code>可以启动</code>数据库实例的，但是没有<code>mysqld_safe</code>的守护进程。所以该标签<code>需要配置</code></li>
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day009)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day010)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatat.png">
-      <meta itemprop="name" content="BKing">
-      <meta itemprop="description" content="记录 Book">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boo-BKing.">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day010)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:57:20" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>19k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>17 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MySQL学习笔记（Day010：Employees-临时表的创建-外键约束）"><a href="#MySQL学习笔记（Day010：Employees-临时表的创建-外键约束）" class="headerlink" title="MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）"></a>MySQL学习笔记（Day010：Employees/临时表的创建/外键约束）</h2><h3 id="一-Employees数据库安装"><a href="#一-Employees数据库安装" class="headerlink" title="一. Employees数据库安装"></a>一. Employees数据库安装</h3><h4 id="1-Employees数据库介绍"><a href="#1-Employees数据库介绍" class="headerlink" title="1. Employees数据库介绍"></a>1. Employees数据库介绍</h4><p><code>Employees</code>数据库是一个用于学习和测试的数据库，大约<code>160MB</code>，<code>4百万条记录</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day010)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day011)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatat.png">
-      <meta itemprop="name" content="BKing">
-      <meta itemprop="description" content="记录 Book">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boo-BKing.">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day011)/" class="post-title-link" itemprop="url">MySQL学习笔记（Day011：SELECT）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-11-21 02:59:08 / 修改时间：22:57:50" itemprop="dateCreated datePublished" datetime="2020-11-21T02:59:08+08:00">2020-11-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>20k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>18 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MySQL学习笔记（Day011：SELECT）"><a href="#MySQL学习笔记（Day011：SELECT）" class="headerlink" title="MySQL学习笔记（Day011：SELECT）"></a>MySQL学习笔记（Day011：SELECT）</h2><h3 id="一-SELECT语法介绍"><a href="#一-SELECT语法介绍" class="headerlink" title="一. SELECT语法介绍"></a>一. SELECT语法介绍</h3><blockquote>
-<p><a target="_blank" rel="noopener" href="http://dev.mysql.com/doc/refman/5.7/en/select.html">SELECT语法官方文档</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day011)/#more" rel="contents">
+              <a class="btn" href="/2020/11/21/MySQL/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(Day007)/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1125,7 +1119,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1193,7 +1187,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">204</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1206,7 +1200,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1256,13 +1250,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">794k</span>
+    <span title="站点总字数">853k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">12:01</span>
+    <span title="站点阅读时长">12:55</span>
 </div>
 
 <!-- 网站运行时间的设置 -->

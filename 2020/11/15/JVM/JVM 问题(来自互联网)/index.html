@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bking.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bking.ico">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1.young gc、old gc、full gc、mixed gc 傻傻分不清？其实 GC 分为两大类，分别是 Partial GC 和 Full GC。 Partial GC 即部分收集，分为 young gc、old gc、mixed gc。  young gc：指的是单单收集年轻代的 GC。 old gc：指的是单单收集老年代的 GC。 mixed gc：这个是 G1 收集器特有的，指的是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM 问题(来自互联网)">
+<meta property="og:url" content="http://example.com/2020/11/15/JVM/JVM%20%E9%97%AE%E9%A2%98(%E6%9D%A5%E8%87%AA%E4%BA%92%E8%81%94%E7%BD%91)/index.html">
+<meta property="og:site_name" content="Boo-BKing.">
+<meta property="og:description" content="1.young gc、old gc、full gc、mixed gc 傻傻分不清？其实 GC 分为两大类，分别是 Partial GC 和 Full GC。 Partial GC 即部分收集，分为 young gc、old gc、mixed gc。  young gc：指的是单单收集年轻代的 GC。 old gc：指的是单单收集老年代的 GC。 mixed gc：这个是 G1 收集器特有的，指的是">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="d:/Elastic/blog/source/img/d5d1d517fdfc4b9b8b02cf659d611290.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/2bcabe7340ddf46660281ad8871f8e3c.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/1a28ca024d921054db1a56edf8a67ebd.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/f9041e25355ecb931c5ee79ed259c5b0.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/f60a0bd9dabca0976879e54f4246f614.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/c09372501f5a4073a910039790f65e22.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/2b537658267105c531411bb04c51cc0a.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/1c9a3e8c502594241e795f5f69f77d9c.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/ecba059fa377a193369cd00ba5e67d45.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/c017556988e7470343b9d8bbf4fb8592.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/7b3eed0ab415c62fc66db0bf17459f53.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/8c17ba9995248a317ca3d72094b6e9f7.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/cd76df9a3b3dfc677714329597e3c230.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/68493161a824979898d88970601d9620.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/355aed312b1b3bfaef184ff90787002f.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122210108059.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122210056357.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122210039790.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122210027731.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122210004699.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205953684.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205941124.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205922218.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205913890.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205858058.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205845229.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205836452.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205827039.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205814973.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205754244.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205730443.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205720083.png">
+<meta property="og:image" content="c:/Users/888/AppData/Roaming/Typora/typora-user-images/image-20201122205709526.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205657005.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205644076.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/image-20201122205625989.png">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679588">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679614">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679633">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679636">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679640">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679659">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679687">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679713">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679734">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679744">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679746">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679755">
+<meta property="og:image" content="d:/Elastic/blog/source/img/679783">
+<meta property="article:published_time" content="2020-11-15T07:42:26.000Z">
+<meta property="article:modified_time" content="2020-11-22T13:05:08.689Z">
+<meta property="article:author" content="BKing">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:/Elastic/blog/source/img/d5d1d517fdfc4b9b8b02cf659d611290.png">
+
+<link rel="canonical" href="http://example.com/2020/11/15/JVM/JVM%20%E9%97%AE%E9%A2%98(%E6%9D%A5%E8%87%AA%E4%BA%92%E8%81%94%E7%BD%91)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JVM 问题(来自互联网) | Boo-BKing.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+
+<link rel="alternate" href="/atom.xml" title="Boo-BKing." type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband" >
+      <a target="_blank" rel="noopener" href="https://github.com/BKing2020" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    
+    </div>
+    
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Boo-BKing.</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">下雨 最爱听的旋律</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/JVM%20%E9%97%AE%E9%A2%98(%E6%9D%A5%E8%87%AA%E4%BA%92%E8%81%94%E7%BD%91)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JVM 问题(来自互联网)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-22 21:05:08" itemprop="dateModified" datetime="2020-11-22T21:05:08+08:00">2020-11-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>24k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>22 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="1-young-gc、old-gc、full-gc、mixed-gc-傻傻分不清？"><a href="#1-young-gc、old-gc、full-gc、mixed-gc-傻傻分不清？" class="headerlink" title="1.young gc、old gc、full gc、mixed gc 傻傻分不清？"></a>1.young gc、old gc、full gc、mixed gc 傻傻分不清？</h3><p>其实 GC 分为两大类，分别是 Partial GC 和 Full GC。</p>
+<p><strong>Partial GC 即部分收集</strong>，分为 young gc、old gc、mixed gc。</p>
+<ul>
+<li>young gc：指的是单单收集年轻代的 GC。</li>
+<li>old gc：指的是单单收集老年代的 GC。</li>
+<li>mixed gc：这个是 G1 收集器特有的，指的是收集整个年轻代和部分老年代的 GC。</li>
+</ul>
+<p><strong>Full GC 即整堆回收</strong>，指的是收取整个堆，包括年轻代、老年代，如果有永久代的话还包括永久代。</p>
+<p>其实还有 Major GC 这个名词，在《深入理解Java虚拟机》中这个名词指代的是单单老年代的 GC，也就是和 old gc 等价的，不过也有很多资料认为其是和 full gc 等价的。</p>
+<p>还有 Minor GC，其指的就是年轻代的 gc。</p>
+<h3 id="2-young-gc-触发条件是什么？"><a href="#2-young-gc-触发条件是什么？" class="headerlink" title="2.young gc 触发条件是什么？"></a>2.young gc 触发条件是什么？</h3><p>大致上可以认为在年轻代的 eden 快要被占满的时候会触发 young gc。</p>
+<p>为什么要说大致上呢？因为有一些收集器的回收实现是在 full gc 前会让先执行以下 young gc。</p>
+<p>比如 Parallel Scavenge，不过有参数可以调整让其不进行 young gc。</p>
+<p>可能还有别的实现也有这种操作，不过正常情况下就当做 eden 区快满了即可。</p>
+<p>eden 快满的触发因素有两个，一个是为对象分配内存不够，一个是为 TLAB 分配内存不够。</p>
+<p>﻿</p>
+<h3 id="3-full-gc-触发条件有哪些？"><a href="#3-full-gc-触发条件有哪些？" class="headerlink" title="3.full gc 触发条件有哪些？"></a>3.full gc 触发条件有哪些？</h3><p>这个触发条件稍微有点多，我们来看下。</p>
+<ul>
+<li>在要进行 young gc 的时候，根据之前统计数据发现年轻代平均晋升大小比现在老年代剩余空间要大，那就会触发 full gc。</li>
+<li>有永久代的话如果永久代满了也会触发 full gc。</li>
+<li>老年代空间不足，大对象直接在老年代申请分配，如果此时老年代空间不足则会触发 full gc。</li>
+<li>担保失败即 promotion failure，新生代的 to 区放不下从 eden 和 from 拷贝过来对象，或者新生代对象 gc 年龄到达阈值需要晋升这两种情况，老年代如果放不下的话都会触发 full gc。</li>
+<li>执行 System.gc()、jmap -dump 等命令会触发 full gc。</li>
+</ul>
+<p>﻿</p>
+<h3 id="3-知道-TLAB-吗？来说说看"><a href="#3-知道-TLAB-吗？来说说看" class="headerlink" title="3.知道 TLAB 吗？来说说看"></a>3.知道 TLAB 吗？来说说看</h3><p>这个得从内存申请说起。</p>
+<p>一般而言生成对象需要向堆中的新生代申请内存空间，而堆又是全局共享的，像新生代内存又是规整的，是通过一个指针来划分的。</p>
+<p><img src="D:\Elastic\blog\source\img\d5d1d517fdfc4b9b8b02cf659d611290.png"></p>
+<p>内存是紧凑的，新对象创建指针就右移对象大小 size 即可，这叫指针加法（bump [up] the pointer）。</p>
+<p>可想而知如果多个线程都在分配对象，那么这个指针就会成为热点资源，需要互斥那分配的效率就低了。</p>
+<p>于是搞了个 TLAB（Thread Local Allocation Buffer），为一个线程分配的内存申请区域。</p>
+<p><strong>这个区域只允许这一个线程申请分配对象，允许所有线程访问这块内存区域</strong>。</p>
+<p>﻿</p>
+<p>TLAB 的思想其实很简单，就是划一块区域给一个线程，这样每个线程只需要在自己的那亩地申请对象内存，不需要争抢热点指针。当这块内存用完了之后再去申请即可。这种思想其实很常见，比如分布式发号器，每次不会一个一个号的取，会取一批号，用完之后再去申请一批。</p>
+<p><img src="D:\Elastic\blog\source\img\2bcabe7340ddf46660281ad8871f8e3c.png" alt="img"></p>
+<p>可以看到每个线程有自己的一块内存分配区域，短一点的箭头代表 TLAB 内部的分配指针。</p>
+<p>如果这块区域用完了再去申请即可。<strong>不过每次申请的大小不固定</strong>，会根据该线程启动到现在的历史信息来调整，比如这个线程一直在分配内存那么 TLAB 就大一些，如果这个线程基本上不会申请分配内存那 TLAB 就小一些。</p>
+<p>还有 TLAB 会浪费空间，我们来看下这个图。</p>
+<p><img src="D:\Elastic\blog\source\img\1a28ca024d921054db1a56edf8a67ebd.png" alt="img"></p>
+<p>可以看到 TLAB 内部只剩一格大小，申请的对象需要两格，这时候需要再申请一块 TLAB ，之前的那一格就浪费了。在 HotSpot 中会生成一个填充对象来填满这一块，<strong>因为堆需要线性遍历</strong>，遍历的流程是通过对象头得知对象的大小，然后跳过这个大小就能找到下一个对象，所以不能有空洞。当然也可以通过空闲链表等外部记录方式来实现遍历。<strong>还有 TLAB 只能分配小对象，大的对象还是需要在共享的 eden 区分配</strong>。所以总的来说 TLAB 是为了避免对象分配时的竞争而设计的。</p>
+<p>﻿</p>
+<h3 id="4-那-PLAB-知道吗？"><a href="#4-那-PLAB-知道吗？" class="headerlink" title="4.那 PLAB 知道吗？"></a>4.那 PLAB 知道吗？</h3><p>可以看到和 TLAB 很像，PLAB 即 Promotion Local Allocation Buffers。用在年轻代对象晋升到老年代时。 在多线程并行执行 YGC 时，可能有很多对象需要晋升到老年代，此时老年代的指针就“热”起来了，于是搞了个 PLAB。先从老年代 freelist（空闲链表） 申请一块空间，然后在这一块空间中就可以通过指针加法（bump the pointer）来分配内存，这样对 freelist 竞争也少了，分配空间也快了。</p>
+<p><img src="D:\Elastic\blog\source\img\f9041e25355ecb931c5ee79ed259c5b0.png" alt="img"></p>
+<p>大致就是上图这么个思想，每个线程先申请一块作为 PLAB ，然后在这一块内存里面分配晋升的对象。这和 TLAB 的思想相似。</p>
+<p>﻿</p>
+<h3 id="5-产生-concurrent-mode-failure-真正的原因"><a href="#5-产生-concurrent-mode-failure-真正的原因" class="headerlink" title="5.产生 concurrent mode failure 真正的原因"></a>5.产生 concurrent mode failure 真正的原因</h3><blockquote>
+<p>《深入理解Java虚拟机》：由于CMS收集器无法处理“浮动垃圾”（FloatingGarbage），有可能出现“Con-current Mode Failure”失败进而导致另一次完全“Stop The World”的Full GC的产生。</p>
+</blockquote>
+<p>这段话的意思是因为抛这个错而导致一次 Full GC。而<strong>实际上是 Full GC 导致抛这个错</strong>，我们来看一下源码，版本是 openjdk-8。首先搜一下这个错：</p>
+<p><img src="D:\Elastic\blog\source\img\f60a0bd9dabca0976879e54f4246f614.png" alt="img"></p>
+<p>再找找看  <code>report_concurrent_mode_interruption</code> 被谁调用。</p>
+<p>查到是在 <code>void CMSCollector::acquire_control_and_collect(...)</code> 这个方法中被调用的。</p>
+<p><img src="D:\Elastic\blog\source\img\c09372501f5a4073a910039790f65e22.png" alt="img"></p>
+<p>再来看看 first_state ： <code>CollectorState first_state = _collectorState;</code></p>
+<p><img src="D:\Elastic\blog\source\img\2b537658267105c531411bb04c51cc0a.png" alt="img"></p>
+<p>看枚举已经很清楚了，就是在 cms gc 还没结束的时候。</p>
+<p>而 <code>acquire_control_and_collect</code> 这个方法是 cms 执行 foreground gc 的。</p>
+<p>cms 分为  foreground gc 和 background gc。</p>
+<p>foreground 其实就是 Full gc。</p>
+<p><strong>因此是 full gc 的时候 cms gc 还在进行中导致抛这个错</strong>。</p>
+<p>究其原因是因为分配速率太快导致堆不够用，回收不过来因此产生 full gc。</p>
+<p>也有可能是发起 cms gc 设置的堆的阈值太高。</p>
+<p>﻿</p>
+<h3 id="6-CMS-GC-发生-concurrent-mode-failure-时的-full-GC-为什么是单线程的"><a href="#6-CMS-GC-发生-concurrent-mode-failure-时的-full-GC-为什么是单线程的" class="headerlink" title="6.CMS GC 发生 concurrent mode failure 时的 full GC 为什么是单线程的?"></a>6.CMS GC 发生 concurrent mode failure 时的 full GC 为什么是单线程的?</h3><p><strong>以下的回答来自 R 大</strong>。</p>
+<p>因为没足够开发资源，偷懒了。就这么简单。没有任何技术上的问题。 大公司都自己内部做了优化。</p>
+<p>所以最初怎么会偷这个懒的呢？多灾多难的CMS GC经历了多次动荡。它最初是作为Sun Labs的Exact VM的低延迟GC而设计实现的。但 Exact VM在与 HotSpot VM争抢 Sun 的正牌 JVM 的内部斗争中失利，CMS GC 后来就作为 Exact VM 的技术遗产被移植到了 HotSpot VM上。就在这个移植还在进行中的时候，Sun 已经开始略显疲态；到 CMS GC 完全移植到 HotSpot VM 的时候，Sun 已经处于快要不行的阶段了。开发资源减少，开发人员流失，当时的 HotSpot VM 开发组能够做的事情并不多，只能挑重要的来做。而这个时候 Sun Labs 的另一个 GC 实现，Garbage-First GC（G1 GC）已经面世。相比可能在长时间运行后受碎片化影响的 CMS，G1 会增量式的整理/压缩堆里的数据，避免受碎片化影响，因而被认为更具潜力。于是当时本来就不多的开发资源，一部分还投给了把G1 GC产品化的项目上——结果也是进展缓慢。毕竟只有一两个人在做。所以当时就没能有足够开发资源去打磨 CMS GC 的各种配套设施的细节，配套的备份 fullGC 的并行化也就耽搁了下来。</p>
+<p>﻿</p>
+<p>但肯定会有同学抱有疑问：HotSpot VM不是已经有并行GC了么？而且还有好几个？</p>
+<p>让我们来看看：</p>
+<ul>
+<li>ParNew：并行的young gen GC，不负责收集old gen。</li>
+<li>Parallel GC（ParallelScavenge）：并行的young gen GC，与ParNew相似但不兼容；同样不负责收集old gen。</li>
+<li>ParallelOld GC（PSCompact）：并行的full GC，但与ParNew / CMS不兼容。</li>
+</ul>
+<p>所以…就是这么一回事。</p>
+<p>HotSpot VM 确实是已经有并行 GC 了，但两个是只负责在 young GC 时收集 young gen 的，这俩之中还只有 ParNew 能跟 CMS 搭配使用；而并行 full GC 虽然有一个 ParallelOld，但却与 CMS GC 不兼容所以无法作为它的备份 full GC使用。</p>
+<p>﻿</p>
+<h3 id="7-为什么有些新老年代的收集器不能组合使用比如-ParNew-和-Parallel-Old？"><a href="#7-为什么有些新老年代的收集器不能组合使用比如-ParNew-和-Parallel-Old？" class="headerlink" title="7.为什么有些新老年代的收集器不能组合使用比如 ParNew 和 Parallel Old？"></a>7.为什么有些新老年代的收集器不能组合使用比如 ParNew 和 Parallel Old？</h3><p><img src="D:\Elastic\blog\source\img\1c9a3e8c502594241e795f5f69f77d9c.png" alt="img"></p>
+<p>这张图是 2008 年 HostSpot 一位 GC 组成员画的，那时候 G1 还没问世，在研发中，所以画了个问号在上面。</p>
+<p>里面的回答是 :</p>
+<blockquote>
+<p>“ParNew” is written in a style… “Parallel Old” is not written in the “ParNew” style</p>
+</blockquote>
+<p>HotSpot VM 自身的分代收集器实现有一套框架，只有在框架内的实现才能互相搭配使用。</p>
+<p>而有个开发他不想按照这个框架实现，自己写了个，测试的成绩还不错后来被  HotSpot VM 给吸收了，这就导致了不兼容。我之前看到一个回答解释的很形象：就像动车组车头带不了绿皮车厢一样，电气，挂钩啥的都不匹配。</p>
+<p>﻿</p>
+<h3 id="8-新生代的-GC-如何避免全堆扫描？"><a href="#8-新生代的-GC-如何避免全堆扫描？" class="headerlink" title="8.新生代的 GC 如何避免全堆扫描？"></a>8.新生代的 GC 如何避免全堆扫描？</h3><p>在常见的分代 GC 中就是利用记忆集来实现的，记录可能存在的老年代中有新生代的引用的对象地址，来避免全堆扫描。</p>
+<p>﻿<img src="D:\Elastic\blog\source\img\ecba059fa377a193369cd00ba5e67d45.png" alt="img"></p>
+<p>上图有个对象精度的，一个是卡精度的，卡精度的叫卡表。</p>
+<p>把堆中分为很多块，每块 512 字节（卡页），用字节数组来中的一个元素来表示某一块，1表示脏块，里面存在跨代引用。</p>
+<p><img src="D:\Elastic\blog\source\img\c017556988e7470343b9d8bbf4fb8592.png" alt="img"></p>
+<p>在 Hotspot 中的实现是卡表，是通过写后屏障维护的，伪代码如下。</p>
+<p><img src="D:\Elastic\blog\source\img\7b3eed0ab415c62fc66db0bf17459f53.png" alt="img"></p>
+<p>cms 中需要记录老年代指向年轻代的引用，但是<strong>写屏障的实现并没有做任何条件的过滤</strong>。</p>
+<p>即<strong>不判断</strong>当前对象是老年代对象且引用的是新生代对象才会标记对应的卡表为脏。</p>
+<p><strong>只要是引用赋值都会把对象的卡标记为脏</strong>，当然YGC扫描的时候只会扫老年代的卡表。</p>
+<p>这样做是减少写屏障带来的消耗，毕竟引用的赋值非常的频繁。</p>
+<p>﻿</p>
+<h3 id="9-那-cms-的记忆集和-G1-的记忆集有什么不一样？"><a href="#9-那-cms-的记忆集和-G1-的记忆集有什么不一样？" class="headerlink" title="9.那 cms 的记忆集和 G1 的记忆集有什么不一样？"></a>9.那 cms 的记忆集和 G1 的记忆集有什么不一样？</h3><p>cms 的记忆集的实现是卡表即 card table。</p>
+<p>通常实现的记忆集是 points-out 的，我们知道<strong>记忆集是用来记录非收集区域指向收集区域的跨代引用</strong>，它的主语其实是非收集区域，所以是 points-out 的。</p>
+<p>在 cms 中只有老年代指向年轻代的卡表，用于年轻代 gc。</p>
+<p>而 G1 是基于 region 的，所以在 points-out 的卡表之上还加了个 points-into 的结构。</p>
+<p>因为一个 region 需要知道<strong>有哪些别的 region 有指向自己的指针，然后还需要知道这些指针在哪些 card 中</strong>。</p>
+<p>其实 G1 的记忆集就是个 hash table，key 就是别的 region 的起始地址，然后 value 是一个集合，里面存储这 card table 的 index。</p>
+<p>我们来看下这个图就很清晰了。</p>
+<p><img src="D:\Elastic\blog\source\img\8c17ba9995248a317ca3d72094b6e9f7.png" alt="img"></p>
+<p>像每次引用字段的赋值都需要维护记忆集开销很大，所以 G1 的实现利用了 logging write barrier（下文会介绍）。也是异步思想，会先将修改记录到队列中，当队列超过一定阈值由后台线程取出遍历来更新记忆集。</p>
+<p>﻿</p>
+<h3 id="10-为什么-G1-不维护年轻代到老年代的记忆集？"><a href="#10-为什么-G1-不维护年轻代到老年代的记忆集？" class="headerlink" title="10.为什么 G1 不维护年轻代到老年代的记忆集？"></a>10.为什么 G1 不维护年轻代到老年代的记忆集？</h3><p>G1 分了 young GC 和 mixed gc。</p>
+<p>young gc 会选取所有年轻代的 region 进行收集。</p>
+<p>midex gc 会选取所有年轻代的 region 和一些收集收益高的老年代 region 进行收集。</p>
+<p>所以<strong>年轻代的 region 都在收集范围内，所以不需要额外记录年轻代到老年代的跨代引用</strong>。</p>
+<p>﻿</p>
+<h3 id="11-cms-和-G1-为了维持并发的正确性分别用了什么手段？"><a href="#11-cms-和-G1-为了维持并发的正确性分别用了什么手段？" class="headerlink" title="11.cms 和 G1 为了维持并发的正确性分别用了什么手段？"></a>11.cms 和 G1 为了维持并发的正确性分别用了什么手段？</h3><p>之前文章分析到了并发执行漏标的两个充分必要条件是：</p>
+<ol>
+<li><p>将新对象插入已扫描完毕的对象中，即插入黑色对象到白色对象的引用。</p>
+</li>
+<li><p>删除了灰色对象到白色对象的引用。</p>
+</li>
+</ol>
+<p>cms 和 g1 分别通过增量更新和 SATB 来打破这两个充分必要条件，维持了 GC 线程与应用线程并发的正确性。</p>
+<p>cms 用了增量更新（Incremental update），打破了第一个条件，通过写屏障将插入的白色对象标记成灰色，即加入到标记栈中，在 remark 阶段再扫描，防止漏标情况。</p>
+<p>G1 用了 SATB（snapshot-at-the-beginning），打破了第二个条件，会通过写屏障把旧的引用关系记下来，之后再把旧引用关系再扫描过。</p>
+<p>这个从英文名词来看就已经很清晰了。讲白了就是在 GC 开始时候如果对象是存活的就认为其存活，等于拍了个快照。而且 gc 过程中新分配的对象也都认为是活的。每个 region 会维持 TAMS （top at mark start）指针，分别是 prevTAMS 和 nextTAMS 分别标记两次并发标记开始时候 Top 指针的位置。</p>
+<p>Top 指针就是 region 中最新分配对象的位置，所以 nextTAMS 和 Top 之间区域的对象都是新分配的对象都认为其是存活的即可。</p>
+<p><img src="D:\Elastic\blog\source\img\cd76df9a3b3dfc677714329597e3c230.png" alt="img"></p>
+<p>而利用增量更新的 cms 在 remark 阶段需要重新所有线程栈和整个年轻代，因为等于之前的根有新增，所以需要重新扫描过，如果年轻代的对象很多的话会比较耗时。</p>
+<p>要注意这阶段是 STW 的，很关键，所以 CMS 也提供了一个 CMSScavengeBeforeRemark 参数，来强制 remark 阶段之前来一次 YGC。</p>
+<p>而 g1 通过 SATB 的话在最终标记阶段只需要扫描 SATB 记录的旧引用即可，从这方面来说会比 cms 快，但是也因为这样浮动垃圾会比 cms 多。</p>
+<p>﻿</p>
+<h3 id="12-什么是-logging-write-barrier-？"><a href="#12-什么是-logging-write-barrier-？" class="headerlink" title="12.什么是 logging write barrier ？"></a>12.什么是 logging write barrier ？</h3><p>写屏障其实耗的是应用程序的性能，是在引用赋值的时候执行的逻辑，这个操作非常的频繁，因此就搞了个 logging write barrier。</p>
+<p><strong>把写屏障要执行的一些逻辑搬运到后台线程执行，来减轻对应用程序的影响</strong>。</p>
+<p>在写屏障里只需要记录一个 log 信息到一个队列中，然后别的后台线程会从队列中取出信息来完成后续的操作，其实就是异步思想。像 SATB write barrier ，每个 Java 线程有一个独立的、定长的 SATBMarkQueue，在写屏障里只把旧引用压入该队列中。满了之后会加到全局 SATBMarkQueueSet。</p>
+<p><img src="D:\Elastic\blog\source\img\68493161a824979898d88970601d9620.png" alt="img"></p>
+<p>后台线程会扫描，如果超过一定阈值就会处理，开始 tracing。</p>
+<p>在维护记忆集的写屏障也用了 logging write barrier 。</p>
+<p>﻿</p>
+<h3 id="13-简单说下-G1-回收流程"><a href="#13-简单说下-G1-回收流程" class="headerlink" title="13.简单说下 G1 回收流程"></a>13.简单说下 G1 回收流程</h3><p>G1 从大局上看分为两大阶段，分别是并发标记和对象拷贝。</p>
+<p><strong>并发标记</strong>是基于 STAB 的，可以分为四大阶段：</p>
+<p>1、初始标记（initial marking)，这个阶段是 STW 的，扫描根集合，标记根直接可达的对象即可。在G1中标记对象是利用外部的bitmap来记录，而不是对象头。</p>
+<p>2、并发阶段（concurrent marking）,这个阶段和应用线程并发，从上一步标记的根直接可达对象开始进行 tracing，递归扫描所有可达对象。 STAB 也会在这个阶段记录着变更的引用。</p>
+<p>3、最终标记（final marking), 这个阶段是 STW 的，处理 STAB 中的引用。</p>
+<p>4、清理阶段（clenaup），这个阶段是 STW 的，根据标记的 bitmap 统计每个 region 存活对象的多少，如果有完全没存活的 region 则整体回收。</p>
+<p><strong>对象拷贝阶段</strong>（evacuation)，这个阶段是 STW 的。</p>
+<p>根据标记结果选择合适的 reigon 组成收集集合（collection set 即 CSet），然后将 CSet 存活对象拷贝到新 region 中。 G1 的瓶颈在于对象拷贝阶段，需要花较多的瓶颈来转移对象。</p>
+<p>﻿</p>
+<h3 id="14-简单说下-cms-回收流程"><a href="#14-简单说下-cms-回收流程" class="headerlink" title="14.简单说下 cms 回收流程"></a>14.简单说下 cms 回收流程</h3><p>其实从之前问题的 CollectorState 枚举可以得知几个流程了。</p>
+<p>1、**初始标记(initial mark)**，这个阶段是 STW 的，扫描根集合，标记根直接可达的对象即可。</p>
+<p>2、**并发标记(Concurrent marking)**，这个阶段和应用线程并发，从上一步标记的根直接可达对象开始进行 tracing，递归扫描所有可达对象。</p>
+<p>3、**并发预清理(Concurrent precleaning)**，这个阶段和应用线程并发，就是想帮重新标记阶段先做点工作，扫描一下卡表脏的区域和新晋升到老年代的对象等，因为重新标记是 STW 的，所以分担一点。</p>
+<p>4、<strong>可中断的预清理阶段（AbortablePreclean）</strong>，这个和上一个阶段基本上一致，就是为了分担重新标记标记的工作。</p>
+<p>5、**重新标记(remark)**，这个阶段是 STW 的，因为并发阶段引用关系会发生变化，所以要重新遍历一遍新生代对象、Gc Roots、卡表等，来修正标记。</p>
+<p>6、**并发清理(Concurrent sweeping)**，这个阶段和应用线程并发，用于清理垃圾。</p>
+<p>7、**并发重置(Concurrent reset)**，这个阶段和应用线程并发，重置 cms 内部状态。</p>
+<p>cms 的瓶颈就在于重新标记阶段，需要较长花费时间来进行重新扫描。</p>
+<p>﻿</p>
+<h3 id="15-cms-写屏障又是维护卡表，又得维护增量更新？"><a href="#15-cms-写屏障又是维护卡表，又得维护增量更新？" class="headerlink" title="15.cms 写屏障又是维护卡表，又得维护增量更新？"></a>15.cms 写屏障又是维护卡表，又得维护增量更新？</h3><p>卡表其实只有一份，又得用来支持 YGC 又得支持 CMS 并发时的增量更新肯定是不够的。</p>
+<p>每次 YGC 都会扫描重置卡表，这样增量更新的记录就被清理了。</p>
+<p>所以<strong>还搞了个 mod-union table</strong>，在并发标记时，如果发生 YGC 需要重置卡表的记录时，就会更新  mod-union table 对应的位置。</p>
+<p>这样 cms 重新标记阶段就能结合当时的卡表和  mod-union table 来处理增量更新，防止漏标对象了。</p>
+<p>﻿</p>
+<h3 id="16-GC-调优的两大目标是啥？"><a href="#16-GC-调优的两大目标是啥？" class="headerlink" title="16.GC 调优的两大目标是啥？"></a>16.GC 调优的两大目标是啥？</h3><p>分别是<strong>最短暂停时间和吞吐量</strong>。</p>
+<p>最短暂停时间：因为 GC 会 STW 暂停所有应用线程，这时候对于用户而言就等于卡顿了，因此对于时延敏感的应用来说减少 STW 的时间是关键。</p>
+<p>吞吐量：对于一些对时延不敏感的应用比如一些后台计算应用来说，吞吐量是关注的重点，它们不关注每次 GC 停顿的时间，只关注总的停顿时间少，吞吐量高。</p>
+<p>举个例子：</p>
+<p>方案一：每次 GC 停顿 100 ms，每秒停顿 5 次。</p>
+<p>方案二：每次 GC 停顿 200 ms，每秒停顿 2 次。</p>
+<p>两个方案相对而言第一个时延低，第二个吞吐高，基本上两者不可兼得。</p>
+<p><strong>所以调优时候需要明确应用的目标</strong>。</p>
+<p>﻿</p>
+<h3 id="17-GC-如何调优"><a href="#17-GC-如何调优" class="headerlink" title="17.GC 如何调优"></a>17.GC 如何调优</h3><p>这个问题在面试中很容易问到，抓住核心回答。</p>
+<p>现在都是分代 GC，调优的思路就是尽量让对象在新生代就被回收，防止过多的对象晋升到老年代，减少大对象的分配。<strong>需要平衡分代的大小、垃圾回收的次数和停顿时间</strong>。需要对 GC 进行完整的监控，监控各年代占用大小、YGC 触发频率、Full GC 触发频率，对象分配速率等等。</p>
+<p>然后根据实际情况进行调优。</p>
+<p>比如进行了莫名其妙的 Full GC，有可能是某个第三方库调了 System.gc。</p>
+<p>Full GC 频繁可能是 CMS GC 触发内存阈值过低，导致对象分配不过来。</p>
+<p>还有对象年龄晋升的阈值、survivor 过小等等，具体情况还是得具体分析，反正核心是不变的。</p>
+<p><img src="D:\Elastic\blog\source\img\355aed312b1b3bfaef184ff90787002f.png" alt="img"></p>
+<h3 id="18-JVM晋升老年代"><a href="#18-JVM晋升老年代" class="headerlink" title="18.JVM晋升老年代"></a>18.JVM晋升老年代</h3><h4 id="1-担保机制"><a href="#1-担保机制" class="headerlink" title="1. 担保机制"></a>1. 担保机制</h4><p>当Survivor区的的内存大小不足以装下下一次Minor GC所有存活对象时，就会启动担保机制，把Survivor区放不下的对象放到老年代；</p>
+<h4 id="2-大对象直接放入老年代"><a href="#2-大对象直接放入老年代" class="headerlink" title="2. 大对象直接放入老年代"></a>2. 大对象直接放入老年代</h4><p>大对象（大小大于-XX:PretenureSizeThreshold的对象）直接在老年代分配内存；（只对Serial和ParNew收集器有效，对于Parallel Scavenge收集器无效）</p>
+<h4 id="3-长期存活的对象进入老年代"><a href="#3-长期存活的对象进入老年代" class="headerlink" title="3.长期存活的对象进入老年代"></a>3.长期存活的对象进入老年代</h4><p>把age大于-XX:MaxTenuringThreshold的对象晋升到老年代；（对象每在Survivor区熬过一次，其age就增加一岁）；</p>
+<h4 id="4-动态年龄判断"><a href="#4-动态年龄判断" class="headerlink" title="4.动态年龄判断"></a>4.动态年龄判断</h4><p>JVM源码</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">uint <span class="title">ageTable::compute_tenuring_threshold</span><span class="params">(<span class="keyword">size_t</span> survivor_capacity)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//survivor_capacity是survivor空间的大小，计算期望的在回收之后的survivor区的内存量</span></span><br><span class="line">    <span class="keyword">size_t</span> desired_survivor_size = (<span class="keyword">size_t</span>)((((<span class="keyword">double</span>)survivor_capacity)*TargetSurvivorRatio)/<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">size_t</span> total = <span class="number">0</span>;</span><br><span class="line">  	uint age = <span class="number">1</span>;</span><br><span class="line">  	<span class="keyword">while</span> (age &lt; table_size) &#123;</span><br><span class="line">    	total += sizes[age];<span class="comment">//sizes数组是每个年龄段对象大小</span></span><br><span class="line">		<span class="keyword">if</span> (total &gt; desired_survivor_size) <span class="keyword">break</span>;</span><br><span class="line">    	age++;</span><br><span class="line">  	&#125;</span><br><span class="line">  	uint result = age &lt; MaxTenuringThreshold ? age : MaxTenuringThreshold;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>TargetSurvivorRatio为我们设置的JVM参数-XX:TargetSurvivorRatio其默认值为50，从代码中可以看到会记录1-&gt;n的年龄对象的总内存和，当此值大于我们期望值时，就设置MaxTenuringThreshhold为该age，即&gt;=此age年龄的对象都会晋升到老年代。</p>
+<h3 id="19-浅谈垃圾回收底层"><a href="#19-浅谈垃圾回收底层" class="headerlink" title="19.浅谈垃圾回收底层"></a>19.浅谈垃圾回收底层</h3><h4 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h4><p>首先我们知道根据 「Java虚拟机规范」，Java 虚拟机运行时数据区分为程序计数器、虚拟机栈、本地方法栈、堆、方法区。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122210108059.png" alt="image-20201122210108059"></p>
+<p>而程序计数器、虚拟机栈、本地方法栈这 3 个区域是线程私有的，会随线程消亡而自动回收，所以不需要管理。</p>
+<p>因此垃圾收集只需要关注堆和方法区。</p>
+<p>而方法区的回收，往往性价比较低，因为判断可以回收的条件比较苛刻。</p>
+<p>比如类的卸载需要此类的所有实例都已经被回收，包括子类。然后需要加载的类加载器也被回收，对应的类对象没有被引用这才允许被回收。</p>
+<p>就类加载器这一条来说，除非像特意设计过的 OSGI 等可以替换类加载器的场景，不然基本上回收不了。</p>
+<p>而垃圾收集回报率高的是堆中内存的回收，因此我们重点关注堆的垃圾收集。</p>
+<h4 id="如何判断对象已成垃圾？"><a href="#如何判断对象已成垃圾？" class="headerlink" title="如何判断对象已成垃圾？"></a>如何判断对象已成垃圾？</h4><p>既然是垃圾收集，我们得先判断哪些对象是垃圾，然后再看看何时清理，如何清理。</p>
+<p>常见的垃圾回收策略分为两种：一种是直接回收，即引用计数；另一种是间接回收，即追踪式回收（可达性分析）。</p>
+<p>大家也都知道引用计数有个致命的缺陷-循环引用，所以 Java 用了可达性分析。</p>
+<p>那为什么有明显缺陷的计数引用还是有很多语言采用了呢？</p>
+<p>比如 CPython ，由此看来引用计数还是有点用的，所以咱们就先来盘一下引用计数。</p>
+<h4 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h4><p>引用计数其实就是为每一个内存单元设置一个计数器，当被引用的时候计数器加一，当计数器减少为 0 的时候就意味着这个单元再也无法被引用了，所以可以立即释放内存。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122210056357.png" alt="image-20201122210056357"></p>
+<p>如上图所示，云朵代表引用，此时对象 A 有 1 个引用，因此计数器的值为 1。</p>
+<p>对象 B 有两个外部引用，所以计数器的值为 2，而对象 C  没有被引用，所以说明这个对象是垃圾，因此可以立即释放内存。</p>
+<p>由此可以知晓引用计数需要占据额外的存储空间，如果本身的内存单元较小则计数器占用的空间就会变得明显。</p>
+<p>其次引用计数的内存释放等于把这个开销平摊到应用的日常运行中，因为在计数为 0 的那一刻，就是释放的内存的时刻，这其实对于内存敏感的场景很适用。</p>
+<p>如果是可达性分析的回收，那些成为垃圾的对象不会立马清除，需要等待下一次 GC 才会被清除。</p>
+<p>引用计数相对而言概念比较简单，不过缺陷就是上面提到的循环引用。</p>
+<h4 id="那像-CPython-是如何解决循环引用的问题呢？"><a href="#那像-CPython-是如何解决循环引用的问题呢？" class="headerlink" title="那像 CPython 是如何解决循环引用的问题呢？"></a>那像 CPython 是如何解决循环引用的问题呢？</h4><p>首先我们知道像整型、字符串内部是不会引用其他对象的，所以不存在循环引用的问题，因此使用引用计数并没有问题。</p>
+<p>那像 List、dictionaries、instances 这类容器对象就有可能产生循环依赖的问题，因此 Python 在引用计数的基础之上又引入了标记-清除来做备份处理。</p>
+<p>但是具体的做法又和传统的标记-清除不一样，它采取的是找不可达的对象，而不是可达的对象。</p>
+<p>Python 使用双向链表来链接容器对象，当一个容器对象被创建时，它被插入到这个链表中，当它被删除时则移除。</p>
+<p>然后在容器对象上还会添加一个字段 gc_refs，现在咱们再来看看是如何处理循环引用的：</p>
+<ol>
+<li>对每个容器对象，将 gc_refs 设置为该对象的引用计数。</li>
+<li>对每个容器对象，查找它所引用的容器对象，并减少找到的被引用的容器对象的 gc_refs 字段。</li>
+<li>将此时 gc_refs 大于 0 的容器对象移动到不同的集合中，因为 gc_refs 大于 0 说明有对象外部引用它，因此不能释放这些对象。</li>
+<li>然后找出 gc_refs 大于 0 的容器对象所引用的对象，它们也不能被清除。</li>
+<li>最后剩下的对象说明仅由该链表中的对象引用，没有外部引用，所以是垃圾可以清除。</li>
+</ol>
+<p>具体如下图示例，A 和 B 对象循环引用， C 对象引用了 D 对象。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122210039790.png" alt="image-20201122210039790"></p>
+<p>为了让图片更加清晰，我把步骤分开截图了，上图是 1-2 步骤，下图是 3-4 步骤。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122210027731.png" alt="image-20201122210027731"></p>
+<p>最终循环引用的 A 和 B 都能被清理，但是天下没有免费的午餐，最大的开销之一是每个容器对象需要额外字段。</p>
+<p>还有维护容器链表的开销。根据 pybench，这个开销占了大约 4% 的减速。</p>
+<p>至此我们知晓了引用计数的优点就是实现简单，并且内存清理及时，缺点就是无法处理循环引用，不过可以结合标记-清除等方案来兜底，保证垃圾回收的完整性。</p>
+<p>所以 Python 没有解决引用计数的循环引用问题，只是结合了非传统的标记-清除方案来兜底，算是曲线救国。</p>
+<p>其实极端情况下引用计数也不会那么及时，你想假如现在有一个对象引用了另一个对象，而另一个对象又引用了另一个，依次引用下去。</p>
+<p>那么当第一个对象要被回收的时候，就会引发连锁回收反应，对象很多的话这个延时就凸显出来了。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122210004699.png" alt="image-20201122210004699"></p>
+<h4 id="可达性分析"><a href="#可达性分析" class="headerlink" title="可达性分析"></a>可达性分析</h4><p>可达性分析其实就是利用标记-清除(mark-sweep)，就是标记可达对象，清除不可达对象。至于用什么方式清，清了之后要不要整理这都是后话。</p>
+<p>标记-清除具体的做法是定期或者内存不足时进行垃圾回收，从根引用(GC Roots)开始遍历扫描，将所有扫描到的对象标记为可达，然后将所有不可达的对象回收了。</p>
+<p>所谓的根引用包括全局变量、栈上引用、寄存器上的等。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205953684.png" alt="image-20201122205953684"></p>
+<p>看到这里大家不知道是否有点感觉，我们会在内存不足的时候进行 GC，而内存不足时也是对象最多时，对象最多因此需要扫描标记的时间也长。</p>
+<p>所以标记-清除等于把垃圾积累起来，然后再一次性清除，这样就会在垃圾回收时消耗大量资源，影响应用的正常运行。</p>
+<p>所以才会有分代式垃圾回收和仅先标记根节点直达的对象再并发 tracing 的手段。</p>
+<p>但这也只能减轻无法根除。</p>
+<p>我认为这是标记-清除和引用计数的思想上最大的差别，一个攒着处理，一个把这种消耗平摊在应用的日常运行中。</p>
+<p>而不论标记-清楚还是引用计数，其实都只关心引用类型，像一些整型啥的就不需要管。</p>
+<p>所以 JVM 还需要判断栈上的数据是什么类型，这里又可以分为保守式 GC、半保守式 GC、和准确式 GC。</p>
+<h4 id="保守式-GC"><a href="#保守式-GC" class="headerlink" title="保守式 GC"></a>保守式 GC</h4><p>保守式 GC 指的是 JVM 不会记录数据的类型，也就是无法区分内存上的某个位置的数据到底是引用类型还是非引用类型。</p>
+<p>因此只能靠一些条件来猜测是否有指针指向。比如在栈上扫描的时候根据所在地址是否在 GC 堆的上下界之内，是否字节对齐等手段来判断这个是不是指向 GC 堆中的指针。</p>
+<p>之所以称之为保守式 GC 是因为不符合猜测条件的肯定不是指向 GC 堆中的指针，因此那块内存没有被引用，而符合的却不一定是指针，所以是保守的猜测。</p>
+<p>我再画一张图来解释一下，看了图之后应该就很清晰了。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205941124.png" alt="image-20201122205941124"></p>
+<p>前面我们知道可以根据指针指向地址来判断，比如是否字节对齐，是否在堆的范围之内，但是就有可能出现恰好有数值的值就是地址的值。</p>
+<p>这就混乱了，所以就不能确定这是指针，只能保守认为就是指针。</p>
+<p>因此肯定不会有误杀对象的情况。只会有对象已经死了，但是有疑似指针的存在指向它，误以为它还活着而放过了它的情况发生。</p>
+<p>所以保守式 GC 会有放过一些“垃圾”，对内存不太友好。</p>
+<p>并且因为疑似指针的情况，导致我们无法确认它是否是真的指针，所以也就无法移动对象，因为移动对象就需要改指针。</p>
+<p>有一个方法就是加个中间层，也就是句柄层，引用会先指到句柄，然后再从句柄表找到实际对象。</p>
+<p>所以直接引用不需要改变，如果要移动对象只需要修改句柄表即可。不过这样访问就多了一层，效率就变低了。</p>
+<h4 id="半保守式GC"><a href="#半保守式GC" class="headerlink" title="半保守式GC"></a>半保守式GC</h4><p>半保守式GC，在对象上会记录类型信息而其他地方还是没有记录，因此从根扫描的话还是一样，得靠猜测。</p>
+<p>但是得到堆内对象了之后，就能准确知晓对象所包含的信息了，因此之后 tracing 都是准确的，所以称为半保守式 GC。</p>
+<p>现在可以得知半保守式 GC 只有根直接扫描的对象无法移动，从直接对象再追溯出去的对象可以移动，所以半保守式 GC 可以使用移动部分对象的算法，也可以使用标记-清除这种不移动对象的算法。</p>
+<p>而保守式 GC 只能使用标记-清除算法。</p>
+<h4 id="准确式-GC"><a href="#准确式-GC" class="headerlink" title="准确式 GC"></a>准确式 GC</h4><p>相信大家看下来已经知道准确意味 JVM 需要清晰的知晓对象的类型，包括在栈上的引用也能得知类型等。</p>
+<p>能想到的可以在指针上打标记，来表明类型，或者在外部记录类型信息形成一张映射表。</p>
+<p>HotSpot 用的就是映射表，这个表叫 OopMap。</p>
+<p>在 HotSpot 中，对象的类型信息里会记录自己的 OopMap，记录了在该类型的对象内什么偏移量上是什么类型的数据，而在解释器中执行的方法可以通过解释器里的功能自动生成出 OopMap 出来给 GC 用。</p>
+<p>被 JIT 编译过的方法，也会在特定的位置生成 OopMap，记录了执行到该方法的某条指令时栈上和寄存器里哪些位置是引用。</p>
+<p>这些特定的位置主要在：</p>
+<ol>
+<li>循环的末尾（非 counted 循环）</li>
+<li>方法临返回前 / 调用方法的call指令后</li>
+<li>可能抛异常的位置</li>
+</ol>
+<p>这些位置就叫作安全点(safepoint)。</p>
+<p>那为什么要选择这些位置插入呢？因为如果对每条指令都记录一个 OopMap 的话空间开销就过大了，因此就选择这些个关键位置来记录即可。</p>
+<p>所以在 HotSpot 中 GC 不是在任何位置都能进入的，只能在安全点进入。</p>
+<p>至此我们知晓了可以在类加载时计算得到对象类型中的 OopMap，解释器生成的 OopMap 和 JIT 生成的 OopMap ，所以 GC 的时候已经有充足的条件来准确判断对象类型。</p>
+<p>因此称为准确式 GC。</p>
+<p>其实还有个 JNI 调用，它们既不在解释器执行，也不会经过 JIT 编译生成，所以会缺少 OopMap。</p>
+<p>在 HotSpot 是通过句柄包装来解决准确性问题的，像 JNI 的入参和返回值引用都通过句柄包装起来，也就是通过句柄再访问真正的对象。</p>
+<p>这样在 GC 的时候就不用扫描 JNI 的栈帧，直接扫描句柄表就知道 JNI 引用了 GC 堆中哪些对象了。</p>
+<h4 id="安全点"><a href="#安全点" class="headerlink" title="安全点"></a>安全点</h4><p>我们已经提到了安全点，安全点当然不是只给记录 OopMap 用的，因为 GC 需要一个一致性快照，所以应用线程需要暂停，而暂停点的选择就是安全点。</p>
+<p>我们来捋一遍思路。首先给个 GC 名词，在垃圾收集场景下将应用程序称为 mutator 。</p>
+<p>一个能被 mutator 访问的对象就是活着的，也就是说 mutator 的上下文包含了可以访问存活对象的数据。</p>
+<p>这个上下文其实指的就是栈、寄存器等上面的数据，对于 GC 而言它只关心栈上、寄存器等哪个位置是引用，因为它只需要关注引用。</p>
+<p>但是上下文在 mutator 运行过程中是一直在变化的，所以 GC 需要获取一个一致性上下文快照来枚举所有的根对象。</p>
+<p>而快照的获取需要停止 mutator 所有线程，不然就得不到一致的数据，导致一些活着对象丢失，这里说的一致性其实就像事务的一致性。</p>
+<p>而 mutator 所有线程中这些有机会成为暂停位置的点就叫 safepoint 即安全点。</p>
+<p>openjdk 官网对安全点的定义是：</p>
+<blockquote>
+<p>A point during program execution at which all GC roots are known and all heap object contents are consistent. From a global point of view, all threads must block at a safepoint before the GC can run.</p>
+</blockquote>
+<p>不过 safepoint 不仅仅只有 GC 有用，比如 deoptimization、Class redefinition 都有，只是 GC safepoint 比较知名。</p>
+<p>我们再来想一下可以在哪些位置放置这个安全点。</p>
+<p>对于解释器来说其实每个字节码边界都可以成为一个安全点，对于 JIT 编译的代码也能在很多位置插入安全点，但是实现上只会在一些特定的位置插入安全点。</p>
+<p>因为安全点是需要 check 的，而 check 需要开销，如果安全点过多那么开销就大了，等于每执行几步就需要检查一下是否需要进入安全点。</p>
+<p>其次也就是我们上面提到的会记录 OopMap ，所以有额外的空间开销。</p>
+<p>那 mutator 是如何得知此时需要在安全点暂停呢？</p>
+<p>其实上面已经提到了是 check，再具体一些还分解释执行和编译执行时不同的 check。</p>
+<p>在解释执行的时候的 check 就是在安全点 polling 一个标志位，如果此时要进入 GC 就会设置这个标志位。</p>
+<p>而编译执行是 polling page 不可读，在需要进入 safepoint 时就把这个内存页设为不可访问，然后编译代码访问就会发生异常，然后捕获这个异常挂起即暂停。</p>
+<p>这里可能会有同学问，那此时阻塞住的线程咋办？它到不了安全点啊，总不能等着它吧？</p>
+<p>这里就要引入安全区域的概念，在这种引用关系不会发生变化的代码段中的区域称为安全区域。</p>
+<p>在这个区域内的任意地方开始 GC 都是安全的，这些执行到安全区域的线程也会标识自己进入了安全区域，</p>
+<p>所以会 GC 就不用等着了，并且这些线程如果要出安全区域的时候也会查看此时是否在 GC ，如果在就阻塞等着，如果 GC 结束了那就继续执行。</p>
+<p>可能有些同学对counted 循环有点疑问，像<code>for (int i...)</code> 这种就是 counted 循环，这里不会埋安全点。</p>
+<p>所以说假设你有一个 counted loop 然后里面做了一些很慢的操作，所以很有可能其他线程都进入安全点阻塞就等这个 loop 的线程完毕，这就卡顿了。</p>
+<h4 id="分代收集"><a href="#分代收集" class="headerlink" title="分代收集"></a>分代收集</h4><p>前面我们提到标记-清除方式的 GC 其实就是攒着垃圾收，这样集中式回收会给应用的正常运行带来影响，所以就采取了分代收集的思想。</p>
+<p>因为研究发现有些对象基本上不会消亡，存在的时间很长，而有些对象出来没多久就会被咔嚓了。这其实就是弱分代假说和强分代假说。</p>
+<p>所以将堆分为新生代和老年代，这样对不同的区域可以根据不同的回收策略来处理，提升回收效率。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205922218.png" alt="image-20201122205922218"></p>
+<p>比如新生代的对象有朝生夕死的特性，因此垃圾收集的回报率很高，需要追溯标记的存活对象也很少，因此收集的也快，可以将垃圾收集安排地频繁一些。</p>
+<p>新生代每次垃圾收集存活的对象很少的话，如果用标记-清除算法每次需要清除的对象很多，因此可以采用标记-复制算法，每次将存活的对象复制到一个区域，剩下了直接全部清除即可。</p>
+<p>但是朴素的标记-复制算法是将堆对半分，但是这样内存利用率太低了，只有 50%。</p>
+<p>所以 HotSpot 虚拟机分了一个 Eden 区和两个Survivor，默认大小比例是8∶1：1，这样利用率有 90%。</p>
+<p>每次回收就将存活的对象拷贝至一个 Survivor 区，然后清空其他区域即可，如果 Survivor 区放不下就放到 老年代去，这就是分配担保机制。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205913890.png" alt="image-20201122205913890"></p>
+<p>而老年代的对象基本上都不是垃圾，所以追溯标记的时间比较长，收集的回报率也比较低，所以收集频率安排的低一些。</p>
+<p>这个区域由于每次清除的对象很少，因此可以用标记-清除算法，但是单单清除不移动对象的话会有很多内存碎片的产生，所以还有一种叫标记-整理的算法，等于每次清除了之后需要将内存规整规整，需要移动对象，比较耗时。</p>
+<p>所以可以利用标记-清除和标记-整理两者结合起来收集老年代，比如平日都用标记-清除，当察觉内存碎片实在太多了就用标记-整理来配合使用。</p>
+<p>可能还有很多同学对的标记-清除，标记-整理，标记-复制算法不太清晰，没事，咱们来盘一下。</p>
+<h4 id="标记-清除"><a href="#标记-清除" class="headerlink" title="标记-清除"></a>标记-清除</h4><p>分为两个阶段：</p>
+<p>标记阶段：tracing 阶段，从根（栈、寄存器、全局变量等）开始遍历对象图，标记所遇到的每个对象。</p>
+<p>清除阶段：扫描堆中的对象，将为标记的对象作为垃圾回收。</p>
+<p>基本上就是下图所示这个过程：</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205858058.png" alt="image-20201122205858058"></p>
+<p>清除不会移动和整理内存空间，一般都是通过空闲链表(双向链表)来标记哪一块内存空闲可用，因此会导致一个情况：空间碎片。</p>
+<p>这会使得明明总的内存是够的，但是申请内存就是不足。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205845229.png" alt="image-20201122205845229"></p>
+<p>而且在申请内存的时候也有点麻烦，需要遍历链表查找合适的内存块，会比较耗时。</p>
+<p>所以会有多个空闲链表的实现，也就是根据内存分块大小组成不同的链表，比如分为大分块链表和小分块链表，这样根据申请的内存分块大小遍历不同的链表，加快申请的效率。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205836452.png" alt="image-20201122205836452"></p>
+<p>当然还可以分更多个链表。</p>
+<p>还有标记，标记的话一般我们会觉得应该是标记在对象身上，比如标记位放在对象头中，但是这对写时复制不兼容。</p>
+<p>等于每一次 GC 都需要修改对象，假设是 fork 出来的，其实是共享一块内存，那修改必然导致复制。</p>
+<p>所以有一种位图标记法，其实就是将堆的内存某个块用一个位来标记。就像我们的内存是一页一页的，堆中的内存可以分成一块一块，而对象就是在一块，或者多块内存上。</p>
+<p>根据对象所在的地址和堆的起始地址就可以算出对象是在第几块上，然后用一个位图中的第几位在置为 1 ，表明这块地址上的对象被标记了。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205827039.png" alt="image-20201122205827039"></p>
+<p>而且用位图表格法不仅可以利用写时复制，清除也更加高效，如果标记在对象头上，那么需要遍历整个堆来扫描对象，现在有了位图，可以快速遍历清除对象。</p>
+<p>但是不论是标记对象头还是利用位图，标记-清除的碎片问题还是处理不了。</p>
+<p>因此就引出了标记-复制和标记-整理。</p>
+<h4 id="标记-复制"><a href="#标记-复制" class="headerlink" title="标记-复制"></a>标记-复制</h4><p>首先这个算法会把堆分为两块，一块是 From、一块是 To。</p>
+<p>对象只会在 From 上生成，发生 GC 之后会找到所有存活对象，然后将其复制到 To 区，之后整体回收 From 区。</p>
+<p>再将 To 区和 From 区身份对调，即 To 变成 From ， From 变成 To，我再用图来解释一波。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205814973.png" alt="image-20201122205814973"></p>
+<p>可以看到内存的分配是紧凑的，不会有内存碎片的产生。</p>
+<p>不需要空闲链表的存在，直接移动指针分配内存，效率很高。</p>
+<p>对 CPU缓存亲和性高，因为从根开始遍历一个节点，是深度优先遍历，把关联的对象都找到，然后内存分配在相近的地方。</p>
+<p>这样根据局部性原理，一个对象被加载了那它所引用的对象也同时被加载，因此访问缓存直接命中。、</p>
+<p>当然它也是有缺点的，因为对象的分配只能在 From 区，而 From 区只有堆一半大小，因此内存的利用率是 50%。</p>
+<p>其次如果存活的对象很多，那么复制的压力还是很大的，会比较慢。</p>
+<p>然后由于需要移动对象，因此不适用于上文提到的保守式 GC。</p>
+<p>当然我上面描述的是深度优先就是递归调用，有栈溢出风险，还有一种 Cheney 的 GC 复制算法，是采用迭代的广度优先遍历，具体不做分析了，有兴趣自行搜索。</p>
+<h4 id="标记-整理"><a href="#标记-整理" class="headerlink" title="标记-整理"></a>标记-整理</h4><p>标记-整理其实和标记-复制差不多，区别在于复制算法是分为两个区来回复制，而整理不分区，直接整理。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205754244.png" alt="image-20201122205754244"></p>
+<p>算法思路还是很清晰的，将存活的对象往边界整理，也没有内存碎片，也不需要复制算法那样腾出一半的空间，所以内存利用率也高。</p>
+<p>缺点就是需要对堆进行多次搜索，毕竟是在一个空间内又标记，又移动的，所以整体而言花费的时间较多，而且如果堆很大的情况，那么消耗的时间将更加突出。</p>
+<p>至此相信你对标记-清除、标记-复制和标记-整理都清晰了，让我们再回到刚才提到的分代收集。</p>
+<h4 id="跨代引用"><a href="#跨代引用" class="headerlink" title="跨代引用"></a>跨代引用</h4><p>我们已经根据对象存活的特性进行了分代，提高了垃圾收集的效率，但是像在回收新生代的时候，有可能有老年代的对象引用了新生代对象，所以老年代也需要作为根，但是如果扫描整个老年代的话效率就又降低了。</p>
+<p>所以就搞了个叫记忆集（Remembered Set）的东西，来记录跨代之间的引用而避免扫描整体非收集区域。</p>
+<p>因此记忆集就是一种用于记录从非收集区域指向收集区域的指针集合的抽象数据结构。根据记录的精度分为</p>
+<ul>
+<li>字长精度，每条记录精确到机器字长。</li>
+<li>对象精度，每条记录精确到对象。</li>
+<li>卡精度，每条记录精确到一块内存区域。</li>
+</ul>
+<p>最常见的是用卡精度来实现记忆集，称之为卡表。</p>
+<p>我来解释下什么叫卡。</p>
+<p>拿对象精度来距离，假设新生代对象 A 被老年代对象 D 引用了，那么就需要记录老年代 D 所在的地址引用了新生代对象。</p>
+<p>那卡的意思就是将内存空间分成很多卡片。假设新生代对象 A 被老年代 D 引用了，那么就需要记录老年代 D 所在的那一块内存片有引用新生代对象。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205730443.png" alt="image-20201122205730443"></p>
+<p>也就是说堆被卡切割了，假设卡的大小是 2，堆是 20，那么堆一共可以划分成 10 个卡。</p>
+<p>因为卡的范围大，如果此时 D 旁边在同一个卡内的对象也有引用新生代对象的话，那么就只需要一条记录。</p>
+<p>一般会用字节数组来实现卡表，卡的范围也是设为 2 的 N 次幂大小。来看一下图就很清晰了。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205720083.png" alt="image-20201122205720083"></p>
+<p>假设地址从 0x0000 开始，那么字节数组的 0号元素代表 0x0000～0x01FF，1 号代表0x0200～0x03FF，依次类推即可。</p>
+<p>然后到时候回收新生代的时候，只需要扫描卡表，把标识为 1 的脏表所在内存块加入到 GC Roots 中扫描，这样就不需要扫描整个老年代了。</p>
+<p>用了卡表的话占用内存比较少，但是相对字长、对象来说精度不准，需要扫描一片。所以也是一种取舍，到底要多大的卡。</p>
+<p>还有一种多卡表，简单的说就是有多张卡表，这里我画两张卡表示意一下。</p>
+<p><img src="C:\Users\888\AppData\Roaming\Typora\typora-user-images\image-20201122205709526.png" alt="image-20201122205709526"></p>
+<p>上面的卡表表示的地址范围更大，这样可以先扫描范围大的表，发现中间一块脏了，然后再通过下标计算直接得到更具体的地址范围。</p>
+<p>这种多卡表在堆内存比较大，且跨代引用较少的时候，扫描效率较高。</p>
+<p>而卡表一般都是通过写屏障来维护的，写屏障其实就相当于一个 AOP，在对象引用字段赋值的时候加入更新卡表的代码。</p>
+<p>这其实很好理解，说白了就是当引用字段赋值的时候判断下当前对象是老年代对象，所引用对象是新生代对象，于是就在老年代对象所对应的卡表位置置为 1，表示脏，待会需要加入根扫描。</p>
+<p>不过这种将老年代作为根来扫描会有浮动垃圾的情况，因为老年代的对象可能已经成为垃圾，所以拿垃圾来作为根扫描出来的新生代对象也很有可能是垃圾。</p>
+<p>不过这是分代收集必须做出的牺牲。</p>
+<h4 id="增量式-GC"><a href="#增量式-GC" class="headerlink" title="增量式 GC"></a>增量式 GC</h4><p>所谓的增量式 GC 其实就是在应用线程执行中，穿插着一点一点的完成 GC，来看个图就很清晰了</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205657005.png" alt="image-20201122205657005"></p>
+<p>这样看起来 GC 的时间跨度变大了，但是 mutator 暂停的时间变短了。</p>
+<p>对于增量式 GC ，Dijkstra 等人抽象除了三色标记算法，来表示 GC 中对象三种不同状况。</p>
+<h4 id="三色标记算法"><a href="#三色标记算法" class="headerlink" title="三色标记算法"></a>三色标记算法</h4><p>白色：表示还未搜索到的对象。灰色：表示正在搜索还未搜索完的对象。黑色：表示搜索完成的对象。</p>
+<p>下面这图从维基百科搞得，虽说颜色没对上，但是意思是对的（black 画成了蓝色，grey画成了黄色）。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205644076.png" alt="image-20201122205644076"></p>
+<p>我再用文字概述一下三色的转换。</p>
+<p>GC 开始前所有对象都是白色，GC 一开始所有根能够直达的对象被压到栈中，待搜索，此时颜色是灰色。</p>
+<p>然后灰色对象依次从栈中取出搜索子对象，子对象也会被涂为灰色，入栈。当其所有的子对象都涂为灰色之后该对象被涂为黑色。</p>
+<p>当 GC 结束之后灰色对象将全部没了，剩下黑色的为存活对象，白色的为垃圾。</p>
+<p>一般增量式标记-清除会分为三个阶段：</p>
+<ol>
+<li>根查找，需要暂停应用线程，找到根直接引用的对象。</li>
+<li>标记阶段，和应用线程并发执行。</li>
+<li>清除阶段。</li>
+</ol>
+<p>这里解释下 GC 中两个名词的含义。</p>
+<p>并发：应用线程和 GC 线程一起执行。并行：多个 GC 线程一起执行。</p>
+<p>看起来好像三色标记没啥问题？来看看下图。</p>
+<p><img src="D:\Elastic\blog\source\img\image-20201122205625989.png" alt="image-20201122205625989"></p>
+<p>第一个阶段搜索到 A 的子对象 B了，因此 A 被染成了黑色，B 为灰色。此时需要搜索 B。</p>
+<p>但是在 B 开始搜索时，A 的引用被 mutator 换给了 C，然后此时 B 到 C 的引用也被删了。</p>
+<p>接着开始搜索 B ，此时 B 没有引用因此搜索结束，这时候 C 就被当垃圾了，因此 A 已经黑色了，所以不会再搜索到 C 了。</p>
+<p>这就是出现漏标的情况，把还在使用的对象当成垃圾清除了，非常严重，这是 GC 不允许的，宁愿放过，不能杀错。</p>
+<p>还有一种情况多标，比如 A 变成黑色之后，根引用被 mutator 删除了，那其实 A 就属于垃圾，但是已经被标记为黑色了，那就得等下次 GC 清除了。</p>
+<p>这其实就是标记过程中没有暂停 mutator 而导致的，但这也是为了让 GC 减少对应用程序运行的影响。</p>
+<p>多标其实还能接受，漏标的话就必须处理了，我们可以总结一下为什么会发生漏标：</p>
+<ol>
+<li>mutator 插入黑色对象 A 到白色对象 C 的一个引用</li>
+<li>mutator 删除了灰色对象 B 到白色对象 C 的一个引用</li>
+</ol>
+<p>只要打破这两个条件任意一个就不会发生漏标的情况。</p>
+<p>这时候可以通过以下手段来打破两个条件：</p>
+<p>利用写屏障在黑色引用白色对象时候，将白色对象置为灰色，这叫增量更新。</p>
+<p>利用写屏障在灰色对象删除对白色对象的引用时，将白色对象置为灰，其实就是保存旧的引用关系。这叫STAB（snapshot-at-the-beginning）。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>至此有关垃圾回收的关键点和思路都差不多了，具体有关 JVM 的垃圾回收器等我下篇再作分析。</p>
+<p>现在我们再来总结一下。</p>
+<p>关于垃圾回收首先得找出垃圾，而找出垃圾分为两个流派，一个是引用计数，一个是可达性分析。</p>
+<p>引用计数垃圾回收的及时，对内存较友好，但是循环引用无法处理。</p>
+<p>可达性分析基本上是现代垃圾回收的核心选择，但是由于需要统一回收比较耗时，容易影响应用的正常运行。</p>
+<p>所以可达性分析的研究方向就是往如何减少对应用程序运行的影响即减少 STW(stop the world) 的时间。</p>
+<p>因此根据对象分代假说研究出了分代收集，根据对象的特性划分了新生代和老年代，采取不同的收集算法，提升回收的效率。</p>
+<p>想方设法的拆解 GC 的步骤使得可以与应用线程并发，并且采取并行收集，加快收集速度。</p>
+<p>还有往评估的方向的延迟回收或者说回收部分垃圾来减少 STW 的时间。</p>
+<h3 id="20-zgc浅谈"><a href="#20-zgc浅谈" class="headerlink" title="20.zgc浅谈"></a>20.zgc浅谈</h3><h4 id="ZGC目标"><a href="#ZGC目标" class="headerlink" title="ZGC目标"></a>ZGC目标</h4><p>如下图所示，ZGC的目标主要有4个：</p>
+<ul>
+<li>支持TB量级的堆。这你受得了吗？我们生产环境的硬盘还没有上TB呢，这应该可以满足未来十年内，所有JAVA应用的需求了吧。</li>
+<li>最大GC停顿时间不超10ms。这你受得了吗？目前一般线上环境运行良好的JAVA应用Minor GC停顿时间在10ms左右，Major GC一般都需要100ms以上（G1可以调节停顿时间，但是如果调的过低的话，反而会适得其反），之所以能做到这一点是因为它的停顿时间主要跟Root扫描有关，而Root数量和堆大小是没有任何关系的。</li>
+<li>奠定未来GC特性的基础。牛逼，牛逼！</li>
+<li>最糟糕的情况下吞吐量会降低15%。这都不是事，停顿时间足够优秀。至于吞吐量，通过扩容分分钟解决。</li>
+</ul>
+<p><img src="D:\Elastic\blog\source\img\679588" alt="image.png"></p>
+<p>另外，Oracle官方提到了它最大的优点是：它的停顿时间不会随着堆的增大而增长！也就是说，几十G堆的停顿时间是10ms以下，几百G甚至上T堆的停顿时间也是10ms以下。</p>
+<h4 id="ZGC概述"><a href="#ZGC概述" class="headerlink" title="ZGC概述"></a>ZGC概述</h4><p>接下来从几个维度概述一下ZGC。</p>
+<ol>
+<li>New GC</li>
+<li>Single Generation</li>
+<li>Region Based</li>
+<li>Partial Compaction</li>
+<li>NUMA-aware</li>
+<li>Colored Pointers</li>
+<li>Load Barriers</li>
+<li>ZGC tuning</li>
+<li>Change Log</li>
+</ol>
+<h4 id="New-GC"><a href="#New-GC" class="headerlink" title="New GC"></a>New GC</h4><p>ZGC是一个全新的垃圾回收器，它完全不同以往HotSpot的任何垃圾回收器，比如：PS、CMS、G1等。如果真要说它最像谁的话，那应该是Azul公司的商业化垃圾回收器：「<strong>C4</strong>」，ZGC所采用的算法就是Azul Systems很多年前提出的Pauseless GC，而实现上它介于早期Azul VM的Pauseless GC与后来Zing VM的C4之间。不过需要说明的是，JDK11中ZGC只能运行在Linux64操作系统之上。JDK14新增支持了MacOS和Window平台：</p>
+<p><img src="D:\Elastic\blog\source\img\679614" alt="image.png"></p>
+<p>如下图所示，是ZGC和Parallel以及G1的压测对比结果（CMS在JDK9中已经被标记deprecated，更高版本中已经被彻底移除，所以不在对比范围内）。我们可以明显的看到，停顿时间方面，ZGC是100%不超过10ms的，简直是秒天秒地般的存在：</p>
+<p><img src="D:\Elastic\blog\source\img\679633" alt="image.png"></p>
+<p>接下来，再看一下ZGC的垃圾回收过程，如下图所示。由图我们可知，ZGC依然没有做到整个GC过程完全并发执行，依然有3个STW阶段，其他3个阶段都是并发执行阶段：</p>
+<p><img src="D:\Elastic\blog\source\img\679636" alt="image.png"></p>
+<ul>
+<li>Pause Mark Start</li>
+</ul>
+<p>这一步就是初始化标记，和CMS以及G1一样，主要做Root集合扫描，「GC Root是一组必须活跃的引用，而不是对象」。例如：活跃的栈帧里指向GC堆中的对象引用、Bootstrap/System类加载器加载的类、JNI Handles、引用类型的静态变量、String常量池里面的引用、线程栈/本地(native)栈里面的对象指针等，但不包括GC堆里的对象指针。所以这一步骤的STW时间非常短暂，并且和堆大小没有任何关系。不过会根据线程的多少、线程栈的大小之类的而变化。</p>
+<p><img src="D:\Elastic\blog\source\img\679640" alt="image.png"></p>
+<ul>
+<li>Concurrent Mark/Remap</li>
+</ul>
+<p>第二步就是并发标记阶段，这个阶段在第一步的基础上，继续往下标记存活的对象。并发标记后，还会有一个短暂的暂停（Pause Mark End），确保所有对象都被标记。</p>
+<p><img src="D:\Elastic\blog\source\img\679659" alt="image.png"></p>
+<ul>
+<li>Concurrent Prepare for Relocate</li>
+</ul>
+<p>即为Relocation阶段做准备，选取接下来需要标记整理的Region集合，这个阶段也是并发执行的。接下来又会有一个Pause Relocate Start步骤，它的作用是只移动Root集合对象引用，所以这个STW阶段也不会停顿太长时间。</p>
+<p><img src="D:\Elastic\blog\source\img\679687" alt="image.png"></p>
+<ul>
+<li>Concurrent Relocate<br> 最后，就是并发回收阶段了，这个阶段会把上一阶段选中的需要整理的Region集合中存活的对象移到一个新的Region中（这个行为就叫做「<strong>Relocate</strong>」，即重新安置对象），如上图所示。Relocate动作完成后，原来占用的Region就能马上回收并被用于接下来的对象分配。细心的同学可能有疑问了，这就完了？Relocate后对象地址都发生变化了，应用程序还怎么正常操作这些对象呢？这就靠接下来会详细说明的Load Barrier了。</li>
+</ul>
+<h4 id="Single-Generation"><a href="#Single-Generation" class="headerlink" title="Single Generation"></a>Single Generation</h4><p>单代，即ZGC「<strong>没有分代</strong>」。我们知道以前的垃圾回收器之所以分代，是因为源于“「<strong>大部分对象朝生夕死</strong>」”的假设，事实上大部分系统的对象分配行为也确实符合这个假设。</p>
+<p>那么为什么ZGC就不分代呢？因为分代实现起来麻烦，作者就先实现出一个比较简单可用的单代版本。用符合我们国情的话来解释，大概就是说：工作量太大了，人力又不够，老板，先上个1.0版本吧！！！</p>
+<h4 id="Region-Based"><a href="#Region-Based" class="headerlink" title="Region Based"></a>Region Based</h4><p>这一点和G1一样，都是基于Region设计的垃圾回收器，ZGC中的Region也被称为「<strong>ZPages</strong>」，ZPages被动态创建，动态销毁。不过，和G1稍微有点不同的是，G1的每个Region大小是完全一样的，而ZGC的Region大小分为3类：2MB，32MB，N×2MB，如此一来，灵活性就更好了：</p>
+<p><img src="D:\Elastic\blog\source\img\679713" alt="image.png"></p>
+<h4 id="Partial-Compaction"><a href="#Partial-Compaction" class="headerlink" title="Partial Compaction"></a>Partial Compaction</h4><p>部分压缩，这一点也很G1类似。以前的ParallelOldGC，以及CMS GC在压缩Old区的时候，无论Old区有多大，必须整体进行压缩（CMS GC默认情况下只是标记清除，只会发生FGC时才会采用Mark-Sweep-Compact对Old区进行压缩），如此一来，Old区越大，压缩需要的时间肯定就越长，从而导致停顿时间就越长。</p>
+<p>而G1和ZGC都是基于Region设计的，在回收的时候，它们只会选择一部分Region进行回收，这个回收过程采用的是Mark-Compact算法，即将待回收的Region中存活的对象拷贝到一个全新的Region中，这个新的Region对象分配就会非常紧凑，几乎没有碎片。垃圾回收算法这一点上，和G1是一样的。</p>
+<h4 id="NUMA-aware"><a href="#NUMA-aware" class="headerlink" title="NUMA-aware"></a>NUMA-aware</h4><p>NUMA对应的有UMA，UMA即Uniform Memory Access Architecture，NUMA就是Non Uniform Memory Access Architecture。UMA表示内存只有一块，所有CPU都去访问这一块内存，那么就会存在竞争问题（争夺内存总线访问权），有竞争就会有锁，有锁效率就会受到影响，而且CPU核心数越多，竞争就越激烈。NUMA的话每个CPU对应有一块内存，且这块内存在主板上离这个CPU是最近的，每个CPU优先访问这块内存，那效率自然就提高了：</p>
+<p><img src="D:\Elastic\blog\source\img\679734" alt="image.png"></p>
+<p>服务器的NUMA架构在中大型系统上一直非常盛行，也是高性能的解决方案，尤其在系统延迟方面表现都很优秀。ZGC是能自动感知NUMA架构并充分利用NUMA架构特性的。</p>
+<h4 id="Colored-Pointers"><a href="#Colored-Pointers" class="headerlink" title="Colored Pointers"></a>Colored Pointers</h4><p>Colored Pointers，即颜色指针是什么呢？如下图所示，ZGC的核心设计之一。以前的垃圾回收器的GC信息都保存在对象头中，而ZGC的GC信息保存在指针中。每个对象有一个64位指针，这64位被分为：</p>
+<ul>
+<li>18位：预留给以后使用；</li>
+<li>1位：Finalizable标识，次位与并发引用处理有关，它表示这个对象只能通过finalizer才能访问；</li>
+<li>1位：Remapped标识，设置此位的值后，对象未指向relocation set中（relocation set表示需要GC的Region集合）；</li>
+<li>1位：Marked1标识；</li>
+<li>1位：Marked0标识，和上面的Marked1都是标记对象用于辅助GC；</li>
+<li>42位：对象的地址（所以它可以支持2^42=4T内存）：</li>
+</ul>
+<p><img src="D:\Elastic\blog\source\img\679744" alt="image.png"></p>
+<p>通过对配置ZGC后对象指针分析我们可知，对象指针必须是64位，那么ZGC就无法支持32位操作系统，同样的也就无法支持压缩指针了（CompressedOops，压缩指针也是32位）。</p>
+<h4 id="Load-Barriers"><a href="#Load-Barriers" class="headerlink" title="Load Barriers"></a>Load Barriers</h4><p>这个应该翻译成读屏障（与之对应的有写屏障即Write Barrier，之前的GC都是采用Write Barrier，这次ZGC采用了完全不同的方案），这个是ZGC一个非常重要的特性。在标记和移动对象的阶段，每次「<strong>从堆里对象的引用类型中读取一个指针</strong>」的时候，都需要加上一个Load Barriers。那么我们该如何理解它呢？看下面的代码，第一行代码我们尝试读取堆中的一个对象引用obj.fieldA并赋给引用o（fieldA也是一个对象时才会加上读屏障）。如果这时候对象在GC时被移动了，接下来JVM就会加上一个读屏障，这个屏障会把读出的指针更新到对象的新地址上，并且把堆里的这个指针“修正”到原本的字段里。这样就算GC把对象移动了，读屏障也会发现并修正指针，于是应用代码就永远都会持有更新后的有效指针，而且不需要STW。那么，JVM是如何判断对象被移动过呢？就是利用上面提到的颜色指针，如果指针是Bad Color，那么程序还不能往下执行，需要「<strong>slow path</strong>」，修正指针；如果指针是Good Color，那么正常往下执行即可：</p>
+<p><img src="D:\Elastic\blog\source\img\679746" alt="image.png"></p>
+<blockquote>
+<p>这个动作是不是非常像JDK并发中用到的CAS自旋？读取的值发现已经失效了，需要重新读取。而ZGC这里是之前持有的指针由于GC后失效了，需要通过读屏障修正指针。</p>
+</blockquote>
+<p>后面3行代码都不需要加读屏障：Object p = o这行代码并没有从堆中读取数据；o.doSomething()也没有从堆中读取数据；obj.fieldB不是对象引用，而是原子类型。</p>
+<p>正是因为Load Barriers的存在，所以会导致配置ZGC的应用的吞吐量会变低。官方的测试数据是需要多出额外4%的开销：</p>
+<p><img src="D:\Elastic\blog\source\img\679755" alt="image.png"></p>
+<p>那么，判断对象是Bad Color还是Good Color的依据是什么呢？就是根据上一段提到的Colored Pointers的4个颜色位。当加上读屏障时，根据对象指针中这4位的信息，就能知道当前对象是Bad/Good Color了。</p>
+<blockquote>
+<p>「扩展阅读」：既然低42位指针可以支持4T内存，那么能否通过预约更多位给对象地址来达到支持更大内存的目的呢？答案肯定是不可以。因为目前主板地址总线最宽只有48bit，4位是颜色位，就只剩44位了，所以受限于目前的硬件，ZGC最大只能支持16T的内存，JDK13就把最大支持堆内存从4T扩大到了16T。</p>
+</blockquote>
+<h4 id="ZGC-tuning"><a href="#ZGC-tuning" class="headerlink" title="ZGC tuning"></a>ZGC tuning</h4><p>启用ZGC比较简单，设置JVM参数即可：-XX:+UnlockExperimentalVMOptions 「-XX:+UseZGC」。调优也并不难，因为ZGC调优参数并不多，远不像CMS那么复杂。它和G1一样，可以调优的参数都比较少，大部分工作JVM能很好的自动完成。下图所示是ZGC可以调优的参数：</p>
+<p><img src="D:\Elastic\blog\source\img\679783" alt="image.png"></p>
+<p>下面对部分参数进行更加详细的说明。</p>
+<p><strong>UseNUMA</strong><br> ZGC默认是开启支持NUMA的，不过，如果JVM探测到系统绑定的是CPU子集，就会自动禁用NUMA。我们可以通过参数-XX:+UseNUMA显示启动，或者通过参数-XX:-UseNUMA显示禁用。如果运行在NUMA服务器上，并且设置-XX:+UseNUMA，那对性能提升是显而易见的。</p>
+<p><strong>UseLargePages</strong><br> 配置ZGC使用large page通常就会得到更好的性能，比如在吞吐量、延迟、启动时间等方面。而且没有明显的缺点，除了配置过程复杂一点。因为它需要root权限，这也是默认并没有开启使用large page的原因。</p>
+<p><strong>ConcGCThreads</strong><br> ZGC是一个并发垃圾收集器，那么并发GC线程数就非常重要了。如果设置并发GC线程数越多，意味着应用线程数就会越少，这肯定是非常不利于应用系统稳定运行的。这个参数ZGC能自动设置，如果没有十足的把握。最好不要设置这个参数。</p>
+<p><strong>ParallelGCThreads</strong><br> 这是个并行线程数，与上一个参数ConcGCThreads有所不同，ConcGCThreads表示GC线程和应用线程「并发」执行时GC线程数量。而ParallelGCThreads表示GC时STW阶段的「并行」GC线程数量（例如第一阶段的Root扫描），这时候只有GC线程，没有应用线程。笔者这里解释了JVM中「并发和并行的区别」，也是JVM中比较容易理解错误的地方。</p>
+<p><strong>ZUncommit</strong><br> 掌握这个参数之前，我们先说一下JVM申请以及回收内存的行为。以前的垃圾回收器比如ParallelOldGC和CMS，只要JVM申请过的内存，即使发生了GC回收了很多内存空间，JVM也不会把这些内存归还给操作系统。这就会导致top命令中看到的RSS只会越来越高，而且一般都会超过Xmx的值（参考文章：）。</p>
+<p>不过，默认情况下，ZGC是会把不再使用的内存归还给操作系统的。这对于那些比较注意内存占用情况的应用和服务器来说，是很有用的。这种行为可以通过JVM参数**-XX:-ZUncommit**关闭。不过，无论怎么归还，JVM至少会保留Xms参数指定的内存大小，这就是说，当Xmx和Xms一样大的时候，这个参数就不起作用了。</p>
+<p>和这个参数一起起作用的还有另一个参数：-「XX:ZUncommitDelay=sec」，默认300秒。这个参数表示不再使用的内存最多延迟多长时间才会被归还给操作系统。因为不再使用的内存不应该立即归还给操作系统，这样会造成频繁的归还和申请行为，所以通过这个参数来控制不再使用的内存需要经过多久的时间才归还给操作系统。</p>
+<h4 id="Change-Log"><a href="#Change-Log" class="headerlink" title="Change Log"></a>Change Log</h4><p>接下来，我们看一下从JDK11到JDK15这5个版本，ZGC都迭代了哪些特性：</p>
+<p>JDK 15 (under development)</p>
+<ul>
+<li>Improved NUMA awareness</li>
+<li>Support for Class Data Sharing (CDS)</li>
+<li>Support for placing the heap on NVRAM</li>
+</ul>
+<p>JDK 14</p>
+<ul>
+<li>macOS support (JEP 364)</li>
+<li>Windows support (JEP 365)</li>
+<li>Support for tiny/small heaps (down to 8M)</li>
+<li>Support for JFR leak profiler</li>
+<li>Support for limited and discontiguous address space</li>
+<li>Parallel pre-touch (when using -XX:+AlwaysPreTouch)</li>
+<li>Performance improvements (clone intrinsic, etc)</li>
+<li>Stability improvements</li>
+</ul>
+<p>JDK 13</p>
+<ul>
+<li>Increased max heap size from 4TB to 16TB</li>
+<li>Support for uncommitting unused memory (JEP 351)</li>
+<li>Support for -XX:SoftMaxHeapSIze</li>
+<li>Support for the Linux/AArch64 platform</li>
+<li>Reduced Time-To-Safepoint</li>
+</ul>
+<p>JDK 12</p>
+<ul>
+<li>Support for concurrent class unloading</li>
+<li>Further pause time reductions</li>
+</ul>
+<p>JDK 11</p>
+<ul>
+<li>Initial version of ZGC</li>
+<li>Does not support class unloading (using -XX:+ClassUnloading has no effect)</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <div>   
+             
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:20px;">----
+The end of this article <i class="fas fa-coffee"></i>----</div>
+    
+</div>   
+         
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/15/JVM/Trace%E8%B7%9F%E8%B8%AA%E5%92%8CJava%E5%A0%86%E7%9A%84%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE/" rel="next" title="Trace跟踪和Java堆的参数配置">
+      Trace跟踪和Java堆的参数配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+
+      <div>
+        
+          
+        
+      </div>
+
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-young-gc%E3%80%81old-gc%E3%80%81full-gc%E3%80%81mixed-gc-%E5%82%BB%E5%82%BB%E5%88%86%E4%B8%8D%E6%B8%85%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">1.young gc、old gc、full gc、mixed gc 傻傻分不清？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-young-gc-%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">2.young gc 触发条件是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-full-gc-%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">3.full gc 触发条件有哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%9F%A5%E9%81%93-TLAB-%E5%90%97%EF%BC%9F%E6%9D%A5%E8%AF%B4%E8%AF%B4%E7%9C%8B"><span class="nav-number">4.</span> <span class="nav-text">3.知道 TLAB 吗？来说说看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%82%A3-PLAB-%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F"><span class="nav-number">5.</span> <span class="nav-text">4.那 PLAB 知道吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BA%A7%E7%94%9F-concurrent-mode-failure-%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">6.</span> <span class="nav-text">5.产生 concurrent mode failure 真正的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-CMS-GC-%E5%8F%91%E7%94%9F-concurrent-mode-failure-%E6%97%B6%E7%9A%84-full-GC-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B%E7%9A%84"><span class="nav-number">7.</span> <span class="nav-text">6.CMS GC 发生 concurrent mode failure 时的 full GC 为什么是单线程的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%9B%E6%96%B0%E8%80%81%E5%B9%B4%E4%BB%A3%E7%9A%84%E6%94%B6%E9%9B%86%E5%99%A8%E4%B8%8D%E8%83%BD%E7%BB%84%E5%90%88%E4%BD%BF%E7%94%A8%E6%AF%94%E5%A6%82-ParNew-%E5%92%8C-Parallel-Old%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">7.为什么有些新老年代的收集器不能组合使用比如 ParNew 和 Parallel Old？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E6%96%B0%E7%94%9F%E4%BB%A3%E7%9A%84-GC-%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D%E5%85%A8%E5%A0%86%E6%89%AB%E6%8F%8F%EF%BC%9F"><span class="nav-number">9.</span> <span class="nav-text">8.新生代的 GC 如何避免全堆扫描？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E9%82%A3-cms-%E7%9A%84%E8%AE%B0%E5%BF%86%E9%9B%86%E5%92%8C-G1-%E7%9A%84%E8%AE%B0%E5%BF%86%E9%9B%86%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%8D%E4%B8%80%E6%A0%B7%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">9.那 cms 的记忆集和 G1 的记忆集有什么不一样？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E4%B8%BA%E4%BB%80%E4%B9%88-G1-%E4%B8%8D%E7%BB%B4%E6%8A%A4%E5%B9%B4%E8%BD%BB%E4%BB%A3%E5%88%B0%E8%80%81%E5%B9%B4%E4%BB%A3%E7%9A%84%E8%AE%B0%E5%BF%86%E9%9B%86%EF%BC%9F"><span class="nav-number">11.</span> <span class="nav-text">10.为什么 G1 不维护年轻代到老年代的记忆集？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-cms-%E5%92%8C-G1-%E4%B8%BA%E4%BA%86%E7%BB%B4%E6%8C%81%E5%B9%B6%E5%8F%91%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7%E5%88%86%E5%88%AB%E7%94%A8%E4%BA%86%E4%BB%80%E4%B9%88%E6%89%8B%E6%AE%B5%EF%BC%9F"><span class="nav-number">12.</span> <span class="nav-text">11.cms 和 G1 为了维持并发的正确性分别用了什么手段？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E4%BB%80%E4%B9%88%E6%98%AF-logging-write-barrier-%EF%BC%9F"><span class="nav-number">13.</span> <span class="nav-text">12.什么是 logging write barrier ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%8B-G1-%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">14.</span> <span class="nav-text">13.简单说下 G1 回收流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%8B-cms-%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">15.</span> <span class="nav-text">14.简单说下 cms 回收流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-cms-%E5%86%99%E5%B1%8F%E9%9A%9C%E5%8F%88%E6%98%AF%E7%BB%B4%E6%8A%A4%E5%8D%A1%E8%A1%A8%EF%BC%8C%E5%8F%88%E5%BE%97%E7%BB%B4%E6%8A%A4%E5%A2%9E%E9%87%8F%E6%9B%B4%E6%96%B0%EF%BC%9F"><span class="nav-number">16.</span> <span class="nav-text">15.cms 写屏障又是维护卡表，又得维护增量更新？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-GC-%E8%B0%83%E4%BC%98%E7%9A%84%E4%B8%A4%E5%A4%A7%E7%9B%AE%E6%A0%87%E6%98%AF%E5%95%A5%EF%BC%9F"><span class="nav-number">17.</span> <span class="nav-text">16.GC 调优的两大目标是啥？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-GC-%E5%A6%82%E4%BD%95%E8%B0%83%E4%BC%98"><span class="nav-number">18.</span> <span class="nav-text">17.GC 如何调优</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-JVM%E6%99%8B%E5%8D%87%E8%80%81%E5%B9%B4%E4%BB%A3"><span class="nav-number">19.</span> <span class="nav-text">18.JVM晋升老年代</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%8B%85%E4%BF%9D%E6%9C%BA%E5%88%B6"><span class="nav-number">19.1.</span> <span class="nav-text">1. 担保机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%A4%A7%E5%AF%B9%E8%B1%A1%E7%9B%B4%E6%8E%A5%E6%94%BE%E5%85%A5%E8%80%81%E5%B9%B4%E4%BB%A3"><span class="nav-number">19.2.</span> <span class="nav-text">2. 大对象直接放入老年代</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%95%BF%E6%9C%9F%E5%AD%98%E6%B4%BB%E7%9A%84%E5%AF%B9%E8%B1%A1%E8%BF%9B%E5%85%A5%E8%80%81%E5%B9%B4%E4%BB%A3"><span class="nav-number">19.3.</span> <span class="nav-text">3.长期存活的对象进入老年代</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%8A%A8%E6%80%81%E5%B9%B4%E9%BE%84%E5%88%A4%E6%96%AD"><span class="nav-number">19.4.</span> <span class="nav-text">4.动态年龄判断</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-%E6%B5%85%E8%B0%88%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%BA%95%E5%B1%82"><span class="nav-number">20.</span> <span class="nav-text">19.浅谈垃圾回收底层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A3%E6%96%87"><span class="nav-number">20.1.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E5%AF%B9%E8%B1%A1%E5%B7%B2%E6%88%90%E5%9E%83%E5%9C%BE%EF%BC%9F"><span class="nav-number">20.2.</span> <span class="nav-text">如何判断对象已成垃圾？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="nav-number">20.3.</span> <span class="nav-text">引用计数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%82%A3%E5%83%8F-CPython-%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E7%9A%84%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="nav-number">20.4.</span> <span class="nav-text">那像 CPython 是如何解决循环引用的问题呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">20.5.</span> <span class="nav-text">可达性分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%9D%E5%AE%88%E5%BC%8F-GC"><span class="nav-number">20.6.</span> <span class="nav-text">保守式 GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8A%E4%BF%9D%E5%AE%88%E5%BC%8FGC"><span class="nav-number">20.7.</span> <span class="nav-text">半保守式GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%86%E7%A1%AE%E5%BC%8F-GC"><span class="nav-number">20.8.</span> <span class="nav-text">准确式 GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%82%B9"><span class="nav-number">20.9.</span> <span class="nav-text">安全点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86"><span class="nav-number">20.10.</span> <span class="nav-text">分代收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4"><span class="nav-number">20.11.</span> <span class="nav-text">标记-清除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E5%A4%8D%E5%88%B6"><span class="nav-number">20.12.</span> <span class="nav-text">标记-复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%95%B4%E7%90%86"><span class="nav-number">20.13.</span> <span class="nav-text">标记-整理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8"><span class="nav-number">20.14.</span> <span class="nav-text">跨代引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A2%9E%E9%87%8F%E5%BC%8F-GC"><span class="nav-number">20.15.</span> <span class="nav-text">增量式 GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0%E7%AE%97%E6%B3%95"><span class="nav-number">20.16.</span> <span class="nav-text">三色标记算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">20.17.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-zgc%E6%B5%85%E8%B0%88"><span class="nav-number">21.</span> <span class="nav-text">20.zgc浅谈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ZGC%E7%9B%AE%E6%A0%87"><span class="nav-number">21.1.</span> <span class="nav-text">ZGC目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZGC%E6%A6%82%E8%BF%B0"><span class="nav-number">21.2.</span> <span class="nav-text">ZGC概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#New-GC"><span class="nav-number">21.3.</span> <span class="nav-text">New GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Single-Generation"><span class="nav-number">21.4.</span> <span class="nav-text">Single Generation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Region-Based"><span class="nav-number">21.5.</span> <span class="nav-text">Region Based</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Partial-Compaction"><span class="nav-number">21.6.</span> <span class="nav-text">Partial Compaction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NUMA-aware"><span class="nav-number">21.7.</span> <span class="nav-text">NUMA-aware</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Colored-Pointers"><span class="nav-number">21.8.</span> <span class="nav-text">Colored Pointers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Load-Barriers"><span class="nav-number">21.9.</span> <span class="nav-text">Load Barriers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ZGC-tuning"><span class="nav-number">21.10.</span> <span class="nav-text">ZGC tuning</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-Log"><span class="nav-number">21.11.</span> <span class="nav-text">Change Log</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="BKing"
+      src="/images/avatat.png">
+  <p class="site-author-name" itemprop="name">BKing</p>
+  <div class="site-description" itemprop="description">记录 Book</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+        
+          <span class="site-state-item-count">204</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BKing2020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BKing2020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/Bking60447128" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;Bking60447128" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020-11</span>
+  <span class="with-love">
+    <i class="fa fa-star"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BKing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">853k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">12:55</span>
+</div>
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("11/17/2020 15:54:40");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+        
+<div class="busuanzi-count">
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/assets/koharu.model.json"},"display":{"position":"left","hOffset":40,"width":150,"height":300},"mobile":{"show":false}});</script></body>
+
+</html>
+
+

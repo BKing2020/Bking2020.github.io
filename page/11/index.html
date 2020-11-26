@@ -198,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E5%BA%94%E7%94%A8%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%8C%96%E5%BC%80%E5%8F%91/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E6%93%8D%E4%BD%9C%E9%95%9C%E5%83%8F%EF%BC%9A%E9%80%9A%E8%BF%87%20Dockerfile%20%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatat.png">
@@ -212,7 +212,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E5%BA%94%E7%94%A8%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%8C%96%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">应用于服务化开发</a>
+            <a href="/2020/11/18/Docker/%E6%93%8D%E4%BD%9C%E9%95%9C%E5%83%8F%EF%BC%9A%E9%80%9A%E8%BF%87%20Dockerfile%20%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F/" class="post-title-link" itemprop="url">通过 Dockerfile 创建镜像</a>
         </h2>
 
         <div class="post-meta">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-21 23:48:29" itemprop="dateModified" datetime="2020-11-21T23:48:29+08:00">2020-11-21</time>
+                <time title="修改时间：2020-11-21 23:39:47" itemprop="dateModified" datetime="2020-11-21T23:39:47+08:00">2020-11-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,14 +247,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.6k</span>
+              <span>8.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>3 分钟</span>
+              <span>8 分钟</span>
             </span>
 
         </div>
@@ -266,10 +266,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="应用于服务化开发"><a href="#应用于服务化开发" class="headerlink" title="应用于服务化开发"></a>应用于服务化开发</h2><p>上一节里我们谈到了小型的独立项目如何使用 Docker Compose 来搭建程序的运行环境，对于由多人或多部门参与的中大型服务化架构的项目，仅由一个 Docker Compose 项目来管理它们的运行环境显然是不切实际的。在这一小节里，我们就谈谈如何在服务化开发中合理利用 Docker 来搭建环境。</p>
+          <h2 id="通过-Dockerfile-创建镜像"><a href="#通过-Dockerfile-创建镜像" class="headerlink" title="通过 Dockerfile 创建镜像"></a>通过 Dockerfile 创建镜像</h2><p>由于 Docker 镜像的结构优势，使它的占用空间远小于普通的虚拟机镜像，而这就大幅减少了 Docker 镜像在网络或者其他介质中转移所花费的时间，进而提高了我们进行迁移部署的效率。不过，你要是以为这就是 Docker 能够快速部署的终极大招那就大错特错了。在这一小节里，我们将谈到 Docker 特有的镜像构建定义文件，也就是 Dockerfile。通过了解它，你能真正体验一种进行秒级镜像迁移的乐趣。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E5%BA%94%E7%94%A8%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%8C%96%E5%BC%80%E5%8F%91/#more" rel="contents">
+              <a class="btn" href="/2020/11/18/Docker/%E6%93%8D%E4%BD%9C%E9%95%9C%E5%83%8F%EF%BC%9A%E9%80%9A%E8%BF%87%20Dockerfile%20%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -388,6 +388,196 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E4%BD%BF%E7%94%A8%20Docker%20Compose%20%E7%AE%A1%E7%90%86%E5%AE%B9%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E4%BD%BF%E7%94%A8%20Docker%20Compose%20%E7%AE%A1%E7%90%86%E5%AE%B9%E5%99%A8/" class="post-title-link" itemprop="url">使用 Docker Compose 管理容器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-18 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-18T02:59:08+08:00">2020-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-21 23:48:06" itemprop="dateModified" datetime="2020-11-21T23:48:06+08:00">2020-11-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="使用-Docker-Compose-管理容器"><a href="#使用-Docker-Compose-管理容器" class="headerlink" title="使用 Docker Compose 管理容器"></a>使用 Docker Compose 管理容器</h2><p>通过之前的介绍，我们已经基本掌握了构建、运行容器的方法，但这还远远不够，由于 Docker 采用轻量级容器的设计，每个容器一般只运行一个软件，而目前绝大多数应用系统都绝不是一个软件所能组成的。虽然我们之前提到了容器间互相连接、交换数据的各种方法，通过这些方法足以搭建起完整的用于应用系统运行的容器群，但是这显然还不够，这个容器群的搭建需要执行太多命令，更重要的是需要考虑太多应用和容器间的依赖关系处理，是一波令人头大的操作。在这一节中，我们就来介绍如何解决这些问题。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E4%BD%BF%E7%94%A8%20Docker%20Compose%20%E7%AE%A1%E7%90%86%E5%AE%B9%E5%99%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E5%BA%94%E7%94%A8%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%8C%96%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E5%BA%94%E7%94%A8%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%8C%96%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">应用于服务化开发</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-18 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-18T02:59:08+08:00">2020-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-21 23:48:29" itemprop="dateModified" datetime="2020-11-21T23:48:29+08:00">2020-11-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="应用于服务化开发"><a href="#应用于服务化开发" class="headerlink" title="应用于服务化开发"></a>应用于服务化开发</h2><p>上一节里我们谈到了小型的独立项目如何使用 Docker Compose 来搭建程序的运行环境，对于由多人或多部门参与的中大型服务化架构的项目，仅由一个 Docker Compose 项目来管理它们的运行环境显然是不切实际的。在这一小节里，我们就谈谈如何在服务化开发中合理利用 Docker 来搭建环境。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E5%BA%94%E7%94%A8%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%8C%96%E5%BC%80%E5%8F%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E7%BC%96%E5%86%99%20Docker%20Compose%20%E9%A1%B9%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -460,6 +650,101 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/18/Docker/%E7%BB%84%E5%90%88%E5%BA%94%E7%94%A8%EF%BC%9A%E7%BC%96%E5%86%99%20Docker%20Compose%20%E9%A1%B9%E7%9B%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/18/Docker/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A%E8%BF%99%E6%98%AF%20Docker%20%E7%9A%84%E7%AE%80%E5%8E%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatat.png">
+      <meta itemprop="name" content="BKing">
+      <meta itemprop="description" content="记录 Book">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Boo-BKing.">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/18/Docker/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A%E8%BF%99%E6%98%AF%20Docker%20%E7%9A%84%E7%AE%80%E5%8E%86/" class="post-title-link" itemprop="url">这是 Docker 的简历</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-18 02:59:08" itemprop="dateCreated datePublished" datetime="2020-11-18T02:59:08+08:00">2020-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-21 23:42:25" itemprop="dateModified" datetime="2020-11-21T23:42:25+08:00">2020-11-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="这是-Docker-的简历"><a href="#这是-Docker-的简历" class="headerlink" title="这是 Docker 的简历"></a>这是 Docker 的简历</h2><p>在了解虚拟化和容器技术后，我们就更容易理解 Docker 的相关知识了。在这一小节中，我将介绍关于 Docker 的出现和发展，Docker 背后的技术。同时，我们将阐述 Docker 在虚拟化领域中的定位以及其带来的变革。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/18/Docker/%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%EF%BC%9A%E8%BF%99%E6%98%AF%20Docker%20%E7%9A%84%E7%AE%80%E5%8E%86/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -859,308 +1144,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/Elastic/ElasticSearch-fuzzy-query/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatat.png">
-      <meta itemprop="name" content="BKing">
-      <meta itemprop="description" content="记录 Book">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boo-BKing.">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/15/Elastic/ElasticSearch-fuzzy-query/" class="post-title-link" itemprop="url">模糊查询处理Elasticsearch输入的错词</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 06:19:52" itemprop="dateModified" datetime="2020-11-20T06:19:52+08:00">2020-11-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Elastic/" itemprop="url" rel="index"><span itemprop="name">Elastic</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Elasticsearch-模糊查询"><a href="#Elasticsearch-模糊查询" class="headerlink" title="Elasticsearch 模糊查询"></a>Elasticsearch 模糊查询</h2><p>用户会经常不小心或者记不太清自己所要搜索的词，而导致在查询过程中输入一些错字，这时通过Elasticsearch的模糊查询来处理输入的错字，非常有利于提高用户的搜索体验。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/15/Elastic/ElasticSearch-fuzzy-query/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/CMS%E6%94%B6%E9%9B%86%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatat.png">
-      <meta itemprop="name" content="BKing">
-      <meta itemprop="description" content="记录 Book">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boo-BKing.">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/15/JVM/CMS%E6%94%B6%E9%9B%86%E5%99%A8/" class="post-title-link" itemprop="url">CMS收集器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:47:26" itemprop="dateModified" datetime="2020-11-20T08:47:26+08:00">2020-11-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>663</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><p>CMS（Concurrent Mark and Sweep 并发标记清除）</p>
-<p>收集器分为：</p>
-<ol>
-<li><p>初始标记：只标记 GC Roots 能直接关联到的对象</p>
-</li>
-<li><p>并发标记：进行 GC Roots Tracing 的过程</p>
-</li>
-<li><p>重新标记：修正并发标记期间，因程序运行导致标记发生变化的一部分对象</p>
-</li>
-<li><p>并发清除：并发回收垃圾对象</p>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/CMS%E6%94%B6%E9%9B%86%E5%99%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/JVM/ASM%E5%BC%80%E5%8F%91%EF%BC%9A%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%A0%B8%E5%BF%83API/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatat.png">
-      <meta itemprop="name" content="BKing">
-      <meta itemprop="description" content="记录 Book">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Boo-BKing.">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/15/JVM/ASM%E5%BC%80%E5%8F%91%EF%BC%9A%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%A0%B8%E5%BF%83API/" class="post-title-link" itemprop="url">ASM开发：编程模型和核心API</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-11-15 15:42:26" itemprop="dateCreated datePublished" datetime="2020-11-15T15:42:26+08:00">2020-11-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:47:20" itemprop="dateModified" datetime="2020-11-20T08:47:20+08:00">2020-11-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index"><span itemprop="name">JVM</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>673</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="ASM开发：编程模型和核心API"><a href="#ASM开发：编程模型和核心API" class="headerlink" title="ASM开发：编程模型和核心API"></a>ASM开发：编程模型和核心API</h3><p>ASM开发入门：</p>
-<p>认识ASM：是什么、有什么、能干什么</p>
-<p>ASM开发实战：实现统计时间</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/15/JVM/ASM%E5%BC%80%E5%8F%91%EF%BC%9A%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%92%8C%E6%A0%B8%E5%BF%83API/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1228,7 +1215,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives">
         
-          <span class="site-state-item-count">148</span>
+          <span class="site-state-item-count">204</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1241,7 +1228,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1291,13 +1278,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">794k</span>
+    <span title="站点总字数">853k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">12:01</span>
+    <span title="站点阅读时长">12:55</span>
 </div>
 
 <!-- 网站运行时间的设置 -->
